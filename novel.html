@@ -1,0 +1,377 @@
+<!DOCTYPE html'>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<meta name="full-screen" content="yes"/>
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>小说阅读</title>
+<style type='text/css'>
+html,body{
+  height:100%;
+  padding:0;
+  margin:0;
+}
+.myhead,input{
+  height:24px;
+background-color:"green";
+}
+table,th,td
+{
+    border:1px solid black;
+}
+table{
+  width:100%;
+}
+td:hover {background: #666;}
+
+.menu{
+  height:calc(100% - 24px);
+}
+.menu > ul {
+  float:left;
+  width:100%;
+  height:24px;
+  padding:0;
+  margin:0;
+  list-style-type:none;
+}
+.menu > ul > li {
+  display: inline;
+   width:25%
+  //font: 0.7em Arial, Helvetica, sans-serif;
+  //height: 20px;
+}
+    .menu > ul > li.on, .menu > ul >li:hover, .menu > ul>li:focus {
+      background-color: #fff;
+      border-bottom-color: transparent;
+      box-shadow: 0 -2px 3px 0 rgba(0,0,0,.15);
+    }
+    .menu > ul > li.on {
+      border-top: 2px solid #2dc3e8;
+    }
+    .menu > div{
+       height: calc(100% - 50px);     
+       display: none;
+    }
+    .menu > div.hide{
+      display: none;
+    }
+    .menu > div.show{
+      display: block;
+    }
+.menu > div > form{
+ height:100%;
+}
+textarea{
+  width:100%;
+  height:calc(100% -24px);
+  white-space:nowrap; 
+  overflow:scroll;
+  font: 0.9em Arial, Helvetica, sans-serif;
+}
+form > textarea{
+  width:100%;
+  height:calc(100% - 24px);
+  white-space:nowrap; 
+  overflow:scroll;
+  font: 0.9em Arial, Helvetica, sans-serif;
+}
+textarea.e{
+  height:40px;
+}
+#novel_view{
+  height:100px;
+  display: none;
+}
+#novel_view.hide{
+  display: none;
+}
+#novel_view.show{
+  display: block;
+}
+</style>
+<body>
+<div class="myhead" id="Mytitle"></div>
+<div class="menu" id="menu">
+    <ul onclick="shift(event.srcElement.index)">
+        <li>搜索</li>
+        <li>目录</li>
+        <li>阅读</li>
+        <li>设置</li>
+        <li>调试eval</li>
+    </ul>
+    <div>
+        <form id="form_1">
+             小说名称:<input type="text" id="page_name" name="novel_name" />
+             <input type="button" value='小说搜索' onclick="Novel.get_search()" /<br/>
+             <table id="form_1_table_1" onclick="form_2.list_url.value=event.srcElement.innerHTML;Novel.get_list();shift(1);"></table>
+        </form>
+    </div>
+    <div>
+        <form id="form_2">
+             目录地址:<input type="text" name="list_url">
+             <input type="button" value='获取目录' onclick="Novel.get_list();" />
+             <table id="form_2_table_1" onclick="section_url.value=get_fullurl(form_2.list_url.value,event.srcElement.title);n.get_section();menu.style.display='none';novel_view.className = 'show';"></table>
+        </form>
+    </div>
+    <div>
+        <form id="form_3">
+               文章地址:<input type="text" name="section_url">
+              index<input type="text" name="section_index"><br/>
+              <input type="button" value='获取文章' onclick="Novel.get_section();" />
+              <input type="button" value='html' onclick="form_3.txt1.value=Novel.section_html;" />  
+              <input type="button" value='text' onclick="form_3.txt1.value=Novel.section_text" /> 
+              <input type="button" value='next' onclick="form_3.section_url.value=Novel.section_next_url;Novel.get_section();" />                 
+             <input type="button" value='下载' onclick='window.open("novel.php?url="+section_url.value+"&num="+section_index.value);'/>
+             <textarea name="txt1" ></textarea>
+        </form>
+    </div>
+    <div>
+        <form id="form_4">
+            <input type="button" value="阅读页" onclick="menu.style.display='none';novel_view.className = 'show';" />
+            <input type="color" name="user_color" />
+            <input type="button" value="设置颜色" onclick="document.body.style.backgroundColor=form_4.user_color.value" />
+            <input type="button" value='下载' onclick="window.open('download.php?file='+page_name.value)"/>
+            目录正则 <input type="text" id="mulu_zz" value='/<div id="kui-page-read-txt".*?>(.*?)<\/div>/'>
+        </form>
+    </div>
+    <div>
+        <form id="form_5">
+            <input type="button" value="eval" onclick="eval(txt1.value);" />
+            <input type="button" value='下载' onclick="window.open('download.php?file='+page_name.value)"/>
+            目录正则 <input type="text" id="mulu_zz" value='/<div id="kui-page-read-txt".*?>(.*?)<\/div>/'>
+             <textarea name="txt1" ></textarea>
+        </form>
+    </div>
+</div>
+
+<div id="novel_view">
+    <div id="novel_view_body" onclick="novel_cmd()";  style='width:100%;height:572px;overflow:hidden;text-overflow:ellipsis;white-space:inherit;' >
+       <div id="novel_view_body_content" style="lineHeight:16px;">
+         阅读页
+
+       </div>
+       <div style="width:100%;height:100%";>
+         填充页
+       </div>
+    </div>
+</div>
+<div id="novel_menu" style="width:100%;position:absolute; Bottom:0px;display: none;">
+       文章地址:<input type="text" id="section_url"><br/>
+       <input type="button" value='获取文章' onclick="Novel.get_section_text();" />
+       <input type="button" value="主页" onclick="menu.style.display='block';novel_view.className = 'hide';" />
+      <input type="button" value="上一章"  onclick='n.pre_section();'></input>
+      <input type="button" value="下一章"  onclick='n.next_section();'></input>
+      <input type="button" value="预读"   onclick='n.get_local();'></input>
+      <input type="button" value="保存"  onclick='n.set_local();'></input>
+       <input type="button" value='evel' onclick="eval(section_url.value);" />
+</div>
+<script>
+/*
+
+*/
+var _index=0;
+var myLi,myDiv;
+var Novel={};
+
+//搜索页
+Novel.get_search=function(){
+  var reg=/<div class="article ali_row"><h2><a href="(.*?)"/g;
+  Mytitle.innerHTML="开始";
+  var str=form_1.novel_name.value;
+  var url="https://so.m.sm.cn/s?q="+str+"&uc_param_str=dnntnwvepffrgibijbprsvdsme&from=ucframe&uc_sm=1";
+  get_html(url,function(a){
+              Mytitle.innerHTML="结束";
+              Novel.search_html=a;
+              var url_arr=Reg(a,reg);
+              var str="";
+              Novel.search_url_arr=url_arr;
+              for(var i=0;i<url_arr.length;i++){
+                 str+="<tr><td>"+url_arr[i][0]+"</td></tr>";
+              }
+              form_1_table_1.innerHTML=str;
+           }
+  );
+}
+//目录页
+Novel.get_list=function(){
+  var reg_di=/<a[^>]*?href="([^"]*?)".*?>(第[^<]*?)</g;
+  var reg_xq=/<a[^>]*?href="([^"]*?)".*?>([^<第]*?[下全更][^<]*?)</g;
+  Mytitle.innerHTML="开始";
+  var url=form_2.list_url.value;
+  get_html(url,
+           function(e){
+             Mytitle.innerHTML="结束";
+             Novel.novel_html=e;
+             Novel.novel_xq=Reg(e,reg_xq);
+             var url_arr=Reg(e,reg_di);
+             var str="";
+             Novel.novel_di=url_arr;
+              for(var i=0;i<url_arr.length;i++){
+                 str+="<tr><td title='"+url_arr[i][0]+"'>"+url_arr[i][1]+"</td></tr>";
+              }
+              form_2_table_1.innerHTML=str;
+           }
+  );
+}
+//阅读页
+Novel.get_section=function(){
+  Mytitle.innerHTML="开始";
+  var url= form_3.section_url.value;
+  get_html(url,
+      function(e){
+        Mytitle.innerHTML="结束";
+        Novel.section_html=e;
+        var txt=e.replace(/(<br[^>]*?>[ \s]*){1,}/g,'\n').replace(/&nbsp;/g,' ');
+         txt= txt.match(/>([^d<]{100,})</)[1];
+         Novel.section_text= txt;
+        //Novel.section_text=e.match(/>([^divac]{100,})</)[1].replace(/(<br[^>]*?>[ \s]*){1,}/g,'</br>').replace(/&nbsp;/g,' ');
+       Novel.section_next_url=get_fullurl(form_3.section_url.value,Novel.section_html.match(/<[Aa][^>]*?href="([^"]*?)"[^>]*?>(下一[章页][^<]*?)</)[1]) ;
+        //novel_view_body_content.innerHTML=Novel.section_text;
+        form_3.txt1.value=Novel.section_html
+      }
+  );
+}
+
+window.onload=function(){
+  ini();
+  get_js("novel.js");
+
+  novel_view_body.style.height=window.innerHeight-(window.innerHeight%16)-32+"px";
+   document.body.style.backgroundColor="green";
+}
+window.onresize=function(){ 
+novel_view_body.style.height=window.innerHeight-(window.innerHeight%16)-32+"px";
+   document.body.style.backgroundColor="green";
+}
+
+get_html=function(url,fun){
+    post("novel.php","url="+encodeURI(url),fun);
+}
+
+
+ini=function(){
+   var myUl=menu.getElementsByTagName("Ul")[0];
+   myLi=myUl.getElementsByTagName("li");
+   myDiv=menu.getElementsByTagName("div");
+  for(var i = 0; i < myLi.length; i++){
+    myLi[i].id="myLi_"+ i;
+    myLi[i].index = i;
+    myLi[i].className="off";
+    myDiv[i].id="myDiv_"+i;
+    myDiv[i].className = "hide";
+  }
+  myLi[0].className="on";
+  myDiv[0].className = "show";
+}
+shift=function(i){
+  var index=parseInt(i);
+  myLi[_index].className="off";
+  myDiv[_index].className = "hide";
+  myLi[index].className="on";
+  myDiv[index].className = "show";
+  _index=index;
+}
+
+post=function(path,str,fun) {  
+  var xmlHttp=null; 
+  try { // Firefox, Opera 8.0+, Safari 
+   xmlHttp=new XMLHttpRequest();
+  }catch (e) { // Internet Explorer 
+    try { 
+    xmlHttp=new ActiveXObject("Msxml2.XMLHTTP"); 
+    }catch (e) { 
+      xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+      } 
+    } 
+  if (xmlHttp==null) { 
+      alert ("您的浏览器不支持AJAX！"); 
+       return; 
+  }
+  xmlHttp.onreadystatechange=function(){
+    if(xmlHttp.readyState==4) { 
+     fun(xmlHttp.responseText)
+    }
+  }
+  xmlHttp.open("POST",path,true); 
+  xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  xmlHttp.send(str); 
+  //xmlHttp=null;
+  }
+
+var Reg=function(str,reg){
+    var reg=eval("("+reg+")");
+    var re=[];
+    do
+    {
+      var r=reg.exec(str);
+      if(r){
+          r.shift()
+          re[re.length]=r;
+      }
+    }
+    while (r!=null) 
+    return re;
+}
+get_fullurl=function(url1,url2){
+   var re="";
+   var url=url1.match(/(http[s]?:\/\/[^\/]*?)\//);
+   var path=url1.match(/http[s]?:.*\//);
+   if(url)
+   {
+    var root_url=url[1];
+   }else{
+      url=url1.match(/(http:\/\/[^\/]*?)\//);
+   }
+   switch(url2.slice(0,1)){
+       case "/":
+         re=root_url+url2;
+         break;
+       case ".":
+         re=url1+url2;
+         break;
+       default :
+         if(url2.slice(0,4)=="http"){
+           re=url2;
+         }else{re=path+url2;}
+   }
+   return re;
+}
+function show_novel_menu(){
+  var dis=novel_menu.style;
+  if(dis.display=="block")
+    {dis.display="none";}
+  else{dis.display="block";}
+}
+novel_cmd=function()
+{
+     var event = event || window.event;
+     var h=window.innerHeight;
+     var w=window.innerWidth;
+    var x=event.clientX;
+    var y=event.clientY;
+    if((x>1/2*w&&y>2/3*h)||(x>2/3*w&&y>1/2*h)){
+      n.next_page();
+    }
+    if((x<2/3*w&&y>1/2*h)||(x<1/2*w&&y>2/3*h)){
+     n.pre_page();
+    } 
+    if(x>w/3&&x<2/3*w&&y>h/3&&y<2/3*h){
+       show_novel_menu();
+    }
+  // n.toast();
+}
+get_js=function(js){
+  post(js,"",function(a){
+    eval(a);
+    toast("","",js)
+  });
+}
+ 
+</script>
+</body>
+</html>
