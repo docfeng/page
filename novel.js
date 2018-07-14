@@ -35,4 +35,4 @@ load.prototype.fun=function(){
 load=new load();
 
 
-alert()      
+alert(1)      
