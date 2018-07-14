@@ -164,7 +164,9 @@ textarea.e{
     <div>
         <form id="form_2">
             <input type="button" value="eval" onclick="eval(txt1.value);" />
-            <input type="button" value="重试" onclick="eval(fso.read('/下载/novel.js'));alert(true)" /><br />
+            <input type="button" value="重试" onclick="eval(fso.read('/下载/novel.js'));alert(true)" />
+	    <input type="button" value="reload" onclick="document.location.reload()" />
+	    <br />
             <textarea name="txt1" ></textarea>
         </form>
     </div>
