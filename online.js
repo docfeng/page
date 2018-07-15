@@ -1,4 +1,5 @@
 (function(){
+	alert(2)
     var onlineurl="http://git.docfeng.top/";
     var base=[
 	          //"novel.js",
@@ -8,4 +9,3 @@
 		getJs(onlineurl + base[i]);
 	}
 })()
-alert(2)
