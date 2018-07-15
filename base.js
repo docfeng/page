@@ -28,9 +28,9 @@ ajax=function(a,path,str,fun,bool) {
   xmlHttp.send(str); 
   return html;
 }
-/*post=function(path,str,fun,bool){  
+post=function(path,str,fun,bool){  
     return ajax("POST",path,str,fun,bool);
 }
 get=function(path,fun,bool){
     return ajax("POST",path,"",fun,bool);
-}*/
+}
