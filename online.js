@@ -6,6 +6,7 @@
 			 ];
 	for(var i in base){
 		getJs(onlineurl + base[i]);
+		alert(onlineurl + base[i])
 	}
 })()
 alert(2)
