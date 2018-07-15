@@ -1,7 +1,7 @@
 alert("base")
 ajax=function(a,path,str,fun,bool) {  
-  /*var xmlHttp=null; 
-  var bool=bool:true;
+  var xmlHttp=null; 
+  var bool=bool||true;
   var html="";
   try { // Firefox, Opera 8.0+, Safari 
    xmlHttp=new XMLHttpRequest();
@@ -27,7 +27,6 @@ ajax=function(a,path,str,fun,bool) {
   xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
   xmlHttp.send(str); 
   return html;
-  */
 }
 /*post=function(path,str,fun,bool){  
     return ajax("POST",path,str,fun,bool);
