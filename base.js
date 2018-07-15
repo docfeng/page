@@ -1,5 +1,5 @@
 alert("base")
-/*ajax=function(a,path,str,fun,bool) {  
+ajax=function(a,path,str,fun,bool) {  
   var xmlHttp=null; 
   var bool=bool:true;
   var html="";
@@ -28,7 +28,7 @@ alert("base")
   xmlHttp.send(str); 
   return html;
 }
-post=function(path,str,fun,bool){  
+/*post=function(path,str,fun,bool){  
     return ajax("POST",path,str,fun,bool);
 }
 get=function(path,fun,bool){
