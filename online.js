@@ -1,1 +1,3 @@
-alert(5)
+(function(){
+	alert()
+})()
