@@ -1,9 +1,9 @@
 (function(){
-	alert(1)
+	alert(2)
     var onlineurl="http://git.docfeng.top/";
-    var base=["novel.js"];
-	for(url in base){
-		alert(url);
+    var base=["novel.js","base.js"];
+	for(var i in base){
+		alert(base[i]);
 	}
     //getJs(onlineurl + "");
 	
