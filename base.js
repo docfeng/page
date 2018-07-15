@@ -1,5 +1,5 @@
 alert("base")
-ajax=function(a,path,str,fun,bool) {  
+/*ajax=function(a,path,str,fun,bool) {  
   var xmlHttp=null; 
   var bool=bool:true;
   var html="";
@@ -13,7 +13,7 @@ ajax=function(a,path,str,fun,bool) {
       } 
     } 
   if (xmlHttp==null) { 
-      alert ("ÄúµÄä¯ÀÀÆ÷²»Ö§³ÖAJAX£¡"); 
+      alert ("Ã„ÃºÂµÃ„Ã¤Â¯Ã€Ã€Ã†Ã·Â²Â»Ã–Â§Â³Ã–AJAXÂ£Â¡"); 
        return; 
   }
   xmlHttp.onreadystatechange=function(){
@@ -33,4 +33,4 @@ post=function(path,str,fun,bool){
 }
 get=function(path,fun,bool){
     return ajax("POST",path,"",fun,bool);
-}
+}*/
