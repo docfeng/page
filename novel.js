@@ -34,5 +34,17 @@ load.prototype.fun=function(){
 }	
 load=new load();
 
+    var createworker=function(js){
+        var blob = new Blob([js]);
+	     var blobURL = window.URL.createObjectURL(blob);
+	     var worker = new Worker(blobURL);
+	     worker.onmessage = function(e) {
+		      alert(e.data);
+	     };
+        return worker;
+    }
+    //var js="onmessage = function(e) { postMessage('msg from worker'); }"
+    //var worker=createworker(js)
+	 //worker.postMessage(1);
 
 alert(1)      
