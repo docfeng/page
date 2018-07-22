@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>易联众</title>
+</head>
+<body>
+<input type=button value="showData" onclick="yaofang.showData();" />
+<input type=button value="getSub" onclick="getSub();" />
+<input type=button value="getThis" onclick="getThis();" />
+<input type=button value="getNext" onclick="getNext();" />
+<input type=button value="setIndex" onclick="yaofang.index=parseInt(xh.value)+3;" />
+<br />
+序号:<input type="text" id="xh" size=3 value=1 />
+<br />
+发票号:<input type="text" id="fph" size=8 />
+药品名称:<input type="text" id="ypmc" size=16 />
+规格:<input type="text" id="gg" size=8 />
+<br />
+批号:<input type="text" id="ph" size=8 />
+进货日期:<input type="text" id="jhrq" size=8 />
+有效期:<input type="text" id="ysq" size=8 />
+<br />
+购进单价:<input type="text" id="gjdj" size=8 />
+零售单价:<input type="text" id="lsdj" size=8 />
+数量:<input type="text" id="sl" size=8 />
+
+<script>
+yaofang=window.dialogArguments
+
+getThis=function(){
+	var i=yaofang.index;
+	var excel=yaofang.excel;
+	var workbooks=excel.workbooks;
+	if(workbooks(1)){
+		var workbook=workbooks(1)		
+	}else{
+		var workbook=workbooks[0];
+	}
+	var sheet=workbook.sheets(2);
+        //var form1=frames[0].frames["mainFrame"].frames[0].from1;
+
+	//序号
+	xh.value=sheet.cells(i,1).text
+	//gg
+	gg.value=sheet.cells(i,3).text
+	//发票号
+	fph.value=sheet.cells(i,12).text
+	//药品名称
+	ypmc.value=sheet.cells(i,2).text
+	//进货日期
+	jhrq.value=sheet.cells(i,15).text
+	//批号
+	ph.value=sheet.cells(i,10).text
+	//购进单价
+	gjdj.value=sheet.cells(i,6).text
+	//零售单价
+	lsdj.value=sheet.cells(i,8).text
+	//数量
+	sl.value=sheet.cells(i,4).text
+	//有效期
+	ysq.value=sheet.cells(i,11).text
+
+}
+getNext=function(){
+	yaofang.index=yaofang.index+1;
+	getThis();
+}
+getSub=function(){
+	yaofang.index=yaofang.index-1;
+	getThis();
+}
+alert()
+</script>
+</body>
+</html>
