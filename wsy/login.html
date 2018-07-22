@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>易联众</title>
+<HTA:Application 
+       border="thick"
+         caption="yes"
+         maximizebutton="yes"
+         minimizebutton="yes"
+         sysmenu="yes"
+         windowstate="maximize"
+    >
+<style type='text/css'>
+html,body{
+  height:100%;
+    padding:0;  /*去除内边距*/
+    border:0;   /*去除边框*/
+    margin:0;   /*去除外边距*/
+
+}
+
+table,th,td
+{
+    border:1px solid black;
+}
+table{
+  width:100%;
+}
+td:hover {background: #666;}
+textarea{
+  width:100%;
+  height:440px;
+  font: 0.9em Arial, Helvetica, sans-serif;
+}
+textarea.e{
+  height:220px;
+}
+.menu{
+  height:40px;
+}
+.menu > ul {
+  float:left;
+  width:100%;
+  height:20px;
+  padding:0;
+  margin:0;
+  list-style-type:none;
+}
+.menu > ul > li {
+  display: inline;
+   width:25%
+  //font: 0.7em Arial, Helvetica, sans-serif;
+  height: 20px;
+}
+ .menu > ul > li.on, .menu > ul >li:hover, .menu > ul>li:focus {
+      background-color: #fff;
+      border-bottom-color: transparent;
+      box-shadow: 0 -2px 3px 0 rgba(0,0,0,.15);
+ }
+ .menu > ul > li.on {
+      border-top: 2px solid #2dc3e8;
+ }
+.menu > div{
+  display: block;
+}
+.menu > div.hide{
+  display: none;
+}
+.menu > div.show{
+  display: block;
+}
+
+iframe{
+   width:100%;
+  height:750px;
+}
+
+
+</style>
+<script src="obj.js"></script>
+</head>
+<body>
+        <form id="form_1">
+             <input type="button" value="fj登陆" onclick='d=frames[0];a=d.document.forms[0];a.username.value="dyfj";a.passwd.value="888888";d.onLogin();' />
+             <input type="button" value="yz登陆" onclick='d=frames[0];a=d.document.forms[0];a.username.value="dyzzr";a.passwd.value="888888";d.onLogin();' />
+             <input type="button" value="yf登陆" onclick='d=frames[0];a=d.document.forms[0];a.username.value="dyyf";a.passwd.value="888888";d.onLogin();' />
+             <input type="button" value="入库" onclick='window.showModelessDialog("购药.html",yaofang)' />             
+             <input type=button value="open" onclick="yaofang.open();" />
+             <input type=button value="show" onclick="yaofang.show();" />
+             <input type=button value="hide" onclick="yaofang.hide();" />
+             <input type=button value="getData" index=1 onclick="yaofang.getData();" />
+             <input type=button value="showData" onclick="yaofang.showData();" />
+             <input type=button value="close" onclick="yaofang.close();" />
+             <input type=button value="quit" onclick="yaofang.quit();" />
+        </form>
+<script>
+var _index=0;
+var myLi,myDiv;
+window.onload=function(){
+ 
+}
+</script>
+</body>
+</html>
