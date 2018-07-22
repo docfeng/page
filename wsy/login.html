@@ -81,9 +81,9 @@ iframe{
 </head>
 <body>
         <form id="form_1">
-             <input type="button" value="fj登陆" onclick='d=frames[0];a=d.document.forms[0];a.username.value="dyfj";a.passwd.value="888888";d.onLogin();' />
-             <input type="button" value="yz登陆" onclick='d=frames[0];a=d.document.forms[0];a.username.value="dyzzr";a.passwd.value="888888";d.onLogin();' />
-             <input type="button" value="yf登陆" onclick='d=frames[0];a=d.document.forms[0];a.username.value="dyyf";a.passwd.value="888888";d.onLogin();' />
+             <input type="button" value="fj登陆" onclick='d=window;a=d.document.forms[0];a.username.value="dyfj";a.passwd.value="888888";d.onLogin();' />
+             <input type="button" value="yz登陆" onclick='d=window;a=d.document.forms[0];a.username.value="dyzzr";a.passwd.value="888888";d.onLogin();' />
+             <input type="button" value="yf登陆" onclick='d=window;a=d.document.forms[0];a.username.value="dyyf";a.passwd.value="888888";d.onLogin();' />
              <input type="button" value="入库" onclick='window.showModelessDialog("购药.html",yaofang)' />             
              <input type=button value="open" onclick="yaofang.open();" />
              <input type=button value="show" onclick="yaofang.show();" />
@@ -96,6 +96,8 @@ iframe{
 <script>
 var _index=0;
 var myLi,myDiv;
+       yaofang=window.dialogArguments;
+       alert(yaofang);
 window.onload=function(){
  
 }
