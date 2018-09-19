@@ -19,7 +19,7 @@ msg=function(mtitle,mbody){
 
     var oDivbody= document.createElement("div"); 
     oDivbody.innerHTML=mbody ;
-    oDivbody.style.cssText= "height:176px;width:100%;display:block;"
+    oDivbody.style.cssText= "height:176px;width:100%;display:block;overflow-y:scroll;"
     oDivhead.appendChild( oDivtitle);
     oDivhead.appendChild( oDivclose);
 
