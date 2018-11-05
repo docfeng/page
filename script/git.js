@@ -1,8 +1,4 @@
-git=function(){
-  var _config=localStorage.getItem("config");
-  if(_config){
-      window.config=JSON.parse(_config);
-  }else{
+dr=function(){
     var yhm=prompt("用户名");
     var psw=prompt("密码");
     //var token=prompt("token");
@@ -29,6 +25,14 @@ git=function(){
 					
 					}(config));
     localStorage.setItem("config",JSON.stringify(window.config));
+}
+
+git=function(){
+  var _config=localStorage.getItem("config");
+  if(_config){
+      window.config=JSON.parse(_config);
+  }else{
+      dr();
   }
   this.fun()
 }
