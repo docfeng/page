@@ -1,1 +1,1 @@
-alert(git.read )
+undefined
