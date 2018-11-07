@@ -17,7 +17,7 @@
 html,body{
   width:100%;
   height:100%;
-  //overflow-y:hidden;
+  overflow-y:hidden;
 }
 body{ 
   margin: 0px;
@@ -30,6 +30,10 @@ textarea{
   height:90%;
   font: 0.7em Arial, Helvetica, sans-serif;
 }
+body:focus input
+{
+background-color:yellow;
+}
 *{margin:0px;padding:0px;}
 input[onclick^="ins"] {
   margin:0px;
@@ -40,7 +44,7 @@ input[onclick^="ins"] {
 input[onclick^="shift"] {
   margin:0px;
   padding:0px;
-  width:80px;
+  width:60px;
 }
 input[value^="page"] {
   margin:0px;
@@ -53,22 +57,17 @@ input[value^="page"] {
   white-space:nowrap;
   position:fixed;
   bottom:0px;
-  //display:none;
-}
-.top_box1{
-  width:100%;
-  height:47px;
+  display:none;
 }
 .control_box{
   width:100%;
-  height:24px;
   overflow-x:scroll;
   //position:fixed;
   //top:0px;
 }
 .page_box{
   width:100%;
-  height:23px;
+  //height:23px;
   //position:fixed;//absolute;
   //top:20px;
   //margin-top:20px;
@@ -80,7 +79,7 @@ input[value^="page"] {
   width:100%;
   //margin-top:50px;
 }
-/*@media (max-height: 700px) {
+@media (max-height: 700px) {
   //body{background-color:orange;}
   .ins{display:none;}
 }
@@ -91,7 +90,7 @@ input[value^="page"] {
     margin-bottom:30px;
   }
   .ins_box{display:block;}
-}*/
+}
 </style>
 </head>
 <body>
@@ -99,7 +98,7 @@ input[value^="page"] {
 		<div class="control_box" id="control_box">
 				<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
 				<input type="button" value='reload' onclick='location.reload()'/>
-				<input type="button" value='file' onclick='alert()'/>
+				<input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
 		  <input type="button" value="write" onclick="w()"/>
 		  <input type="button" value="read" onclick="read()"/>
 		  <input type="button" value="add" onclick="add()"/>
@@ -249,11 +248,12 @@ window.onresize=function(){
   var ins_h=parseInt(window.getComputedStyle(ins_box).height)||0;
   //var edit_h=parseInt(window.getComputedStyle(edit_box).height);
   //alert(window.getComputedStyle(ins_box).height);
+  
   edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
   var style = document.createElement('style');             
   style.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-26)+"px;}";
   document.head.appendChild(style);
- //alert(4)
+ 
   /*//动态添加外置样式表    
   var  link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
