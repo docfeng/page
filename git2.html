@@ -17,7 +17,7 @@
 html,body{
   width:100%;
   height:100%;
-  overflow-y:hidden;
+  //overflow-y:hidden;
 }
 body{ 
   margin: 0px;
@@ -99,7 +99,7 @@ input[value^="page"] {
 		<div class="control_box" id="control_box">
 				<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
 				<input type="button" value='reload' onclick='location.reload()'/>
-				<input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
+				<input type="button" value='file' onclick='alert()'/>
 		  <input type="button" value="write" onclick="w()"/>
 		  <input type="button" value="read" onclick="read()"/>
 		  <input type="button" value="add" onclick="add()"/>
@@ -262,7 +262,7 @@ window.onresize=function(){
   document.head.appendChild(link);
   */
   //edit_box.style.marginBottom=ctr_h+"px;
-  page.txt.value=window.innerHeight+"\n"+ctr_h+"\n"+page_h+"\n"+ins_h
+  //page.txt.value=window.innerHeight+"\n"+ctr_h+"\n"+page_h+"\n"+ins_h
   
 }
 
