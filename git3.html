@@ -17,7 +17,7 @@
 html,body{
   width:100%;
   height:100%;
-  overflow-y:hidden;
+  //overflow-y:hidden;
 }
 body{ 
   margin: 0px;
@@ -53,29 +53,34 @@ input[value^="page"] {
   white-space:nowrap;
   position:fixed;
   bottom:0px;
-  display:none;
+  //display:none;
+}
+/*.top_box{
+ width:100%;
+  height:46px;
 }
 .control_box{
   width:100%;
+  height:24px;
   overflow-x:scroll;
   //position:fixed;
   //top:0px;
 }
 .page_box{
   width:100%;
-  //height:23px;
+  height:23px;
   //position:fixed;//absolute;
   //top:20px;
   //margin-top:20px;
   	//Word-break: break-all;
   	overflow-x: auto;
   	white-space:nowrap;
-}
+}*/
 .edit_box{
   width:100%;
   //margin-top:50px;
 }
-@media (max-height: 700px) {
+/*@media (max-height: 700px) {
   //body{background-color:orange;}
   .ins{display:none;}
 }
@@ -86,15 +91,27 @@ input[value^="page"] {
     margin-bottom:30px;
   }
   .ins_box{display:block;}
-}
+}*/
 </style>
 </head>
 <body>
+<div>1234-12
+<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
+</div >
+<div id="top1_box">1234-2
+<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
+</div >
+<div class="top1_box" id="top1_txt">1234-3
+<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
+</div>
+<div class="top1_box">1234-4
+<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
+</div>
 <div class="top_box" id="top_box">
 		<div class="control_box" id="control_box">
 				<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
 				<input type="button" value='reload' onclick='location.reload()'/>
-				<input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
+				<input type="button" value='file' onclick='alert()'/>
 		  <input type="button" value="write" onclick="w()"/>
 		  <input type="button" value="read" onclick="read()"/>
 		  <input type="button" value="add" onclick="add()"/>
@@ -244,12 +261,11 @@ window.onresize=function(){
   var ins_h=parseInt(window.getComputedStyle(ins_box).height)||0;
   //var edit_h=parseInt(window.getComputedStyle(edit_box).height);
   //alert(window.getComputedStyle(ins_box).height);
-  
   edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
   var style = document.createElement('style');             
   style.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-26)+"px;}";
   document.head.appendChild(style);
- 
+ //alert(4)
   /*//动态添加外置样式表    
   var  link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
@@ -258,7 +274,7 @@ window.onresize=function(){
   document.head.appendChild(link);
   */
   //edit_box.style.marginBottom=ctr_h+"px;
-  //page.txt.value=window.innerHeight+"\n"+ctr_h+"\n"+page_h+"\n"+ins_h
+  page.txt.value=window.innerHeight+"\n"+ctr_h+"\n"+page_h+"\n"+ins_h
   
 }
 
