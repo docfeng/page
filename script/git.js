@@ -78,9 +78,9 @@ git.prototype.fun=function(){
       }
     });
   }
-  this.add=function(name,str,mess){
+  this.add=function(name,txt,mess){
        var path=config.filepath+name;
-        var str=window.btoa(unescape(encodeURIComponent(str)));
+        var str=window.btoa(unescape(encodeURIComponent(txt)));
         var author=config.author;
         var commentJson=JSON.stringify({
           "message": mess?mess:"add",
