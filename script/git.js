@@ -46,11 +46,11 @@ git.prototype.fun=function(){
       }
     });
   }
-  this.write=function(name,str,mess){
+  this.write=function(name,txt,mess){
     var path=config.filepath+name;
     $.getJSON(path,function(json){
       if(json.sha){
-        var str=window.btoa(unescape(encodeURIComponent(str)));
+        var str=window.btoa(unescape(encodeURIComponent(txt)));
         var author=config.author;
         var commentJson=JSON.stringify({
           "message": mess?mess:"update",
