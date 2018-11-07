@@ -242,17 +242,14 @@ alert(1)
   var wh=window.innerHeight;
   var ctr_h=parseInt(window.getComputedStyle(control_box).height);
   var page_h=parseInt(window.getComputedStyle(page_box).height);
-alert(2)
   var ins_h=parseInt(window.getComputedStyle(ins_box).height)||0;
-alert(3)
   //var edit_h=parseInt(window.getComputedStyle(edit_box).height);
   //alert(window.getComputedStyle(ins_box).height);
-  alert()
   edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
   var style = document.createElement('style');             
   style.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-26)+"px;}";
   document.head.appendChild(style);
- 
+ alert(4)
   /*//动态添加外置样式表    
   var  link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
