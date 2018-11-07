@@ -30,9 +30,6 @@ textarea{
   height:90%;
   font: 0.7em Arial, Helvetica, sans-serif;
 }
-textarea:focus .ins_box{
-  display:"block";
-}
 *{margin:0px;padding:0px;}
 input[onclick^="ins"] {
   margin:0px;
@@ -247,7 +244,7 @@ window.onresize=function(){
   var ins_h=parseInt(window.getComputedStyle(ins_box).height)||0;
   //var edit_h=parseInt(window.getComputedStyle(edit_box).height);
   //alert(window.getComputedStyle(ins_box).height);
-  
+  alert()
   edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
   var style = document.createElement('style');             
   style.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-26)+"px;}";
