@@ -1,6 +1,5 @@
 (function(){
     var dbObject = {}; 
-alert();
     dbObject.init = function(params,fun){
         this.fun=fun;
         this.db_name = params.db_name;
@@ -187,5 +186,4 @@ alert();
         }
     }; 
     window.dbObject = dbObject;
-alert();
 })();
