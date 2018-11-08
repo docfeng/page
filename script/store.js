@@ -1,16 +1,16 @@
-myStorage=function(){
+myStorage=function(f){
   this.fun();
-  this.init();
+  this.init(f);
 }
 
 myStorage.prototype.fun=function(){
   var t=this;
-  t.init=function() {
+  t.init=function(fun) {
       var dbParams = new Object();
       dbParams.db_name = "store1";
       dbParams.db_version = "1";
       dbParams.db_store_name = "store";
-      dbObject.init(dbParams);
+      dbObject.init(dbParams,fun);
   }
   t.setItem=function(name,value,fun){
       var json={data:{"name": name, "val":value }, 
@@ -57,4 +57,5 @@ myStorage.prototype.fun=function(){
       dbObject.clear();
   }
 }
- myStorage=new myStorage();
+
+// myStorage=new myStorage();
