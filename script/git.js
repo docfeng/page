@@ -24,11 +24,11 @@ dr=function(){
 					  obj.comments_url=[];
 					
 					}(config));
-    localStorage.setItem("config",JSON.stringify(window.config));
+    myStorage.setItem("config",JSON.stringify(window.config));
 }
 
 git=function(){
-  var _config=localStorage.getItem("config");
+  var _config=myStorage.getItem("config");
   if(_config){
       window.config=JSON.parse(_config);
   }else{
@@ -138,4 +138,4 @@ git.prototype.fun=function(){
     });
   }
 }
-git=new git();
+//git=new git();
