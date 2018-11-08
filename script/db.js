@@ -1,4 +1,5 @@
-alert()
+alert();
+
 (function(){
     var dbObject = {}; 
     dbObject.init = function(params,fun){
@@ -189,5 +190,3 @@ alert()
     window.dbObject = dbObject;
 })();
 alert()
-
-
