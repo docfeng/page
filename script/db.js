@@ -83,7 +83,7 @@
         //第二个参数可以省略
         var transaction = dbObject.db.transaction(dbObject.db_store_name,"readwrite");
         var store = transaction.objectStore(dbObject.db_store_name);
-        if(json){
+        if(json&&json.key){
             var request = store.get(json.key);
         }else{
             var request = store.getAll();
@@ -97,7 +97,7 @@
         //第二个参数可以省略
         var transaction = dbObject.db.transaction(dbObject.db_store_name,"readwrite");
         var store = transaction.objectStore(dbObject.db_store_name);
-        if(json){
+        if(json&&json.key){
             var index = store.index(json.name);
             var request = index.get(json.value);
         }else{
