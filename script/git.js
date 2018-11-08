@@ -1,8 +1,4 @@
-git=function(){
-  var _config=localStorage.getItem("config");
-  if(_config){
-      window.config=JSON.parse(_config);
-  }else{
+dr=function(){
     var yhm=prompt("用户名");
     var psw=prompt("密码");
     //var token=prompt("token");
@@ -29,6 +25,14 @@ git=function(){
 					
 					}(config));
     localStorage.setItem("config",JSON.stringify(window.config));
+}
+
+git=function(){
+  var _config=localStorage.getItem("config");
+  if(_config){
+      window.config=JSON.parse(_config);
+  }else{
+      dr();
   }
   this.fun()
 }
@@ -46,11 +50,11 @@ git.prototype.fun=function(){
       }
     });
   }
-  this.write=function(name,txt,mess){
+  this.write=function(name,str,mess){
     var path=config.filepath+name;
     $.getJSON(path,function(json){
       if(json.sha){
-        var str=window.btoa(unescape(encodeURIComponent(txt)));
+        var str=window.btoa(unescape(encodeURIComponent(str)));
         var author=config.author;
         var commentJson=JSON.stringify({
           "message": mess?mess:"update",
@@ -78,9 +82,9 @@ git.prototype.fun=function(){
       }
     });
   }
-  this.add=function(name,txt,mess){
+  this.add=function(name,str,mess){
        var path=config.filepath+name;
-        var str=window.btoa(unescape(encodeURIComponent(txt)));
+        var str=window.btoa(unescape(encodeURIComponent(str)));
         var author=config.author;
         var commentJson=JSON.stringify({
           "message": mess?mess:"add",
