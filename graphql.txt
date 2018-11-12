@@ -1,0 +1,73 @@
+{
+  viewer {
+    login
+    url
+    bio
+    email
+    createdAt
+    repository(name: "page") {
+      id
+      name
+      diskUsage
+    }
+    repositories {
+      totalCount
+    }
+    user(login:"docfeng") {
+        login
+        id
+    }
+  }
+}
+
+query {
+  viewer {
+    login
+    url
+    bio
+    email
+    createdAt
+    followers(first : 5) {
+      edges {
+        node {
+          name
+          bio
+          email
+          createdAt
+        }
+      }
+    }
+    repositories(first : 5, isFork : false) {
+      edges {
+        node {
+          name
+          stargazers (first : 10){
+            edges {
+              starredAt
+              node {
+                name
+              }
+            }
+          }
+          forks (first : 10){
+            edges {
+              node {
+                createdAt
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query {
+  viewer {
+    login
+    url
+    id
+    bio
+  }
+}
