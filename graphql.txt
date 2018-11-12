@@ -13,11 +13,11 @@
     repositories {
       totalCount
     }
-    user(login:"docfeng") {
+  }
+  user(login:"docfeng") {
         login
         id
     }
-  }
 }
 
 query {
