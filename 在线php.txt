@@ -1,0 +1,37 @@
+var path="http://demo.php.cn/compile.php";
+var data="code=%3C%3Fphp%20%09%0Afunction%20get_html(%24url)%7B%0A%20%20%20%20%24ch%20%3D%20curl_init()%3B%0A%20%20%20%20curl_setopt(%24ch%2C%20CURLOPT_URL%2C%24url)%3B%0A%20%20%20%20curl_setopt(%24ch%2C%20CURLOPT_RETURNTRANSFER%2C1)%3B%0A%20%20%20%20curl_setopt(%24ch%2C%20CURLOPT_HEADER%2C0)%3B%0A%20%20%20%20%24string%20%3D%20curl_exec(%24ch)%3B%0A%20%20%20%20curl_close(%24ch)%3B%0A%20%20%20%20%2F%2Fif(strstr(%24string%2C%22gbk%22)%7C%7Cstrstr(%24string%2C%22gb2312%22))%7B%0A%20%20%20%20%20%20%20%20%24string%3Dmb_convert_encoding(%24string%2C'UTF-8'%2C'auto')%3B%0A%20%20%20%20%2F%2F%7D%0A%20%20%20%20return%20%24string%3B%0A%7D%0A%3F%3E";
+var url="http://m.bqg2018.com/11493/read_405.html";
+url=encodeURIComponent(url);
+data+="%3C%3Fphp%0A%24path%3D%22"+url+"%22%3B%0Aecho%20get_html(%24path)%3B%0A%3F%3E"
+//data+="%3C%3Fphp%0A%24path%3D%22https%3A%2F%2Fwww.xs.la%2F30_30284%2F%22%3B%0Aecho%20get_html(%24path)%3B%0A%3F%3E";
+data+="&language=3";
+//prompt("",decodeURIComponent(data))
+post(path,data,function(a){alert(a)});
+
+
+var data="%3C%3Fphp%20%09%0Afunction%20get_html(%24url)%7B%0A%20%20%20%20%24ch%20%3D%20curl_init()%3B%0A%20%20%20%20curl_setopt(%24ch%2C%20CURLOPT_URL%2C%24url)%3B%0A%20%20%20%20curl_setopt(%24ch%2C%20CURLOPT_RETURNTRANSFER%2C1)%3B%0A%20%20%20%20curl_setopt(%24ch%2C%20CURLOPT_HEADER%2C0)%3B%0A%20%20%20%20%24string%20%3D%20curl_exec(%24ch)%3B%0A%20%20%20%20curl_close(%24ch)%3B%0A%20%20%20%20%2F%2Fif(strstr(%24string%2C%22gbk%22)%7C%7Cstrstr(%24string%2C%22gb2312%22))%7B%0A%20%20%20%20%20%20%20%20%24string%3Dmb_convert_encoding(%24string%2C'UTF-8'%2C'auto')%3B%0A%20%20%20%20%2F%2F%7D%0A%20%20%20%20return%20%24string%3B%0A%7D%0A%3F%3E";
+var url="http://git.docfeng.top/git.html";
+url=encodeURIComponent(url);
+data+="%3C%3Fphp%0A%24path%3D%22"+url+"%22%3B%0Aecho%20get_html(%24path)%3B%0A%3F%3E"
+//data+="%3C%3Fphp%0A%24path%3D%22https%3A%2F%2Fwww.xs.la%2F30_30284%2F%22%3B%0Aecho%20get_html(%24path)%3B%0A%3F%3E";
+
+var _form = document.createElement("form");
+ _form.style.display='none';
+ _form.action = "http://demo.php.cn/compile.php";
+ _form.method="post";
+ document.body.appendChild(_form);
+
+var input1 = document.createElement("input");
+  input1.type = "hidden";
+  input1.name = "code";
+  input1.value =decodeURIComponent(data) ;
+  _form.appendChild(input1);
+var input2 = document.createElement("input");
+  input2.type = "hidden";
+  input2.name = "language";
+  input2.value = 3;
+  _form.appendChild(input2);
+ _form.submit();
+alert()
+
+
