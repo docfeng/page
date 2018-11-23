@@ -80,6 +80,8 @@ onclick='var obj = window.open("about:blank");            obj.document.write(pag
 onclick='window.open(page.name.value);'/>
 <input type="button" value="跨域" 
 onclick='get_ky(page.name.value,function(a){page.txt.value=a.data;});'/>
+<input type="button" value="打开" 
+onclick='get1("url.txt",function(a){alert(a);page.name.value=a;});'/>
 <br>
 <textarea name="txt" ></textarea>
 </form>
