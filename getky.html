@@ -78,7 +78,7 @@ onclick='var obj = window.open("about:blank");            obj.document.write(pag
 <input type="button" value="打开" 
 onclick='window.open(page.name.value);'/>
 <input type="button" value="跨域" 
-onclick='get_ky(page.name.value,function(a){page.txt.value=a;});'/>
+onclick='get_ky(page.name.value,function(a){page.txt.value=a.data;});'/>
 <br>
 <textarea name="txt" ></textarea>
 </form>
