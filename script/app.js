@@ -1,4 +1,5 @@
 var html=document.documentElement.innerHTML;
+alert(html)
 list={};
 list.inilist=function(html,fun){
      var t=this;
