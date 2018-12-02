@@ -8,6 +8,7 @@ if(window.opener){
         getHTML(json.url,function(html){
           window.opener.postMessage(html,'*');
        });
+     }
     }, false);
 }else{
     window.addEventListener('message', function(e){   
