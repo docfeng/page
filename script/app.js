@@ -7,7 +7,7 @@ if(window.opener){
       if(json.url){
         getHTML(json.url,function(html){
           window.opener.postMessage(html,'*');
-       };
+       });
     }, false);
 }else{
     window.addEventListener('message', function(e){   
