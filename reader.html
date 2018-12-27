@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>在线阅读</title>
+<script src="script/getpage.js?i=3"></script>
+<script src="script/db.js?i=1"></script>
+<script src="script/store.js?i=5"></script>
+<style type="text/css">
+html,body{
+  height:100%;
+  width:100%;
+  background-color:#E3EDCD;
+}
+html,body,div{
+  padding:0;
+  margin:0;
+}
+#txt {
+	width: 100%;/*调整显示区的宽*/
+	height: 450px;/*调整显示区的高*/
+	column-width:100px;
+ -moz-column-width:100px; /* Firefox */
+ -webkit-column-width:100px; /* Safari and Chrome */
+	column-gap:0px;
+	transition-property: scrollLeft;
+ transition-duration: 1s;
+ transition-timing-function: linear;
+ transition-delay: 1s;
+	font-size: 20px;
+	line-height: 18px;
+	border: 0px solid #000000;
+	overflow-x: scroll;
+	overflow-y: scroll;
+	Word-break: break-all;
+	//white-space:pre-wrap;
+}
+.paper
+{
+    column-width:100%;
+    -moz-column-width:100%; /* Firefox */
+    -webkit-column-width:100%; /* Safari and Chrome */
+}
+a {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: underline;
+}
+a:hover {
+	font-size: 12px;
+	color: #CC0000;
+	text-decoration: underline;
+}
+p{
+  text-indent:2em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  //width:100%;
+}
+.setting_m_box{
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  //background-color:OrangeRed;
+  z-index:113;
+  display:none;
+}
+.setting_box{
+  position:fixed;
+  width:100%;
+  min-height:50%;
+  bottom:0px;
+  background-color:Orange;
+}
+#mess{
+  height:14px;
+}
+</style>
+</head>
+<body>
+<div id="mess"></div>
+<div id="txt"> 
+  <p>本届都灵冬奥会，首先让行家们大跌眼镜的是上届霸主挪威军团的惨败。挪威是世界传统冰雪强国，前19届冬奥会，该国累计夺得96枚金牌，位居世界第一。上届冬奥会，他们依然以13金傲视群雄。而本届挪威居然只收获两金，被挤到了第13位。</p>
+<p>挪威人失利的主要原因是被寄予厚望的众多老将大都不在状态。盐湖城冬奥会，该国有4枚金牌出自冬季两项。其中比约恩达伦便独得3枚个人项目金牌，加上接力项目，该届冬奥会冬季两项全部男子4枚金牌尽归挪威。而本届比约恩达伦大失水准，只领到了两银1铜；挪威人在该项目也寸金未得。</p>
+<p>德国、美国是上届金牌榜的第二、三名。挪威人退出了争夺，他们自然当仁不让。尤其是德国，时隔八年之后，又一次以11金跃居冬奥会榜首位置。</p>
+<p>  与挪威形成鲜明对照得是，德国的老将们在都灵个个状态奇佳。29岁的冬季两项选手格雷斯上届冬奥会的最好成绩只是第15名；此次，他先在都灵冬奥会夺得首枚金牌，接着又连抢两金。</p>
+<p>  德国人除保持了在雪橇、速滑等项目的传统优势外，还不断拓展新的夺金领域。本届冬奥会共增设了6个单项，其中冬季两项男子15公里、女子12.5集体出发公里两个新项目的金牌，都进入德国人囊中。</p>
+<p>  美国能以9金维持自己冬奥会金牌的老三地位，得益于多名新人的冒尖。该国所获金牌有5枚来自23岁以下的年轻选手，其中两名冠军只有19岁。</p>
+<p>  俄罗斯、奥地利瑞典是本届冬奥会三个进步明显的军团。尤其是奥地利和瑞典：奥地利上届冬奥会只以3金位列奖牌榜第十；本届他们在高山滑雪项目就收获4金，加上北欧两项、跳台滑雪和无舵雪橇角逐中的进账，金牌猛增至9枚，坐上了奖牌榜第二把交椅。瑞典上届没有金牌，此番在男子冰球、女子冰壶和越野滑雪团体竞速等集体项目做足了“文章”，最终以7金挤进六强。</p>
+<p>  俄罗斯上届冬奥会只以5金排第5位。本届凭借花样滑冰、越野滑雪等的出色表现，以8金排奖牌榜第4。加上获7金的加拿大，德、奥、美、俄、加、瑞六国虽金牌数不等，但奖牌均超过14枚，以明显的整体强势构筑了本届冬奥会的六强对峙格局。</p>
+<p>  各国实力呈现接近趋势</p>
+<p>  上届冬奥会，有18个国家染指金牌、24个国家登上奖牌榜，是冬奥会史上获金牌、获奖牌面最广的一届。都灵冬奥会，获奖牌的国家达到26家，染指奖牌国家之多超过历届；获金牌的的虽然仍为18家，但金牌的分布却愈加均衡。</p>
+<p>  四年前的盐湖城冬奥会，挪威、德国、美国席卷了全部金牌的四成多。本届在都灵，排名奖牌榜前三位的德国、奥地利、美国的金牌总数为29枚，只占全部金牌的不到三分之一。</p>
+<p>  冰雪项目的特点，决定了冬奥会染金夺牌的国家短时间很难有较大幅度增加，但从本届冬奥会不难发现，那些已经成为冬奥会“金牌俱乐部”成员的国家的实力，却呈现愈加接近的趋势。盐湖城冬奥会金牌数不足10枚的国家有15个，本届增至17个，便是又一个证明。</p>
+<p>  爱沙尼亚系欧洲波罗的海沿岸的一个小国，人口只有区区140多万。盐湖城冬奥会上，该国的韦尔帕鲁获越野滑雪男子15公里冠军。这是该国历史上的首枚冬奥会金牌。本届冬奥会，34岁韦尔帕鲁蝉联15公里桂冠成功；该国女将斯米古恩也冒了出来，连夺越野滑雪10公里和15公里两枚金牌。爱沙尼亚从而以3枚金牌首次进入冬奥运奖牌榜前12位。</p>
+<p>  自1980年美国普莱西德湖冬奥会以来，每届冬奥会都有速滑、或短道速滑世界纪录产生；1988年的第15届和上届在盐湖城冬奥会，新的世界纪录都有8项之多。都灵冬奥会却没有打破一项世界纪录，只有两项冬奥会纪录，这可是26年来从未有过的。 </p>
+</div>
+<P>
+<div style="width:100%;height:100%;position:fixed;top:0;left:0;z-index:100;" onclick="shift()">
+</div>
+<div class="setting_m_box" id="setting_m_box" onclick="setting_m_box.style.display='none';">
+  <div class="setting_box" id="setting_box" onclick="event.stopPropagation();">
+    <div class="setting_head_box" id="setting_head_box">
+    </div>
+    <div class="setting_body_box" id="setting_body_box">
+    <table style="width:100%">
+     <tr><td>url:</td><td><input type="text" id="novel_url"/></td></tr>
+    </table>
+    <input type="button" value="确认" onclick="alert(novel_url.value);getpage_async(novel_url.value).then((json)=>function(json){alert(JSON.stringify(json))})" />
+    <input type="button" value="eval1" onclick="eval(t1.value)" />
+    <br />
+    <textarea id=t1 style="width:100%;height:300px"></textarea>
+    <div id="pages" style="font-size:12px;"></div>
+
+    </div>
+  </div>
+</div>
+
+
+<script language="javascript">
+index=0;
+var obj = document.getElementById("txt");
+var pages = document.getElementById("pages");
+ini_h=function(){
+  var wh=window.innerHeight;
+  var zs=parseInt(window.getComputedStyle(obj).fontSize);//lineHeight);
+  var zh=zs+2;
+  obj.style.lineHeight=zh+"px";
+  var jg=(wh%zh)/2;
+  var hs=parseInt(wh/zh);
+  obj.style.marginTop=jg+"px";
+  obj.style.marginBottom=jg+"px";
+  obj.style.height=zh*hs+"px";
+  //alert(hs)
+  //alert(obj.style.height)
+  //alert(obj.offsetHeight)
+  var allpages = window.count= Math.ceil(parseInt(obj.scrollHeight)/parseInt(obj.offsetHeight));
+  
+  pages.innerHTML = "<b>共"+allpages+"页</b> ";
+  for (var i=1;i<=allpages;i++){
+    pages.innerHTML += "<a href=\"Javascript:showpart('"+i+"');\">第"+i+"页</a> ";
+  }
+  var str="";
+  for(var i=0;i<=hs;i++){
+    str+="<br />";
+  }
+  obj.innerHTML=obj.innerHTML+str;
+  obj.className+="paper";
+}
+
+ini_w=function(){
+  var ww=window.innerWidth;
+  obj.style.columnWidth=ww+"px"
+  var wh=window.innerHeight;
+  var zs=parseInt(window.getComputedStyle(obj).fontSize);
+  var zh=zs+2;
+  obj.style.lineHeight=zh+"px";
+  var jg=(wh%zh)/2;
+  var hs=parseInt(wh/zh);
+  obj.style.marginTop=jg+"px";
+  obj.style.marginBottom=jg+"px";
+  obj.style.height=zh*hs+"px";
+  var allpages = window.count= Math.ceil(parseInt(obj.scrollWidth)/parseInt(obj.offsetWidth));
+  //var allpages = window.count= Math.ceil(parseInt(obj.scrollWidth)/parseInt(obj.offsetWidth));
+  //obj.style.width=obj.scrollWidth+"px";
+  pages.innerHTML = "<b>共"+allpages+"页</b> ";
+  for (var i=1;i<=allpages;i++){
+    pages.innerHTML += "<a href=\"Javascript:showpart('"+i+"');\">第"+i+"页</a> ";
+  }
+}
+window.onload =async function(){
+  store=new myStorage()
+  await store.init();
+  ini_w();
+  if(window.location.hash){
+    var url=window.location.hash.replace("#","");
+    getlocalpage(url).then((json)=>{
+      //alert(JSON.stringify(json));
+      show_page(json);
+      getlocalpage(json.nexturl).then((json)=>{
+        if(json){
+          window.nextpage=json;
+        }
+      });
+    });
+  }
+  
+  //var a=await store.setItem("name",67788);
+  //var b=await store.getItem("name");
+}
+function showpart(x){
+  var ww=window.innerWidth;
+  /*var x1=parseInt(obj.scrollLeft);
+  var x2=(x-1)*ww;
+  var x3=(x2-x1)/20;
+  var t1=setInterval(function(){
+    x1=x1+x3;
+    if(x1!=x2){
+    obj.scrollLeft=x1;
+    }else{
+     clearInterval(t1);
+    }
+  },100)
+  */
+  obj.scrollLeft=(x-1)*ww;
+}
+
+shift=async function(){
+  var h=window.innerHeight;
+  var w=window.innerWidth;
+  if(event.x>w/2&&event.y>h/2){
+    if((index+1)<count){
+      //下一页
+      index++;
+      obj.scrollLeft=index*window.innerWidth;//parseInt(obj.offsetHeight);
+    }else{
+      //下一章
+      window.location.hash=window.nexturl;
+      if(window.nextpage){
+        show_page(window.nextpage);
+        getlocalpage(window.nextpage.nexturl).then((json)=>{
+          if(json){
+            window.nextpage=json;
+            //alert(JSON.stringify(json))
+          }
+        });
+      }else{
+        alert("没有下一章")
+      }
+    }
+  }
+  if(event.x<w/2&&event.y>h/2&&(index-1)>=0){
+    //上一页
+    index--;
+    obj.scrollLeft=index*window.innerWidth;//parseInt(obj.offsetHeight);
+  }
+  if(event.x>w/2&&event.y<h/2){
+    //字体变大
+      var wh=window.innerHeight;
+      var zs=parseInt(window.getComputedStyle(obj).fontSize);//lineHeight);
+      zs++;
+      obj.style.fontSize=zs+"px";
+      var zh=zs+2;
+      obj.style.lineHeight=zh+"px";
+      var jg=(wh%zh)/2;
+      var hs=parseInt(wh/zh);
+      obj.style.marginTop=jg+"px";
+      obj.style.marginBottom=jg+"px";
+      obj.style.height=zh*hs+"px";
+      //alert(hs)
+      //alert(obj.style.height)
+      //alert(obj.offsetHeight)
+      var allpages = window.count= Math.ceil(parseInt(obj.scrollWidth)/parseInt(obj.offsetWidth));
+  
+      pages.innerHTML = "<b>共"+allpages+"页</b> ";
+      for (var i=1;i<=allpages;i++){
+        pages.innerHTML += "<a href=\"Javascript:showpart('"+i+"');\">第"+i+"页</a> ";
+      }
+      var str="";
+      for(var i=0;i<=hs;i++){
+        str+="\n";
+      }
+      obj.innerHTML=obj.innerHTML+str;
+  }
+  if(event.x<w/2&&event.y<h/2){
+    //字体变小
+      var wh=window.innerHeight;
+      var zs=parseInt(window.getComputedStyle(obj).fontSize);//lineHeight);
+      zs--;
+      obj.style.fontSize=zs+"px";
+      var zh=zs+2;
+      obj.style.lineHeight=zh+"px";
+      var jg=(wh%zh)/2;
+      var hs=parseInt(wh/zh);
+      obj.style.marginTop=jg+"px";
+      obj.style.marginBottom=jg+"px";
+      obj.style.height=zh*hs+"px";
+      //alert(hs)
+      //alert(obj.style.height)
+      //alert(obj.offsetHeight)
+      var allpages = window.count= Math.ceil(parseInt(obj.scrollWidth)/parseInt(obj.offsetWidth));
+  
+      pages.innerHTML = "<b>共"+allpages+"页</b> ";
+      for (var i=1;i<=allpages;i++){
+        pages.innerHTML += "<a href=\"Javascript:showpart('"+i+"');\">第"+i+"页</a> ";
+      }
+      var str="";
+      for(var i=0;i<=hs;i++){
+        str+="\n";
+      }
+      obj.innerHTML=obj.innerHTML+str;
+  }
+  mess.innerHTML=index+"/"+count
+}
+
+document.addEventListener("touchstart",function(e){
+    //e.preventDefault();
+    if(e.targetTouches.length>1){
+        //alert(e.targetTouches.length);
+        setting_m_box.style.display="block";
+   }
+},false);
+show_page=function(json){
+  window.nexturl=json.nexturl;
+  document.title=json.title?json.title:json.url;
+  txt.innerHTML=json.txt;
+  obj.scrollLeft=0;
+  window.index=0;
+  window.count= Math.ceil(parseInt(obj.scrollWidth)/parseInt(obj.offsetWidth));
+  mess.innerHTML=index+"/"+count+"__local";
+  //window.nextpage=store.getItem(window.nexturl);
+}
+getlocalpage=async function(url){
+  var json=await store.getItem(url);
+  try{
+  if(!json){
+    json=await getpage_async(url);
+    //alert(JSON.stringify(json))
+    var _txt=json.txt;
+    if(!_txt){
+      _txt="<p>没有内容</p>";
+    }else{
+      _txt=_txt.replace(/\n/g,"</p><p>")
+      _txt="<p>"+_txt+"<\p>";
+    }
+    json.txt=_txt;
+    store.setItem(url,JSON.stringify(json));
+    if(json.nexturl){
+      getpages(json.nexturl,5);
+    }
+  }else{
+    json=JSON.parse(json);
+  }
+}catch(e){
+  alert(e.message);
+  json={"txt":""}
+}
+  return json;
+}
+
+getpages=async function(url,count){
+  var arr=[];
+  var url=url;
+  for(var i=0;i<count;i++){
+    var json=await getpage_async(url);
+    var _txt=json.txt;
+    if(!_txt){
+      _txt="<p>没有内容</p>";
+    }else{
+      _txt=_txt.replace(/\n/g,"</p><p>")
+      _txt="<p>"+_txt+"<\p>";
+    }
+    json.txt=_txt;
+    store.setItem(url,JSON.stringify(json));
+    arr[arr.length]=json;
+    url=json.nexturl;
+  }
+  return arr;
+}
+window.onerror=function(sMessage, sUrl, sLine) {
+     alert("发生错误:\n" + sMessage + "\nURL:" + sUrl + "\nLine Number:" + sLine);
+     return true;
+}
+</script>
+<a href='noveldownload.html'>下一页</a>
+</body>
+</html>
