@@ -1,1 +1,6 @@
-undefined
+Set oHttp=CreateObject("WinHttp.WinHttpRequest.5.1") 
+oHttp.Option(6)=0 
+oHttp.SetTimeouts 5000,5000,30000,5000 
+oHttp.Open "GET",sUrl,False 
+oHttp.Send 
+msgbox oHttp.responseText
