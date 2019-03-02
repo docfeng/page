@@ -1,0 +1,9 @@
+indexDB主要对象介绍：
+IDBFactory：打开数据库的工厂对象，用于打开数据库，并管理数据库版本。
+IDBOpenDBRequest：请求对象，对数据库的访问、操作都是基于请求的，通过请求对象获取其他DOM对象。
+IDBDatabase：数据库对象，封装了对数据库表的创建、编辑等功能。
+IDBObjectStore：类似于数据库的数据表。
+IDBIndex：数据库索引对象，用于创建数据表的索引。
+IDBTransaction：数据库事物控制对象。
+IDBCursor：数据库访问游标，用于访问数据。
+
