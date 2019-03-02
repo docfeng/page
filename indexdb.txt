@@ -96,6 +96,181 @@ req.onsuccess = function(){
     console.log(objectStore) // IDBObjectStore
 }
 
+对象IDBObjectStore类似于数据库的数据表，其拥有一些内置方法可以实现表的增删改查。
+
+IDBObjectStore的内置方法：
+
+add(Obj)：为当前数据表增加记录。参数为JSON类型，同时返回一个IDBRequest对象
+clear()：清除数据表。
+delete(recordKey)：根据指定的key值删除记录。
+get(recordKey)：根据指定的key值获取完整数据。
+getAll()：获取当前数据表中所有数据。
+count(KeyRange)：清除数据表。
+put(obj，key)：根据指定key值修改数据表数据。
+使用如下：
+
+req.onsuccess = function(){
+    //在成功后对象的result属性为本次申请的结果
+    curDb = req.result; // curDb为数据库对象，用来操作数据表，维护数据表
+    console.log(curDb)
+
+    // 先创建数据库事务管理对象
+    var tran = curDb.transaction(["sys_user"],"readwrite");
+    console.log(tran) // IDBObjectStore
+    // 再创建数据库表，通过事务控制对象获取数据表对象
+    var objectStore = tran.objectStore("sys_user");
+    console.log(objectStore) // IDBObjectStore
+    
+    var user = {
+        user_name: '言墨儿',
+        sex: '男'
+    }
+    var adduser = objectStore.add(user); // 为当前数据表增加记录
+    console.log(adduser) // IDBRequest
+}
+案例代码：
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        // （1）Indexed DB：
+        // 索引数据库，操作简便，目前主流浏览器正努力实现对index DB的支持。
+        // Web SQL Database实际上已经被废弃，而HTML5的支持的本地存储实际上变成了Web Storage（Local Storage和Session Storage）与IndexedDB。Web Storage使用简单字符串键值对在本地存储数据，方便灵活，但是对于大量结构化数据存储力不从心，IndexedDB是为了能够在客户端存储大量的结构化数据，并且使用索引高效检索的API。
+        // （2）indexDB主要对象介绍：
+        // •    IDBFactory：打开数据库的工厂对象，用于打开数据库，并管理数据库版本。
+        // •    IDBOpenDBRequest：请求对象，对数据库的访问、操作都是基于请求的，通过请求对象获取其他DOM对象。
+        // •    IDBDatabase：数据库对象，封装了对数据库表的创建、编辑等功能。
+        // •    IDBObjectStore：类似于数据库的数据表。
+        // •    IDBIndex：数据库索引对象，用于创建数据表的索引。
+        // •    IDBTransaction：数据库事物控制对象。
+        // •    IDBCursor：数据库访问游标，用于访问数据。
+        // （3）异步API
+        // 在IndexedDB大部分操作并不是我们常用的调用方法，返回结果的模式，而是请求——响应的模式，比如打开数据库的操作
+        // var request=window.indexedDB.open('testDB');
+        // 这条指令并不会返回一个DB对象的句柄，我们得到的是一个IDBOpenDBRequest对象，而我们希望得到的DB对象在其result属性中，
+         
+        // 这条指令请求的响应是一个 IDBDatabase对象，这就是IndexedDB对象，
+         
+         
+        // 除了result，IDBOpenDBRequest接口定义了几个重要属性
+        // •    onerror: 请求失败的回调函数句柄
+        // •    onsuccess:请求成功的回调函数句柄
+        // •    onupgradeneeded:请求数据库版本变化句柄
+         
+        // 所谓异步API是指并不是这条指令执行完毕，我们就可以使用request.result来获取indexedDB对象了，就像使用ajax一样，语句执行完并不代表已经获取到了对象，所以我们一般在其回调函数中处理。
+
+    </script>
+    <script>
+        var indexDB = window.indexedDB;//window.indexedDB获取IDBFactory，打开数据库的工厂对象，用于创建或打开数据库，并管理数据库版本
+        console.log(indexDB);
+        var curDb = null;
+        window.onload = createDB();
+        function createDB(){
+            //open创建或打开一个数据库,返回request对象
+            var req = indexDB.open("myIndex",3);//第二个参数为版本，版本只能打开最新版本
+            console.log(req);
+            //当数据打开失败时调用
+            req.onerror = function(){
+
+            }
+            //当数据打开成功时调用
+            req.onsuccess = function(){
+                //在成功后对象的result属性为本次申请的结果
+                curDb = req.result;//curDb为数据库对象，用来操作数据表，维护数据表
+                console.log(curDb)
+
+                //1 普通查找提供了get getAll来查询数据
+                //get是根据id查询数据
+                //getAll是查询全部数据
+                //count方法来查找数据的数量
+                //2.使用索引查找数据
+                var tran = curDb.transaction(["sys_user"],"readwrite");
+                console.log(tran)
+                var objectStore = tran.objectStore("sys_user");
+                console.log(objectStore)
+                var user = {
+                    user_name: '言墨儿',
+                    sex: '男'
+                }
+                var adduser = objectStore.add(user); // 为当前数据表增加记录
+                console.log(adduser)
+            }
+            //当第一次创建数据库，或数据库升级时调用的事件
+            //在创建或升级时，用来创建或修改数据表
+            //只有在onupgradeneeded事件中，才能创建和维护数据表
+            req.onupgradeneeded = function(){
+                //创建表的结构
+                var db = req.result;
+                console.log(db)
+                db.createObjectStore("sys_user",{
+                    //keyPath:,//无法与autoIncrement联合使用，自己设定的id字段的字段名
+                    autoIncrement:"user_id",//指明当前数据id自增长（indexdb）
+
+                })
+            }
+        }
+
+        //显示数据数量
+        function showCount(objectStore){
+            var reque = objectStore.count();//数据库访问方法
+            reque.onsuccess = function(){
+                var count = event.target.result;
+
+            }
+        }
+        //显示用户列表
+        function showUser(objectStore){
+            var request = objectStore.getAllKeys();
+            request.onsuccess = function(){
+                var keys = event.currentTarget.result;
+                for(var i = 0;i < keys.length; i++){
+                    var id = key[i];
+                    var obj = objectStore;
+                    var li = $("<li></li>");
+                    li.html(list[i].username);
+                    $("#list").append(li);
+                }
+            }
+        }
+
+
+        function delDB(){
+            indexDB.deleteDatabase("myIndex");
+        }
+        function insertUser(){
+            // ObjectStore对象可以完成数据的插入
+            // 获取ObjectStore需要的DB对象
+            // 用到事务对象
+
+            //获取数据的事务控制
+            var tran = curDb.transaction(["sys_user"],"readwrite");
+            //通过事务控制对象获取数据表对象
+            var objectStore = tran.objectStore("sys_user");
+            //增加一条记录，add参数是一个JSON类型
+            var user = {
+                username:document.getElementById('username').value,
+                password:document.getElementById('password').value,
+            }
+            var addRequest = objectStore.add(user); 
+            addRequest.onsuccess = function(){
+                alert("创建用户成功");
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="创建或打开" onclick="createDB()">
+    <input type="button" value="删除" onclick="delDB()">
+    <input type="button" value="创建用户" onclick="insertUser()">
+
+    用户名：<input type="text" id="username">
+    密码：<input type="password" id="password">
+</body>
+</html>
+
 
 
 
