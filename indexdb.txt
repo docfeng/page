@@ -1,4 +1,9 @@
 https://www.jianshu.com/p/d18536b3362f
+https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API
+https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API/Using_IndexedDB
+http://www.cnblogs.com/dolphinX/p/3415761.html
+https://www.cnblogs.com/dolphinX/p/3416889.html
+https://www.ibm.com/developerworks/cn/web/wa-indexeddb/
 
 indexDB主要对象介绍：
 IDBFactory：打开数据库的工厂对象，用于打开数据库，并管理数据库版本。
