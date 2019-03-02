@@ -1,3 +1,5 @@
+https://www.jianshu.com/p/d18536b3362f
+
 indexDB主要对象介绍：
 IDBFactory：打开数据库的工厂对象，用于打开数据库，并管理数据库版本。
 IDBOpenDBRequest：请求对象，对数据库的访问、操作都是基于请求的，通过请求对象获取其他DOM对象。
@@ -18,6 +20,42 @@ IDBOpenDBRequest是请求对象，而对数据库的访问、操作都是基于�
 既然能进行创建，当然也能删除
 indexDB.deleteDatabase('myIndex');
 
+IDBOpenDBRequest与indexDB数据库的调用事件:
+在indexDB中有关于数据的调用事件，一个就是onsuccess成功时调用，一个是onerror失败时调用，一个是onupgradeneeded创建和维护数据表及更新ObjectStore，如下：
+// 当数据打开失败时调用
+req.onerror = function(){
+}
+// 当数据打开成功时调用
+req.onsuccess = function(){
+}
+// 创建和维护数据表时调用
+req.onupgradeneeded = function(){
+}
+这里我们常用成功的回调函数onsuccess和创建及维护数据回调函数onupgradeneeded，在这两个回调函数中IDBOpenDBRequest对象的result属性中包含本次申请的结果。
+
+IDBOpenDBRequest对象的result属性:
+result属性就是IDBDatabase数据库对象，它封装了对数据库表的创建、编辑等功能。
+//当数据打开成功时调用
+req.onsuccess = function(){
+    //在成功后对象的result属性为本次申请的结果
+    curDb = req.result; // curDb为数据库对象，用来操作数据表，维护数据表
+}
+result属性就是IDBDatabase数据库对象，这样我们就可以创建数据库表（ObjectStore）、创建事物对象
+
+
+IDBDatabase数据库对象的内置函数：
+close() ：关闭当前数据库，释放资源。
+createObjectStore(“storeName”,paramter)：创建数据库表。
+deleteObjectStore(“storeName”)：删除当前数据库表。
+transaction(storeNames, “type”)：创建数据库事物管理对象。
+IDBDatabase数据库对象的内置属性：
+objectStoreNames：数据表名数组。
+version ：当前数据库版本。
+name ：数据库名。
+onabort
+onclose
+onerror
+onversionchange
 
 
 
