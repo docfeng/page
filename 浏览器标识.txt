@@ -1,8 +1,13 @@
-alert(navigator.userAgent)
+prompt("",navigator.userAgent)
 
 /*
 WebSettings webSettings = webview.getsetting(); 
 webSettings.setUserAgentString(“Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36”);
+
+*/
+/*
+uc电脑:
+Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.108 Safari/537.36 UCBrowser/12.1.9.999
 
 */
 
