@@ -7,3 +7,14 @@ IDBIndex：数据库索引对象，用于创建数据表的索引。
 IDBTransaction：数据库事物控制对象。
 IDBCursor：数据库访问游标，用于访问数据。
 
+IDBFactory:
+var indexDB = window.indexedDB;
+IDBFactory对象是用来：打开数据库的工厂对象，用于创建或打开数据库，并管理数据库版本，封装在window对象的indexedDB属性中。
+
+IDBOpenDBRequest与打开删除indexDB数据库:
+
+
+
+
+
+
