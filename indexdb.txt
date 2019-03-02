@@ -14,6 +14,9 @@ IDBFactory对象是用来：打开数据库的工厂对象，用于创建或打�
 IDBOpenDBRequest与打开删除indexDB数据库:
 // open创建或打开一个数据库,返回IDBOpenDBRequest对象
 var req = indexDB.open("myIndex", 3); // 第二个参数为版本，版本只能打开最新版本-可选
+IDBOpenDBRequest是请求对象，而对数据库的访问、操作都是基于请求的。
+既然能进行创建，当然也能删除
+indexDB.deleteDatabase('myIndex');
 
 
 
