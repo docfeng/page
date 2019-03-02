@@ -57,6 +57,45 @@ onclose
 onerror
 onversionchange
 
+onupgradeneeded与版本:
+onupgradeneeded是创建和维护数据表时调用，在我们使用indexDB.open时，其第二个参数就是版本号的意思，我们在不设置版本号时，第一次打开indexDB时默认会为它添加一个数字1，同时调用onupgradeneeded回调函数，在之后打开则默认使用最新的版本；我们设置版本号时，如果版本号比最新版本低则无法打开indexDB，如果比最新版本高则认为是升级维护，采用最高的版本同时也会触发调用onupgradeneeded回调函数。
+// 当第一次创建数据库，或数据库升级时调用的事件
+// 在创建或升级时，用来创建或修改数据表
+// 只有在onupgradeneeded事件中，才能创建和维护数据表
+req.onupgradeneeded = function(){
+    //创建表的结构
+    var db = req.result;
+}
+只有在创建或升级时，在onupgradeneeded事件中创建或修改数据表。
+那么如何创建表呢？于是我们再次用回IDBDatabase对象的内置函数，其内置函数createObjectStore()，createObjectStore()有两个参数----第一个参数表的名字，第二个参数表的一些配置:
+{
+    // 两个无法联合使用
+    keyPath: '', // 系统唯一标识的id 
+    autoIncrement: '' // 由indexdb生成的唯一标识id，指明当前数据id自增长（indexdb），值是ID的名字
+}
+示例：
+req.onupgradeneeded = function(){
+    //创建表的结构
+    var db = req.result;
+    db.createObjectStore("sys_user",{
+        //keyPath:,//无法与autoIncrement联合使用，自己设定的id字段的字段名
+        autoIncrement:"user_id",//指明当前数据id自增长（indexdb）
+    })
+}
+
+onsuccess与事物管理对象、数据库表:
+创建完表，我们得使用另外的一个对象IDBObjectStore完成数据插入功能，以及IDBTransaction对象来创建事务管理，我们先创建数据库事务管理对象，再通过事务控制对象获取数据表对象来创建数据库表，其中transaction()有两个参数第一个是数组[]里面是表名，第二个参数是读写权限：readonly(只读)、readwrite(读写)，objectStore()值是表名
+req.onsuccess = function(){
+    //在成功后对象的result属性为本次申请的结果
+    curDb = req.result; // curDb为数据库对象，用来操作数据表，维护数据表
+    // 先创建数据库事务管理对象
+    var tran = curDb.transaction(["sys_user"],"readwrite");
+    console.log(tran) // IDBObjectStore
+    // 再创建数据库表，通过事务控制对象获取数据表对象
+    var objectStore = tran.objectStore("sys_user");
+    console.log(objectStore) // IDBObjectStore
+}
+
 
 
 
