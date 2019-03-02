@@ -12,6 +12,9 @@ var indexDB = window.indexedDB;
 IDBFactory对象是用来：打开数据库的工厂对象，用于创建或打开数据库，并管理数据库版本，封装在window对象的indexedDB属性中。
 
 IDBOpenDBRequest与打开删除indexDB数据库:
+// open创建或打开一个数据库,返回IDBOpenDBRequest对象
+var req = indexDB.open("myIndex", 3); // 第二个参数为版本，版本只能打开最新版本-可选
+
 
 
 
