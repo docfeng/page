@@ -1,0 +1,25 @@
+<html>
+<head>
+</head>
+<body>
+555
+<span>gggg</span>
+<input type="text" id="sample" />
+<script>
+alert()
+var node = document.querySelector('#sample');
+alert(node)
+var inputLock = false;
+node.addEventListener('compositionstart', function(){
+    inputLock = true;
+})
+node.addEventListener('compositionend', function(){
+    inputLock = false;
+})
+node.addEventListener('input', function(){
+    if(!inputLock )
+    // do something for input limit
+});
+</script>
+</body>
+</html>
