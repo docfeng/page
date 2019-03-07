@@ -148,20 +148,19 @@
                 }
             });
         }
-        async getindex(json){
+        async getindex(json){//{name:888}
             var store = this.store;
-            if(json&&json.data&&json.data.name){
-                var index = store.index(json.data.name);
-                var request = index.get(json.data.value);
+            if(json){
+                for(var key in json){
+                    var index = store.index(key);
+                    var request = index.get(json[key]);
+                }
             }else{
                 var request = store.getAll();
             }
             return new Promise((resolve)=>{
                 request.onsuccess = function(){
-                    if(this.result){
-                        resolve(true);
-                    }
-                    resolve(false)
+                        resolve(this.result);
                 };
                 request.onerror = function(event){
                     resolve(false);
@@ -201,10 +200,12 @@
         db1.select_store("test");
         //alert(db1.store)
         await db1.put({name:777,value:999});
-        await db1.put({name:777,value:9990});
+        await db1.put({name:777,val:9990});
        await db1.put({name:980,value:999});
-        alert(JSON.stringify(await db1.getkey()))
-       alert(JSON.stringify(await db1.getkey(98)))
+        alert("getkeyall"+JSON.stringify(await db1.getkey()))
+       alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
+       alert("getindex"+JSON.stringify(await db1.getindex({val:9990})))
+       alert("getkey"+JSON.stringify(await db1.getkey(777)))
         await db1.close_db()
        alert(await db1.delete_db())
        //alert("r444")
