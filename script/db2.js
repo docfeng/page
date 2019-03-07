@@ -345,7 +345,7 @@
         //await db1.delete_store();
        alert()
        alert(await db1.create_store("test1",{key:"name",index:{name:true,val:false}}));
-        //alert(db1.store)
+        db1.select_store("test1");//alert(db1.store)
         await db1.put({name:777,value:999});
         await db1.put({name:777,val:9990});
         await db1.put({name:980,value:999});
