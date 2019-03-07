@@ -132,7 +132,7 @@
         /**
          * 查询操作 
          */
-        count(){
+        async count(){
             var request = this.store.count();
             return new Promise((resolve)=>{
                 request.onsuccess = function(){
