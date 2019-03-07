@@ -168,9 +168,7 @@
             });
         }
         async getcursor(json){
-            //第二个参数可以省略
-            var transaction = dbObject.db.transaction(dbObject.db_store_name,"readwrite");
-            var store = transaction.objectStore(dbObject.db_store_name);
+            var store = this.store;
             if(json){
                 var index = store.index(json.name);
                 var request = index.openCursor(IDBKeyRange.only(json.value));
