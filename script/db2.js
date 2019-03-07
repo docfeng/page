@@ -351,7 +351,7 @@
     if(await db1.open_db("test1")){
        // db1.select_store("test");
         //await db1.delete_store();
-       alert(await db1.create_store("test1",{key:"name",index:{name:true,val:false}}));
+       alert(await db1.create_store("test3",{key:"name",index:{name:true,val:false}}));
         db1.select_store("test1");
         //alert(db1.store)
        alert(db1.names())
