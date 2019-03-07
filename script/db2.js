@@ -80,9 +80,6 @@
                     var db = this.result; 
                     if(!db.objectStoreNames.contains(store_name)){
                         var store=db.createObjectStore(store_name,{keyPath: json.key});
-                    }else{
-                        store=db.transaction(store_name,"readwrite").objectStore(store_name);
-                    }
                         if(json.index){
                             for(var key in json.index){
                                 if(!store.indexNames.contains(key)){
@@ -95,7 +92,7 @@
                                store.put(json.value[i]);
                             }
                         }
-                    
+                     }
                 }
             });
         }
@@ -347,7 +344,7 @@
         db1.select_store("test");
         //await db1.delete_store();
        alert()
-       //alert(await db1.create_store("test",{key:"name",index:{name:true,val:false}}));
+       alert(await db1.create_store("test1",{key:"name",index:{name:true,val:false}}));
         //alert(db1.store)
         await db1.put({name:777,value:999});
         await db1.put({name:777,val:9990});
@@ -355,10 +352,9 @@
         await db1.put({name:77776,val:9990});
         //alert(await db1.delete_cursor({name:777}));
        alert(await db1.update_cursor({name:777},function(cursor){
-//alert()
           if(cursor.value.val==9990){return {name:777,value:888};}
-    return false;
-}));
+          return false;
+        }));
         //alert(await db1.delete(777))
         //alert(await db1.count())
         //alert("getkeyall"+JSON.stringify(await db1.getkey()))
