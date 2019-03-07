@@ -164,7 +164,7 @@
             if(json){
                 for(var key in json){
                     var index = store.index(key);
-                    var request = index.get(json[key]);
+                    var request = index.getAllKeys(json[key]);
                 }
             }else{
                 var request = store.getAll();
@@ -181,27 +181,28 @@
         async getcursor(json){
             var store = this.store;
             if(json){
-                var index = store.index(json.name);
-                var request = index.openCursor(IDBKeyRange.only(json.value));
+                for(var key in json){
+                    var index = store.index(key);
+                    var request = index.openCursor(IDBKeyRange.only(json[key]));
+                }
             }else{
                 var request = store.getAll();//getAllKeys
             }
-            request.onsuccess = function () {
-            var cursor = request.result;
-            if (cursor) {
-                // Called for each matching record.
-                //console.log(cursor.value.isbn, cursor.value.title, cursor.value.author);
-                json.success(cursor.value);
-                cursor.continue();
-            } else {
-                // No more matching records.
-                json.error(false);
-                console.log(null);
-            }
-        }
-        request.onerror = function(event){
-            json.error(event);
-        }
+            return new Promise((resolve)=>{
+                request.onsuccess = function () {
+                    var cursor = request.result;
+                    var re=[];
+                    while (cursor) {
+                        alert(JSON.stringify(cursor.value))
+                        re[re.length]=cursor.value;
+                        cursor.continue();
+                   }
+                   resolve(re);
+                }
+               request.onerror = function(event){
+                    resolve(event);
+               }
+            });
         }
     }
     var db1=new _db();
@@ -212,11 +213,11 @@
         await db1.put({name:777,val:9990});
        await db1.put({name:980,value:999});
 await db1.put({name:77776,val:9990});
-alert(await db1.delete(777))
+      //alert(await db1.delete(777))
        //alert(await db1.count())
         //alert("getkeyall"+JSON.stringify(await db1.getkey()))
        alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
-       alert("getindex"+JSON.stringify(await db1.getindex({val:9990})))
+       alert("getindex"+JSON.stringify(await db1.getcursor({val:9990})))
        //alert("getkey"+JSON.stringify(await db1.getkey(777)))
         await db1.close_db()
        alert(await db1.delete_db())
