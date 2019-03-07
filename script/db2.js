@@ -194,10 +194,41 @@
                     var cursor = request.result;
                     if(cursor) {
    //alert(cursor.primaryKey)//key
+//cursor.delete();
+//request = cursor.update(updateData);
                         re[re.length]=cursor.value;
                         cursor.continue();
                    }else{
                        resolve(re);
+                   }
+                }
+               request.onerror = function(event){
+                    resolve(event);
+               }
+            });
+        }
+        async delete_cursor(json){
+            var store = this.store;
+            if(json){
+                for(var key in json){
+                    var index = store.index(key);
+                    var request = index.openCursor(IDBKeyRange.only(json[key]));
+                }
+            }else{
+                var request = store.getAll();//getAllKeys
+            }
+            return new Promise((resolve)=>{
+                const i=0;
+                request.onsuccess = function () {
+                    var cursor = request.result;
+                    if(cursor) {
+                        const request=cursor.delete();
+                        request.onsuccess = function() {
+                           // i++;
+                        };alert(++i)
+                        cursor.continue();
+                   }else{
+                       resolve(i);
                    }
                 }
                request.onerror = function(event){
@@ -214,6 +245,7 @@
         await db1.put({name:777,val:9990});
        await db1.put({name:980,value:999});
 await db1.put({name:77776,val:9990});
+      await db1.delete_cursor({name:777});
       //alert(await db1.delete(777))
        //alert(await db1.count())
         //alert("getkeyall"+JSON.stringify(await db1.getkey()))
