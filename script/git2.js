@@ -80,8 +80,7 @@ git2.prototype.fun=function(){
         });
       }else{
         alert("没有此文件");
-      }
-    });
+     }
   }
   this.add=function(name,str,mess){
        var path=config.filepath+name;
