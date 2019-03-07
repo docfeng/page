@@ -19,14 +19,23 @@
                 //打开数据库
                 request.onsuccess = function(event) {
                     //此处采用异步通知. 在使用curd的时候请通过事件触发
-                    t.db = event.target.result;
+                    t.db = this.result;
                     if(status){
                     resolve("create");
                     }
                         resolve("open");
                 };
                 request.onupgradeneeded=function(a){
-                    status=true
+                    status=true;
+                    var db = this.result; 
+                    if(!db.objectStoreNames.contains("test")){
+                        var store=db.createObjectStore("test",{keyPath: "name"});
+                        store.createIndex("name", "name", {unique: true});
+                        store.createIndex("val", "val");
+                         //store.put({name: "Quarry Memories", val: "Fred", isbn: 123456});
+                         //store.put({name: "Water Buffaloes", val: "Fred", isbn: 234567});
+                        // store.put({name: "Bedrock Nights", val: "Barney", isbn: 345678});
+                     }
                 }
             });
         }
@@ -53,7 +62,12 @@
         }
         select_store(store_name){
             this.store_name=store_name;
-            this.store=this.db.transaction(this.store_name,"readwrite").objectStore(this.store_name);
+            if(this.db.objectStoreNames.contains(store_name)){
+              this.store=this.db.transaction(this.store_name,"readwrite").objectStore(this.store_name);
+              return true;
+            }else{
+                 return false;
+            }
         }   
         async clear_store(){
             var request = this.db.transaction(this.store_name,"readwrite").objectStore(this.store_name).clear();
@@ -62,7 +76,7 @@
             }
         }
         delete_store(){
-            var request = dbObject.db.deleteObjectStore(dbObject.db_store_name);
+            var request = this.db.deleteObjectStore(dbObject.db_store_name);
             request.onsuccess = function(){
                 alert('删除表成功');
             }
@@ -86,8 +100,8 @@
         }
         async put(json){
             //此处须显式声明事物
-            var transaction = dbObject.db.transaction(dbObject.db_store_name, "readwrite");
-            var store = transaction.objectStore(dbObject.db_store_name);
+           // var transaction = dbObject.db.transaction(dbObject.db_store_name, "readwrite");
+            var store =this.store;// transaction.objectStore(dbObject.db_store_name);
             if(json.key){
                 var request = store.put(json.data,json.key);
             }else{
@@ -190,10 +204,14 @@
         }
     }
     var db1=new _db();
-    alert(await db1.open_db("test1"));
-    alert(await db1.close_db())
-    alert(await db1.delete_db())
-    alert("r444")
+    if(await db1.open_db("test1")){
+        db1.select_store("test");
+        alert(db1.store)
+
+        await db1.close_db()
+       alert(await db1.delete_db())
+       //alert("r444")
+    }
     var dbObject = {}; 
     dbObject.init = function(params,fun){
         this.fun=fun;
