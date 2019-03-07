@@ -132,6 +132,17 @@
         /**
          * 查询操作 
          */
+        count(){
+            var request = this.store.count();
+            return new Promise((resolve)=>{
+                request.onsuccess = function(){
+                    resolve(this.result);
+                };
+                request.onerror = function(event){
+                    resolve(-1);
+                }
+            });
+        }
         async getkey(key){//return json;
             var store = this.store;
             if(key){
@@ -173,7 +184,7 @@
                 var index = store.index(json.name);
                 var request = index.openCursor(IDBKeyRange.only(json.value));
             }else{
-                var request = store.getAll();
+                var request = store.getAll();//getAllKeys
             }
             request.onsuccess = function () {
             var cursor = request.result;
@@ -200,6 +211,7 @@
         await db1.put({name:777,value:999});
         await db1.put({name:777,val:9990});
        await db1.put({name:980,value:999});
+       alert(await db1.count())
         alert("getkeyall"+JSON.stringify(await db1.getkey()))
        alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
        alert("getindex"+JSON.stringify(await db1.getindex({val:9990})))
