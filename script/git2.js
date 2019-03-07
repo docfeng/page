@@ -1,3 +1,11 @@
+/*
+   未完成;
+   git getlog login logout
+        files
+        ini read write add
+        
+*/
+
 dr=function(){
     var yhm=prompt("用户名");
     var psw=prompt("密码");
