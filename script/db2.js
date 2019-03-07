@@ -42,13 +42,14 @@
             });
         }
         async close(){
-            return this.db.close();
+             this.db.close();
+             return true;
         }
     }
     var db1=new _db();
     alert(await db1.open("test1"));
     alert(await db1.close())
-    alert(await db1.delete())
+    //alert(await db1.delete())
     alert("r444")
     var dbObject = {}; 
     dbObject.init = function(params,fun){
