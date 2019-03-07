@@ -2,7 +2,7 @@
     class _db{
         constructor(){
         }
-        async open(db_name){
+        async open_db(db_name){
             this.db_name=db_name;
             if (!window.indexedDB) {
                 window.alert("你的浏览器不支持IndexDB,请更换浏览器");
@@ -20,14 +20,17 @@
                 request.onsuccess = function(event) {
                     //此处采用异步通知. 在使用curd的时候请通过事件触发
                     t.db = event.target.result;
-                    resolve(true+":"+status);
+                    if(status){
+                    resolve("create");
+                    }
+                        resolve("open");
                 };
                 request.onupgradeneeded=function(a){
-                    status=3
+                    status=true
                 }
             });
         }
-        async delete(){
+        async delete_db(){
             var request=indexedDB.deleteDatabase(this.db_name);
             return new Promise((resolve)=>{
                 //打开数据失败
@@ -41,15 +44,155 @@
                 };
             });
         }
-        async close(){
+        async close_db(){
              this.db.close();
              return true;
         }
+        async create_db(store_name,json){
+            
+        }
+        select_store(store_name){
+            this.store_name=store_name;
+            this.store=this.db.transaction(this.store_name,"readwrite").objectStore(this.store_name);
+        }   
+        async clear_store(){
+            var request = this.db.transaction(this.store_name,"readwrite").objectStore(this.store_name).clear();
+            request.onsuccess = function(){
+                alert('清除成功');
+            }
+        }
+        delete_store(){
+            var request = dbObject.db.deleteObjectStore(dbObject.db_store_name);
+            request.onsuccess = function(){
+                alert('删除表成功');
+            }
+        }
+        /**
+             * 增加和编辑操作 
+        */
+        async add(json){
+        //此处须显式声明事物
+            var transaction = this.db.transaction(this.store_name, "readwrite");
+            var store = transaction.objectStore(this.store_name);
+            var request = store.add(json.data,json.key);
+            return new Promise((resolve)=>{
+                request.onsuccess = function(){
+                    resolve(true);
+                };
+                request.onerror = function(event){
+                    resolve(false);
+                }
+            });
+        }
+        async put(json){
+            //此处须显式声明事物
+            var transaction = dbObject.db.transaction(dbObject.db_store_name, "readwrite");
+            var store = transaction.objectStore(dbObject.db_store_name);
+            if(json.key){
+                var request = store.put(json.data,json.key);
+            }else{
+                var request = store.put(json.data);
+            };
+            return new Promise((resolve)=>{
+                request.onsuccess = function(){
+                    resolve(true);
+                };
+                request.onerror = function(event){
+                    resolve(false);
+                }
+            });
+        }
+        /**
+         * 删除数据 
+         */
+      async delete(id){
+        // dbObject.db.transaction.objectStore is not a function
+            var request = this.db.transaction(this.store_name, "readwrite").objectStore(this.store_name).delete(id);
+            return new Promise((resolve)=>{
+                request.onsuccess = function(){
+                    resolve(true);
+                };
+                request.onerror = function(event){
+                    resolve(false);
+                }
+            });
+        }
+ 
+        /**
+         * 查询操作 
+         */
+        async getkey(json){
+            //第二个参数可以省略
+            var transaction = this.db.transaction(this.store_name,"readwrite");
+            var store = transaction.objectStore(this.store_name);
+            if(json&&json.key){
+                var request = store.get(json.key);
+            }else{
+                var request = store.getAll();
+            }
+            return new Promise((resolve)=>{
+                request.onsuccess = function(){
+                    resolve(request.result);
+                };
+                request.onerror = function(event){
+                    resolve(false);
+                }
+            });
+        }
+        async getindex(json){
+            //第二个参数可以省略
+            var transaction = this.db.transaction(this.store_name,"readwrite");
+            var store = transaction.objectStore(this.store_name);
+            if(json&&json.data&&json.data.name){
+                var index = store.index(json.data.name);
+                var request = index.get(json.data.value);
+            }else{
+                var request = store.getAll();
+            }
+            return new Promise((resolve)=>{
+                request.onsuccess = function(){
+                    if(this.result){
+                        resolve(true);
+                    }
+                    resolve(false)
+                };
+                request.onerror = function(event){
+                    resolve(false);
+                }
+            });
+        }
+        async getcursor(json){
+            //第二个参数可以省略
+            var transaction = dbObject.db.transaction(dbObject.db_store_name,"readwrite");
+            var store = transaction.objectStore(dbObject.db_store_name);
+            if(json){
+                var index = store.index(json.name);
+                var request = index.openCursor(IDBKeyRange.only(json.value));
+            }else{
+                var request = store.getAll();
+            }
+            request.onsuccess = function () {
+            var cursor = request.result;
+            if (cursor) {
+                // Called for each matching record.
+                //console.log(cursor.value.isbn, cursor.value.title, cursor.value.author);
+                json.success(cursor.value);
+                cursor.continue();
+            } else {
+                // No more matching records.
+                json.error(false);
+                console.log(null);
+            }
+        }
+        request.onerror = function(event){
+            json.error(event);
+        }
+        }
     }
     var db1=new _db();
-    alert(await db1.open("test1"));
-    alert(await db1.close())
-    //alert(await db1.delete())
+    alert(await db1.open_db("test1"));
+    alert(await db1.close_db())
+    alert(await db1.delete_db())
     alert("r444")
     var dbObject = {}; 
     dbObject.init = function(params,fun){
