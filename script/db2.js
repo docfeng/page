@@ -10,6 +10,7 @@
             var request = indexedDB.open(db_name);
             var t=this;
             return new Promise((resolve)=>{
+                var status="";
                 //打开数据失败
                 request.onerror = function(event) { 
                     alert("不能打开数据库,错误代码: " + event.target.errorCode);
@@ -19,8 +20,11 @@
                 request.onsuccess = function(event) {
                     //此处采用异步通知. 在使用curd的时候请通过事件触发
                     t.db = event.target.result;
-                    resolve(true);
+                    resolve(true+":"+status);
                 };
+                request.onupgradeneeded=function(a){
+                    status=3
+                }
             });
         }
         async delete(){
@@ -42,10 +46,10 @@
         }
     }
     var db1=new _db();
-    alert(db1)
     alert(await db1.open("test1"));
     alert(await db1.close())
-   alert(await db1.delete())
+    alert(await db1.delete())
+    alert("r444")
     var dbObject = {}; 
     dbObject.init = function(params,fun){
         this.fun=fun;
