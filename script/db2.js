@@ -84,11 +84,11 @@
         /**
              * 增加和编辑操作 
         */
-        async add(json){
+        async add(json,key){
         //此处须显式声明事物
             var transaction = this.db.transaction(this.store_name, "readwrite");
             var store = transaction.objectStore(this.store_name);
-            var request = store.add(json.data,json.key);
+            var request = store.add(json,key);
             return new Promise((resolve)=>{
                 request.onsuccess = function(){
                     resolve(true);
@@ -98,14 +98,12 @@
                 }
             });
         }
-        async put(json){
-            //此处须显式声明事物
-           // var transaction = dbObject.db.transaction(dbObject.db_store_name, "readwrite");
-            var store =this.store;// transaction.objectStore(dbObject.db_store_name);
-            if(json.key){
-                var request = store.put(json.data,json.key);
+        async put(json,key){
+            var store =this.store;
+            if(key){
+                var request = store.put(json,key);
             }else{
-                var request = store.put(json.data);
+                var request = store.put(json);
             };
             return new Promise((resolve)=>{
                 request.onsuccess = function(){
@@ -117,11 +115,10 @@
             });
         }
         /**
-         * 删除数据 
+         * 删除数据:序号
          */
       async delete(id){
-        // dbObject.db.transaction.objectStore is not a function
-            var request = this.db.transaction(this.store_name, "readwrite").objectStore(this.store_name).delete(id);
+            var request = this.store.delete(id);
             return new Promise((resolve)=>{
                 request.onsuccess = function(){
                     resolve(true);
@@ -135,12 +132,10 @@
         /**
          * 查询操作 
          */
-        async getkey(json){
-            //第二个参数可以省略
-            var transaction = this.db.transaction(this.store_name,"readwrite");
-            var store = transaction.objectStore(this.store_name);
-            if(json&&json.key){
-                var request = store.get(json.key);
+        async getkey(key){//return json;
+            var store = this.store;
+            if(key){
+                var request = store.get(key);
             }else{
                 var request = store.getAll();
             }
@@ -154,9 +149,7 @@
             });
         }
         async getindex(json){
-            //第二个参数可以省略
-            var transaction = this.db.transaction(this.store_name,"readwrite");
-            var store = transaction.objectStore(this.store_name);
+            var store = this.store;
             if(json&&json.data&&json.data.name){
                 var index = store.index(json.data.name);
                 var request = index.get(json.data.value);
@@ -206,12 +199,22 @@
     var db1=new _db();
     if(await db1.open_db("test1")){
         db1.select_store("test");
-        alert(db1.store)
-
+        //alert(db1.store)
+        await db1.put({name:777,value:999});
+        await db1.put({name:777,value:9990});
+       await db1.put({name:980,value:999});
+        alert(JSON.stringify(await db1.getkey()))
+       alert(JSON.stringify(await db1.getkey(98)))
         await db1.close_db()
        alert(await db1.delete_db())
        //alert("r444")
     }
+
+
+
+
+
+
     var dbObject = {}; 
     dbObject.init = function(params,fun){
         this.fun=fun;
