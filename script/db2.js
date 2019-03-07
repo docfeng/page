@@ -39,6 +39,14 @@
                 }
             });
         }
+        names(){
+            var names=this.db.objectStoreNames;
+            var re=[];
+            for(var i=0;i<names.length;i++){
+                re[re.length]=names.item(i);
+            }
+            return re;
+        }
         async delete_db(){
             var request=indexedDB.deleteDatabase(this.db_name);
             return new Promise((resolve)=>{
@@ -341,11 +349,12 @@
     }
     var db1=new _db();
     if(await db1.open_db("test1")){
-        db1.select_store("test");
+       // db1.select_store("test");
         //await db1.delete_store();
-       alert()
        alert(await db1.create_store("test1",{key:"name",index:{name:true,val:false}}));
-        db1.select_store("test1");//alert(db1.store)
+        db1.select_store("test1");
+        //alert(db1.store)
+       alert(db1.names())
         await db1.put({name:777,value:999});
         await db1.put({name:777,val:9990});
         await db1.put({name:980,value:999});
