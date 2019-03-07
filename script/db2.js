@@ -1,9 +1,9 @@
 (async function(){
-    
     class _db{
         constructor(){
         }
         async open(db_name){
+            this.db_name=db_name;
             if (!window.indexedDB) {
                 window.alert("你的浏览器不支持IndexDB,请更换浏览器");
             }
@@ -23,12 +23,29 @@
                 };
             });
         }
+        async delete(){
+            var request=indexedDB.deleteDatabase(this.db_name);
+            return new Promise((resolve)=>{
+                //打开数据失败
+                request.onerror = function(event) { 
+                    alert("不能打开数据库,错误代码: " + event.target.errorCode);
+                    resolve(false);
+                };
+                //打开数据库
+                request.onsuccess = function(event) {
+                    resolve(true);
+                };
+            });
+        }
         async close(){
-            this.db.close();
-            
+            return this.db.close();
         }
     }
-    alert(new _db(""))
+    var db1=new _db();
+    alert(db1)
+    alert(await db1.open("test1"));
+    alert(await db1.close())
+   alert(await db1.delete())
     var dbObject = {}; 
     dbObject.init = function(params,fun){
         this.fun=fun;
