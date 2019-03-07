@@ -115,7 +115,7 @@
             });
         }
         /**
-         * 删除数据:序号
+         * 删除数据:key
          */
       async delete(key){
             var request = this.store.delete(key);
@@ -225,7 +225,7 @@
                         const request=cursor.delete();
                         request.onsuccess = function() {
                            // i++;
-                        };alert(++i)
+                        };//alert(++i)
                         cursor.continue();
                    }else{
                        resolve(i);
