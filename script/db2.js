@@ -117,8 +117,8 @@
         /**
          * 删除数据:序号
          */
-      async delete(id){
-            var request = this.store.delete(id);
+      async delete(key){
+            var request = this.store.delete(key);
             return new Promise((resolve)=>{
                 request.onsuccess = function(){
                     resolve(true);
@@ -211,11 +211,13 @@
         await db1.put({name:777,value:999});
         await db1.put({name:777,val:9990});
        await db1.put({name:980,value:999});
-       alert(await db1.count())
-        alert("getkeyall"+JSON.stringify(await db1.getkey()))
+await db1.put({name:77776,val:9990});
+alert(await db1.delete(777))
+       //alert(await db1.count())
+        //alert("getkeyall"+JSON.stringify(await db1.getkey()))
        alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
        alert("getindex"+JSON.stringify(await db1.getindex({val:9990})))
-       alert("getkey"+JSON.stringify(await db1.getkey(777)))
+       //alert("getkey"+JSON.stringify(await db1.getkey(777)))
         await db1.close_db()
        alert(await db1.delete_db())
        //alert("r444")
