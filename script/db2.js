@@ -58,7 +58,46 @@
              return true;
         }
         async create_store(store_name,json){
-            
+            var version=this.db.version+1;
+            this.db.close();
+            var request = indexedDB.open(this.db_name,version);
+            var t=this;
+            return new Promise((resolve)=>{
+                var status="";
+                request.onerror = function(event) { 
+                    alert("不能打开数据库,错误代码: " + event.target.errorCode);
+                    resolve(false);
+                };
+                request.onsuccess = function(event) {
+                    t.db = this.result;
+                    if(status){
+                         resolve("create");
+                    }
+                    resolve("open");
+                };
+                request.onupgradeneeded=function(a){
+                    status=true;
+                    var db = this.result; 
+                    if(!db.objectStoreNames.contains(store_name)){
+                        var store=db.createObjectStore(store_name,{keyPath: json.key});
+                    }else{
+                        store=db.transaction(store_name,"readwrite").objectStore(store_name);
+                    }
+                        if(json.index){
+                            for(var key in json.index){
+                                if(!store.indexNames.contains(key)){
+                                    store.createIndex(key, key, {unique: json.index[key]});
+                                }
+                            }
+                        }
+                        if(json.value){
+                            for(var i=0;i<json.value.length;i++){
+                               store.put(json.value[i]);
+                            }
+                        }
+                    
+                }
+            });
         }
         select_store(store_name){
             this.store_name=store_name;
@@ -306,6 +345,9 @@
     var db1=new _db();
     if(await db1.open_db("test1")){
         db1.select_store("test");
+        //await db1.delete_store();
+       alert()
+       //alert(await db1.create_store("test",{key:"name",index:{name:true,val:false}}));
         //alert(db1.store)
         await db1.put({name:777,value:999});
         await db1.put({name:777,val:9990});
