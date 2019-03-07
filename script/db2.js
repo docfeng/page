@@ -164,6 +164,25 @@
             if(json){
                 for(var key in json){
                     var index = store.index(key);
+                    var request = index.getAll(json[key]);
+                }
+            }else{
+                var request = store.getAll();
+            }
+            return new Promise((resolve)=>{
+                request.onsuccess = function(){
+                        resolve(this.result);
+                };
+                request.onerror = function(event){
+                    resolve(false);
+                }
+            });
+        }
+       async getindexkeys(json){//{name:888}
+            var store = this.store;
+            if(json){
+                for(var key in json){
+                    var index = store.index(key);
                     var request = index.getAllKeys(json[key]);
                 }
             }else{
@@ -207,6 +226,36 @@
                }
             });
         }
+       async update_cursor(json,fun){
+            var store = this.store;
+            if(json){
+                for(var key in json){
+                    var index = store.index(key);
+                    var request = index.openCursor(IDBKeyRange.only(json[key]));
+                }
+            }else{
+                var request = store.getAll();//getAllKeys
+            }
+            return new Promise((resolve)=>{
+                var i=0;
+                request.onsuccess = function () {
+                    var cursor = request.result;
+                    if(cursor) {
+                        var data=fun(cursor);
+                        if(data){
+                             const request = cursor.update(data);
+                             i++;
+                        }
+                        cursor.continue();
+                   }else{
+                       resolve(i);
+                   }
+                }
+               request.onerror = function(event){
+                    resolve(event);
+               }
+            });
+        }
         async delete_cursor(json){
             var store = this.store;
             if(json){
@@ -218,14 +267,15 @@
                 var request = store.getAll();//getAllKeys
             }
             return new Promise((resolve)=>{
-                const i=0;
+                var i=0;
                 request.onsuccess = function () {
                     var cursor = request.result;
                     if(cursor) {
                         const request=cursor.delete();
                         request.onsuccess = function() {
                            // i++;
-                        };//alert(++i)
+                        };
+                        ++i;
                         cursor.continue();
                    }else{
                        resolve(i);
@@ -243,17 +293,22 @@
         //alert(db1.store)
         await db1.put({name:777,value:999});
         await db1.put({name:777,val:9990});
-       await db1.put({name:980,value:999});
-await db1.put({name:77776,val:9990});
-      await db1.delete_cursor({name:777});
-      //alert(await db1.delete(777))
-       //alert(await db1.count())
+        await db1.put({name:980,value:999});
+        await db1.put({name:77776,val:9990});
+        //alert(await db1.delete_cursor({name:777}));
+       alert(await db1.update_cursor({name:777},function(cursor){
+//alert()
+          if(cursor.value.val==9990){return {name:777,value:888};}
+    return false;
+}));
+        //alert(await db1.delete(777))
+        //alert(await db1.count())
         //alert("getkeyall"+JSON.stringify(await db1.getkey()))
-       //alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
-       alert("getindex"+JSON.stringify(await db1.getcursor({val:9990})))
-       //alert("getkey"+JSON.stringify(await db1.getkey(777)))
+        alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
+        alert("getindex"+JSON.stringify(await db1.getcursor({val:9990})))
+        //alert("getkey"+JSON.stringify(await db1.getkey(777)))
         await db1.close_db()
-       alert(await db1.delete_db())
+        alert(await db1.delete_db())
        //alert("r444")
     }
 
