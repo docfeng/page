@@ -189,15 +189,16 @@
                 var request = store.getAll();//getAllKeys
             }
             return new Promise((resolve)=>{
+                var re=[];
                 request.onsuccess = function () {
                     var cursor = request.result;
-                    var re=[];
-                    while (cursor) {
-                        alert(JSON.stringify(cursor.value))
+                    if(cursor) {
+   //alert(cursor.primaryKey)//key
                         re[re.length]=cursor.value;
                         cursor.continue();
+                   }else{
+                       resolve(re);
                    }
-                   resolve(re);
                 }
                request.onerror = function(event){
                     resolve(event);
@@ -216,7 +217,7 @@ await db1.put({name:77776,val:9990});
       //alert(await db1.delete(777))
        //alert(await db1.count())
         //alert("getkeyall"+JSON.stringify(await db1.getkey()))
-       alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
+       //alert("getindex"+JSON.stringify(await db1.getindex({name:777})))
        alert("getindex"+JSON.stringify(await db1.getcursor({val:9990})))
        //alert("getkey"+JSON.stringify(await db1.getkey(777)))
         await db1.close_db()
