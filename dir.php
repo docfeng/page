@@ -28,17 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return downloadFile($name);
             break;
     }
-    function getFile($name){
-          $myfile = fopen($name, "r") or die("Unable to open file!");
-          echo fread($myfile,filesize($name)); 
-          fclose($myfile);
-    }
-    function writeFile($name,$txt){
-          $myfile = fopen($name, "w") or die("Unable to open file!");
-          fwrite($myfile, $txt);
-          fclose($myfile);
-          echo "ture";
-    }
+    
 }else{
 
 ?>
@@ -298,5 +288,15 @@ dialog{
     function deleteFile($name){
         return unlink($name);
     }
-
+function getFile($name){
+          $myfile = fopen($name, "r") or die("Unable to open file!");
+          echo fread($myfile,filesize($name)); 
+          fclose($myfile);
+    }
+    function writeFile($name,$txt){
+          $myfile = fopen($name, "w") or die("Unable to open file!");
+          fwrite($myfile, $txt);
+          fclose($myfile);
+          echo "ture";
+    }
 ?>
