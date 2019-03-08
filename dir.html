@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-web-app-title" content="github文件读写" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache" /> 
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<script src="http://git.docfeng.top/script/http.js?2"></script>
+<style type="text/css">
+*{
+    margin:0px;
+    padding:0px;
+}
+html,body{
+  width:100%;
+  height:100%;
+  overflow-y:hidden;
+}
+body{
+  font-size:1.5em; 
+  //line-height:24px;
+}
+dialog{
+    height:100%;width:100%;background-color:green;
+}
+.contain{
+    display: flex;
+    height:100%;width:100%;
+    flex-direction: column;
+}
+.contain>header{
+  flex-basis:30px;width:100%;background-color:green;
+}
+.contain>.main{
+    flex-grow:1;width:100%;background-color:white;
+    overflow-y:scroll;
+    //padding-top: 20px;
+    //padding-bottom: 20px;
+}
+.contain>footer{
+    flex-basis:30px;width:100%;background-color:red;
+}
+.dir,.file{
+  width:100%;
+  background-color:gray;
+}
+.dir>li{
+  width:100%;
+  list-style: none;
+  border:1px solid black;
+  background-color:red;
+}
+.file>li{
+  width:100%;
+  list-style: none;
+  border:1px solid black;
+  background-color:green;
+}
+
+textarea{
+  width:100%;
+  height:400px;
+}
+
+
+
+dialog{
+    height:100%;width:100%;background-color:green;
+}
+.dialog{
+    display: flex;
+    height:100%;width:100%;
+    flex-direction: column;
+}
+.dialog>header{
+  flex-basis:20px;width:100%;background-color:green;
+}
+.dialog>footer{
+    flex-basis:20px;width:100%;background-color:red;
+}
+.dialog>section{
+    flex-grow:100;width:100%;background-color:white;
+    //padding-top: 20px;
+    //padding-bottom: 20px;
+}
+</style>
+</head>
+<body>
+<div class="contain">
+    <header>
+        <input type="button" value='<<<' onclick="fso.showback()" />
+<input type="button" value='>>>' onclick="fso.showforword()" />
+        <input type="button" value='reload' onclick='location.reload()'/>
+        <input type="button" value='dir' onclick='msg.dir("")'/>
+        <input type="button" value='file' onclick='msg.file("")'/>
+        <input type="button" value="open" onclick='var obj = window.open("about:blank");obj.document.write(page.txt.value);'/>
+        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+    </header>
+    <div class="main" oncontextmenu="alert()">
+    <ul class="dir" onclick="fso.getDir(event.srcElement.innerHTML)" ondblclick="msg.dir(event.srcElement.innerHTML)">
+    </ul>
+    <div class="file" ondblclick="msg.file(event.srcElement.innerHTML)">
+        
+    </div>
+    </div>
+    <footer>
+    </footer>
+</div>
+
+<dialog id="dialog_dir" onclick="if(this.open){this.close()}">
+    <div class="dialog">
+    <header>文件夹操作</header>
+    <section  onclick="event.stopPropagation();">
+        <label for="dir_name">名称:</label>
+        <input type="text" id="dir_name" /><br/>
+        <input type="button" value="createDir" onclick="fso.createDir(dir_name.value)"/>
+        <input type="button" value="deleteDir" onclick="fso.deleteDir(dir_name.value)"/>
+    </section>
+    <footer>
+        <menu>
+            <button type="button" onclick="">取消</button>
+        </menu>
+    </footer>
+    </div>
+</dialog>
+<dialog id="dialog_file" onclick="if(this.open){this.close()}">
+    <div class="dialog">
+    <header>文件操作</header>
+    <section  onclick="event.stopPropagation();">
+        <label>name:</label>
+        <input type="text" id="file_name" /><br/>
+        <input type="button" value="getFile" onclick="fso.getFile(file_name.value)"/>
+        <input type="button" value="writeFile" onclick="fso.writeFile(file_name.value,file_txt.value)"/>
+        <input type="button" value="deleteFile" onclick="fso.deleteFile(file_name.value)"/>
+        <input type="button" value="downloadFile" onclick="fso.downloadFile(file_name.value)"/>
+        <textarea id="file_txt"></textarea>
+    </section>
+    <footer>
+        <menu>
+            <button type="button">取消</button>
+        </menu>
+    </footer>
+    </div>
+</dialog>
+<script>
+path="http://192.168.0.7:8080/dir.php";
+files_arr=[];
+files_index=-1;
+window.addEventListener("load",function(){
+  fso.getDir("");
+},false);
+    fso={
+        showback(){
+            if(files_index==0)return false;
+            files_index--;
+            this.showDir(files_arr[files_index]);
+        },
+        showforword(){
+            if(!files_arr[files_index+1])return false;
+            files_index++;
+            this.showDir(files_arr[files_index]);
+        },
+        async showDir(json){
+          var dir=json.dir;
+          var dir_li="";
+          for(var i=0;i<dir.length;i++){
+              dir_li+=`<li>${dir[i]}</li>`;
+          }
+          document.querySelector(".dir").innerHTML=dir_li;
+          var files=json.file;
+          var file_li="";
+          for(var i=0;i<files.length;i++){
+              file_li+=`<li>${files[i]}</li>`;
+          }
+          document.querySelector(".file").innerHTML=file_li;
+        },
+        async getDir(name){
+            var str="order=getDir&txt=777&name="+name;
+            var re=await http.post(path,str);
+            //alert(re);
+            files_arr[files_arr.length]=JSON.parse(re);
+            files_index++;
+            this.showDir(JSON.parse(re));
+        },
+        async createDir(name){
+            if(!confirm("是否创建文件夹:"+name)){return false;}
+            var re=await http.post(path,"order=createDir&name="+name);
+            alert(re);
+        },
+        async deleteDir(name){
+            if(!confirm("是否删除文件夹:"+name)){return false;}
+            var re=await http.post(path,"order=deleteDir&name="+name);
+            alert(re);
+        },
+        async getFile(name){
+            var re=await http.post(path,"order=getFile&name="+name);
+            file_txt.value=re;
+        },
+        async deleteFile(name){
+            if(!confirm("是否删除文件:"+name)){return false;}
+            var re=await http.post(path,"order=deleteFile&name="+name);
+            alert(re);
+        },
+        async writeFile(name,txt){
+            if(!confirm("是否写入文件:"+name)){return false;}
+            var txt=encodeURIComponent(txt);
+            var re=await http.post(path,"order=writeFile&name="+name+"&txt="+txt);
+            alert(re);
+        },
+        async downloadFile(name){
+            var re=await http.post(path,"order=downloadFile&name="+name);
+            alert(re);
+        }
+    }
+    msg={
+        dir(name){
+            dialog_dir.showModal();
+            dialog_dir.querySelector("#dir_name").value=name;
+        },
+        file(name){
+            dialog_file.showModal();
+            dialog_file.querySelector("#file_name").value=name;
+        }
+    }
+</script>
+</body>
+</html>
