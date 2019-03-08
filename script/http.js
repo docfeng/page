@@ -40,6 +40,7 @@ http={
     },
     async post(url,str,json={}){
         var json=json;
+        json.str=str;
         json.url=url;
         json.method="post";
         var re=await this.ajax(json);
@@ -50,6 +51,7 @@ http={
         var method=json.method;
         var cors=json.cors||false;
         var url=json.url;
+        var str=json.str;
         if(cors){
           url="http://gear.docfeng.top/get.php?url="+url
         }
