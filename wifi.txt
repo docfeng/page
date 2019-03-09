@@ -1,3 +1,8 @@
 liu 18960986955
 360wifi qaqa789
 602 qq789
+
+华硕潘多拉 桥接 
+AP+AP
+wan
+1 auto
