@@ -131,4 +131,15 @@ f.ajax=function(json){
       xmlhttp.send(json.data);
     });
 }
-alert()
+
+
+/*
+(async function(a){
+await githubapi.login();
+alert(await githubapi.getRepos());
+//alert(await githubapi.getFiles("page"));
+})()
+
+*/
+
+
