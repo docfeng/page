@@ -1,64 +1,95 @@
-githubapi=function(){
-  this.fun();
-}
-githubapi.prototype.fun=function(){
-  var t=this;
-  t.getrepos=async function(para){
-    var json={
-      url:"https://api.github.com/users/"+para.owner+"/repos",
-      head:{Authorization:para.author}
-    }
-    var re=await f.ajax(json);
-    return re.text;
-  }
-  t.getfiles=async function(para){
-    var json={
-      url:"https://api.github.com/repos/"+para.owner+"/"+para.repos+"/contents",
-      head:{Authorization:para.author}
-    }
-    var re=await f.ajax(json);
-    return re.text;
-  }
-  t.getfile=async function(para){
-    para.branch=para.branch?para.branch:"master";
-    var json={
-      url:"https://api.github.com/repos/"+para.owner+"/"+para.repos+"/contents/"+para.path+"?ref="+para.branch,
-      head:{Authorization:para.author}
-    }
-    var j=await f.ajax(json);
-    var json=JSON.parse(j.text);
-    var re="";
-    if(json.content){
-        var re=window.atob(json.content);
-        re= decodeURIComponent(escape(re));
-    }
-    return re;
-  }
-  t.createfile=async function(para){
-    //status:201
-    para.branch=para.branch?para.branch:"master";
-    para.message=para.message?para.message:"add";
-    var str=window.btoa(unescape(encodeURIComponent(para.txt)));
-    var data={
-          "message": para.message,
-          "content": str,
-          "branch" : para.branch
-    }
-    var json={
-      url:"https://api.github.com/repos/"+para.owner+"/"+para.repos+"/contents/"+para.path,
-      head:{Authorization:para.author},
-      type:"put",
-      data:JSON.stringify(data)
-    }
-    var j=await f.ajax(json);
-    var json=JSON.parse(j.text);
-    var re="";
-    if(json.content){
-        var re=window.atob(json.content);
-        re= decodeURIComponent(escape(re));
-    }
-    return re;
-  }
+githubapi={
+    user:"",
+    async login(){
+        if(this.user){return this.user};
+        var user=localStorage.getItem("user");
+        if(user){
+            user=JSON.parse(user);
+            this.user=user;
+            return user
+        }
+        let name=prompt("用户名");
+        let psw=prompt("密码");
+        //var token=prompt("token");
+        var author="Basic "+btoa(name+":"+psw);
+        this.user={name,author};
+        localStorage.setItem("user",JSON.stringify(this.user));
+        return this.user;
+    },
+    async getRepos(){
+        let user=await this.login();
+        var json={
+            url:`https://api.github.com/users/${user.name}/repos`,
+            head:{Authorization:user.author}
+        }
+        var re=await f.ajax(json);
+        return re.text;
+    },
+    async getFiles(name){
+        let user=await this.login();
+        var json={
+            url:`https://api.github.com/repos/${user.name}/${name}/contents`,
+            head:{Authorization:user.author}
+        }
+        var re=await f.ajax(json);
+        return re.text;
+    },
+    async getFile(repos_name,file_name,branch="master"){
+        let user=await this.login();
+        var json={
+            url:`https://api.github.com/repos/${user.name}/${repos_name}/contents/${file_name}?ref=${branch}`,
+            head:{Authorization:user.author}
+        }
+        var j=await f.ajax(json);
+        var json=JSON.parse(j.text);
+        var re="";
+        if(json.content){
+              var re=window.atob(json.content);
+            re= decodeURIComponent(escape(re));
+        }
+        return re;
+    },
+    async createFile(para){
+        //status:201
+        para.branch=para.branch?para.branch:"master";
+        para.message=para.message?para.message:"add";
+        var str=window.btoa(unescape(encodeURIComponent(para.txt)));
+        var data={
+            "message": para.message,
+            "content": str,
+            "branch" : para.branch
+        }
+        var json={
+            url:"https://api.github.com/repos/"+para.owner+"/"+para.repos+"/contents/"+para.path,
+            head:{Authorization:para.author},
+            type:"put",
+            data:JSON.stringify(data)
+        }
+        var j=await f.ajax(json);
+        var json=JSON.parse(j.text);
+        var re="";
+        if(json.content){
+            var re=window.atob(json.content);
+            re= decodeURIComponent(escape(re));
+        }
+        return re;
+    },
+    async writeFile(){
+        
+    },
+    async deleteFile(){},
+    async createRespos(){},
+    async deleteRespos(){},
+    async getIssues(){},
+    async getIssue(){},
+    async deleteIssue(){},
+    async writeIssue(){},
+    async createIssue(){},
+    async getComments(){},
+    async getComment(){},
+    async deleteComment(){},
+    async writeComment(){},
+    async createComment(){}
 }
 
 
@@ -100,4 +131,4 @@ f.ajax=function(json){
       xmlhttp.send(json.data);
     });
 }
-githubapi=new githubapi();
+alert()
