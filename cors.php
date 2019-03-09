@@ -20,4 +20,17 @@ if(in_array($origin, $allow_origin)){
 }
  
 echo json_encode($ret);
+
+/*
+   
+*/
+$origin = isset($_SERVER['HTTP_ORIGIN'])? $_SERVER['HTTP_ORIGIN'] : '';
+ $base_origin="docfeng.top";
+ preg_match("/http:\/\/\w+\.(\w+.top)+/is",$origin,$arr);
+ if($arr[1]==$base_origin){
+     header('Access-Control-Allow-Origin:'.$origin);
+ }
+
+
+
 ?>
