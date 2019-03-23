@@ -5,7 +5,7 @@ bds={
     var html=await http.get("http://gear.docfeng.top/get2.php?url=http://www.baidu.com/s?q1="+str+
           "&q2=&q3=&q4=&rn=20&lm=0&ct=0"+
          "&ft=&q5=1&q6=&tn=baiduadv");
-    return bdstoa3({str:str,html:html});
+    return bdstoa3(html);//{str:str,html:html});
   },
   savesearch(str,arr){
     //保存搜索结果
