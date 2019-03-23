@@ -318,6 +318,25 @@ bdstoa2=function(json){
   return urls;
 }
 
+bdstoa3=function(html){
+    var arr=[];
+    var el = document.createElement( 'html' );
+    el.innerHTML =html;
+    var d=el.getElementsByTagName("div");
+    for(var i=0;i<d.length;i++){
+        if(d[i].id && d[i].id<21){
+            var a=[];
+             a[0]=d[i].querySelector("a").innerHTML;
+             a[1]=d[i].querySelector("a").href;
+             //a[2]=d[i].querySelector(".c-showurl").innerHTML;
+             //a[3]=d[i].outerHTML;
+            arr[arr.length]=a;
+        }
+    }
+   return arr
+}
+//alert(JSON.stringify(bdstoa3(html),null,4))
+
 showbds=function(arr){
   var txt1=""
   for(var i=0;i<arr.length;i++){
