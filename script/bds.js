@@ -266,7 +266,7 @@ funcs={
 }
 
 window.addEventListener("load",function(){
-  funcs.getShelf();
+  //funcs.getShelf();
 },false);
 
 
