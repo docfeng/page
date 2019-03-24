@@ -35,7 +35,7 @@ bds={
     }
     return fso.fso.write("bds/"+str+"/"+str+".json",JSON.stringify(arr),false);
   },
-  getsearch(str){
+  readsearch(str){
     //获取本地保存的搜索结果
     var t=this;
     var txt=fso.fso.read("bds/"+str+"/"+str+".json");
@@ -106,25 +106,7 @@ funcs={
     //显示
     this.showt1(arr);
   },
-  //保存搜索结果
-  savesearch(){
-    var arr=this.arr;
-    bds.savesearch(this.name,arr);
-  },
-  //百度搜索
-  async search(str){
-    var str=str||this.name||"";
-    if(!str)return 0;
-    var arr=await bds.get(str);
-    this.arr=arr;
-    this.showt2(arr);
-  },
-  //获取本地搜索结果
-  getsearch(name){
-    var arr=bds.getsearch(name||this.name);
-    this.arr=arr;
-    this.showt2(arr);
-  },
+  
   //书架页点击事件,获取本地搜索结果,并显示
   async tfun1(obj){
         var obj=obj.parentNode;
@@ -133,83 +115,7 @@ funcs={
         this.name=str;
         this.getsearch();
   },
-  //搜索页点击事件,显示目录
-  async tfun2(obj){
-      var obj=obj.parentNode;
-      var i=obj.parentNode.rowIndex;
-      var str=this.name;
-      var arr=this.arr;
-      var t=this;
-      //如果本地没有结果;
-      if(!arr[i][3]){
-        var json=await bds.getlisthtml(arr[i][0]);
-        var url=arr[i][0]=json.url;
-        arr[i][3]=true;
-        this.showt2(arr);
-        var basepath="bds/"+str+"/"+json.url.match(/https?:\/\/([^\/]*?)\//)[1];
-        fso.write(basepath+".txt",json.html,false,function(a){alert(true)});
-        bds.savesearch(str,arr);
-        inilist(json,function(arr){
-          t.listarr=arr;
-          //显示目录
-          //t.showt3(arr);
-          List.show(str,arr,url);
-          //保存目录;
-          bds.saveall(str,arr,url);
-          //保存源
-          fso.fso.write(basepath+".json",JSON.stringify(arr),false);
-        });
-        
-      }else{
-        var listbasepath="bds/"+str+"/"+arr[i][0].match(/https?:\/\/([^\/]*?)\//)[1];
-        if(fso.fso.exist(listbasepath+".json")){
-          var arr2=fso.fso.read(listbasepath+".json");
-          arr2=JSON.parse(arr2);
-          this.listarr=arr2;
-          //显示目录
-          List.show(str,arr2,arr[i][0]);
-          //this.showt3(arr2);
-          //保存目录
-          bds.savelist(str,arr2);
-          bds.saveShelf(str,arr2,arr[i][0]);
-        }else{
-          var html=fso.fso.read(listbasepath+".txt");
-          var url=arr[i][0];
-          inilist({html:html,url:url},function(arr){
-            fso.fso.write(listbasepath+".json",JSON.stringify(arr),false);
-            t.listarr=arr;
-            //显示目录
-            //t.showt3(arr);
-            List.show(str,arr,url);
-            //保存目录
-            bds.saveall(str,arr,url);
-            //alert(arr)
-          });
-        }
-      }
-      win.url=this.arr[i][0];
-  },
-  //搜索页双击事件,重载目录
-  async tfun2_2(obj){
-      var obj=obj.parentNode;
-      var i=obj.parentNode.rowIndex;
-      var str=this.name;
-      var arr=this.arr;
-      var t=this;
-      var json=await bds.getlisthtml(arr[i][0]);
-      var basepath="bds/"+str+"/"+json.url.match(/https?:\/\/([^\/]*?)\//)[1];
-      fso.write(basepath+".txt",json.html,false,function(a){alert(true)});
-      inilist(json,function(arr){
-          t.listarr=arr;
-          //显示目录
-          //t.showt3(arr);
-          List.show(str,arr,json.url);
-          //保存目录
-          bds.savelist(str,arr);
-          bds.saveShelf(str,arr,json.url)
-          fso.fso.write(basepath+".json",JSON.stringify(arr),false);
-      });
-  },
+  
   //目录页点击事件,小说内容
   async tfun3(obj){
       var obj=obj.parentNode;
@@ -238,15 +144,7 @@ funcs={
     }
     f6_table1.innerHTML=txt;
   },
-  //小说搜索结果
-  showt2(arr){
-    var txt1=""
-    for(var i=0;i<arr.length;i++){
-      var txt2="<tr><td><h3>"+arr[i][0]+"</h3><h4>"+arr[i][1]+"</h4><h4>"+arr[i][2]+"</h4></td></tr>";
-      txt1+=txt2;
-    }
-    f6_table2.innerHTML=txt1;
-  },
+  
   //显示目录
   showt3(arr){
     var txt1=""
