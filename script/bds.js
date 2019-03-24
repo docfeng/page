@@ -1,11 +1,32 @@
 bds={
-  get:async function(str){
+  getsearchhtml:async function(str){
     //搜索
     var str=str;
     var html=await http.get("http://gear.docfeng.top/get2.php?url=http://www.baidu.com/s?q1="+str+
           "&q2=&q3=&q4=&rn=20&lm=0&ct=0"+
          "&ft=&q5=1&q6=&tn=baiduadv");
-    return bdstoa3(html);//{str:str,html:html});
+    return html;
+  },
+  formatsearch(html){
+    var arr=[];
+    var el = document.createElement( 'html' );
+    el.innerHTML =html;
+    var d=el.getElementsByTagName("div");
+    for(var i=0;i<d.length;i++){
+        if(d[i].id && d[i].id<21){
+            var a=[];
+             a[0]=d[i].querySelector("a").innerHTML;
+             a[1]=d[i].querySelector("a").href;
+             //a[2]=d[i].querySelector(".c-showurl").innerHTML;
+             //a[3]=d[i].outerHTML;
+            arr[arr.length]=a;
+        }
+    }
+   return arr
+  },
+  async getsearch(str){
+    var html=await this.getsearchhtml(str);
+    return this.formatsearch(html);//{str:str,html:html});
   },
   savesearch(str,arr){
     //保存搜索结果
