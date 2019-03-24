@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<meta http-equiv="Expires" content="0"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-control" content="no-cache"> 
+<meta http-equiv="Cache" content="no-cache">
+<meta name="full-screen" content="yes"/>
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<base href="http://git.docfeng.top/" />
+<title>小说下载</title>
+<script src="http://git.docfeng.top/script/http.js"></script>
+<script src="http://git.docfeng.top/script/base.js"></script>
+<script src="http://git.docfeng.top/script/menu.js"></script>
+<script src="http://git.docfeng.top/script/bds.js"></script>
+<link rel="stylesheet" href="http://git.docfeng.top/css/main.css" type="text/css"></link> 
+<link rel="stylesheet" href="css/test.css" type="text/css">
+<link rel="stylesheet" href="css/msg.css" type="text/css">
+<style type='text/css'>
+//小说
+/*#novel_menu{width:100%;
+	position:absolute; 
+	Bottom:0px;
+	display: none;
+} */	
+//table h3{font-size:10%;}
+input{
+  //height:1.5em;
+  font-size:0.7em;
+}
+input[type=text]{
+  height:15px;
+}
+input[type=number]{
+  height:15px;
+}
+#novel_view_body{
+	background: #666;
+      width:100%;
+      	height:572px;
+      	overflow:hidden;
+      	text-overflow:ellipsis;
+      	white-space:inherit;
+}
+#novel_view_body_content{
+	lineHeight:16px;
+}
+</style>
+<body>
+<div class="myhead" id="Mytitle" style="height:18px;"></div>
+<div class="menu fix" id="menu">
+    <ul data-index=0>
+        <li>调试eval</li>
+        <li>目录</li>
+    </ul>
+<!--1  调试-->
+    <div>
+        <form id="form_2">
+            <input type="button" value="eval" onclick="eval(form_2.txt1.value);" />
+            <input type="button" value="read" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){form_2.txt1.value+=txt;});}" />
+            <input type="button" value="evalsql_asp" onclick="evalsql_asp(form_2.txt1.value);" />
+            <input type="button" value="加载script" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){eval(txt);alert(txt);});}" /><br />
+            <input type="text" id="script1" style="height:10px" />
+            <textarea name="txt1" ></textarea>
+        </form>
+    </div>
+    <!--3 目录-->
+    <div>
+            name:<input type="text" size=8 id="listname" />
+            url:<input type="text" size=14 id="listurl" />
+            <br/>
+            new:<input type="text" size=14 id="listnew">
+            count:<input type="text" size=4 id="listcount">
+            <input type="number" min=0 max=1000 onchange="List.scroll(this.value)" />
+            <input type="button" value="换源" onclick="funcs.getsearch(listname.value);" />
+            <input type="button" value='更新' onclick="List.update(listurl.value)" />  
+            
+        <div id=s1 style="height:95%;overflow-x:hidden;overflow-y:auto;">
+            <table id="list_table" onclick="List.tableFun(event.srcElement);"></table>
+        </div>
+    </div>    
+    
+ <!--结束-->
+</div>
+<script>
+window.onload=function(){
+  
+}
+	
+window.onresize=function(){ 
+   //n.resize();
+}
+
+var _index=0;
+//window.addeventlistener("resize",function(){alert()},false);
+
+
+/*document.oncontextmenu=function() {
+    event.returnValue=false;
+    alert("当前设置不允许使用右键！");
+}*/
+</script>
+</body>
+</html>
