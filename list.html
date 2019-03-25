@@ -69,7 +69,7 @@ input[type=number]{
 <script>
 window.onload=function(){
   var hash1=hash();
-  listname.value=hash1.name;
+  listname.value=funcs.name=hash1.name;
   listurl.value=hash1.url;
 }
 	
@@ -81,6 +81,7 @@ funcs={
     async update(url){
         var html=await http.get(url,{cors:true});
         var arr =await bds.formatlist({html,url})
+        this.arr=arr;
         alert(arr)
         this.showlist(arr);
     },
@@ -91,6 +92,16 @@ funcs={
             txt1+=txt2;
         }
         list_table.innerHTML=txt1;
+    },
+    async showpage(obj){
+      var obj=obj.parentNode;
+      var i=obj.parentNode.rowIndex;
+      var name=this.name;
+      var arr=this.arr;
+      var url=arr[i][0];
+      var title=arr[i][1];
+      var html=await http.get(url,{cors:true});
+      alert(html)
     }
 }
 
