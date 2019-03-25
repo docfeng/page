@@ -108,9 +108,9 @@ bds={
               }
               arr=myarr;
           }
-          alert(arr)
+          //alert(arr)
           if(arr.length==1){arr=arr[0]}
-          alert(arr)
+          //alert(arr)
           return arr;
     },
   savelist(name,arr){
