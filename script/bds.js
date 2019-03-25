@@ -72,7 +72,7 @@ bds={
         var url=json.url;
         var arr=[];
         var fun=async function(html){
-            var reg_di=new RegExp("<a[^>]*?href=[\"']([^\"'>]*?)[\"'][^>]*?>(第[^\-<]*?)<","g");
+            var reg_di=new RegExp("<a[^>]*?href[ ]?=[\"']([^\"'>]*?)[\"'][^>]*?>(第[^\-<]*?)<","g");
             let arr=html.matches(reg_di);
             for(var i=0;i<arr.length;i++){
                 arr[i][0]=arr[i][0].getFullUrl(url);
