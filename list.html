@@ -122,7 +122,7 @@ funcs={
                  }
             }  
             txt=txt?txt[1]:"";
-            alert(txt)
+            //alert(txt)
             //匹配下一章地址
             var reg=/<a[^>]*?href="([^"]*?)"[^>]*?>下[^<]*?</;
             var nexturl=html.match(reg);
@@ -130,8 +130,8 @@ funcs={
             nexturl=nexturl.getFullUrl(json.url);
             //是否有分章
             if(nexturl && nexturl.indexOf("_")>nexturl.length-8 && nexturl.length-nexturl.lastIndexOf("/")>5){
-                alert(nexturl)
-                alert(nexturl.length-nexturl.lastIndexOf("/"))
+               // alert(nexturl)
+                //alert(nexturl.length-nexturl.lastIndexOf("/"))
                 let html2=await http.get(nexturl,{cors:true});
                 if(html!=html2){
                 let t=await format({"html":html2,"url":nexturl});
