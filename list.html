@@ -43,7 +43,7 @@ input[type=number]{
         <form id="form_2">
             <input type="button" value="eval" onclick="eval(form_2.txt1.value);" />
             <input type="button" value="read" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){form_2.txt1.value+=txt;});}" />
-            <input type="button" value="evalsql_asp" onclick="evalsql_asp(form_2.txt1.value);" />
+            <input type="button" value="reload" onclick="location.reload();" />
             <input type="button" value="加载script" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){eval(txt);alert(txt);});}" /><br />
             <input type="text" id="script1" style="height:10px" />
             <textarea name="txt1" ></textarea>
@@ -101,7 +101,41 @@ funcs={
       var url=arr[i][0];
       var title=arr[i][1];
       var html=await http.get(url,{cors:true});
-      alert(html)
+      var text=await this.formatpage({html,url});
+    }
+    async formatpage(json){
+        var format=async function(json){
+            var txt="";
+            var html=json.html.replace(/(<br[^>]*?>[ \s]*){1,}/g,'\n');
+            html=html.replace(/(<p>)/g,'');
+            html=html.replace(/(<\/p>)/g,'\n');
+            html=html.replace(/&nbsp;/g,' ');
+            //匹配正文
+            var atxt=html.match(/>([^<]{300,})</g);
+            atxt=atxt?atxt:"";
+            for(var i=0;i<atxt.length;i++){
+                 var elen=atxt[i].match(/[A-Za-z]/g);
+                 if(!elen || elen.length/atxt[i].length<0.06){
+                     txt=atxt[i];
+                     txt=txt.match(/>([^<]{100,})</)
+                 }
+            }  
+            txt=txt?txt[1]:"";
+            //匹配下一章地址
+            var reg=/<a[^>]*?href="([^"]*?)"[^>]*?>下[^<]*?</;
+            var nexturl=html.match(reg);
+            nexturl=nexturl?nexturl[1]:"";
+            nexturl=nexturl.getFullUrl(json.url);
+            //是否有分章
+            if(nexturl.indexOf("_")>nexturl.length-8){
+                let html=await http.get(nexturl,{cors:true});
+                let t=await format("html":html,"url":nexturl});
+               txt+=t;
+            }
+            return txt;
+        }
+        let txt=await format(json);
+        return txt;
     }
 }
 
