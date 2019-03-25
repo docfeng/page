@@ -102,7 +102,7 @@ funcs={
       var title=arr[i][1];
       var html=await http.get(url,{cors:true});
       var text=await this.formatpage({html,url});
-    }
+    },
     async formatpage(json){
         var format=async function(json){
             var txt="";
@@ -129,7 +129,7 @@ funcs={
             //是否有分章
             if(nexturl.indexOf("_")>nexturl.length-8){
                 let html=await http.get(nexturl,{cors:true});
-                let t=await format("html":html,"url":nexturl});
+                let t=await format({"html":html,"url":nexturl});
                txt+=t;
             }
             return txt;
