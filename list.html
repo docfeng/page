@@ -87,7 +87,7 @@ funcs={
     showlist(arr){
         var txt1=""
         for(var i=0;i<30;i++){
-            var txt2="<tr><td><h3>"+arr[i][0]+"</h3><h4>"+arr[i][1]+"</h4><h4>"+arr[i][2]+"</h4></td></tr>";
+            var txt2=`<tr><td><h3>${arr[i][0]}</h3><h4>${arr[i][1]}</h4></td></tr>`;
             txt1+=txt2;
         }
         list_table.innerHTML=txt1;
