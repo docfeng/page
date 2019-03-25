@@ -53,7 +53,7 @@ http={
         var url=json.url;
         var str=json.str;
         if(cors){
-          url="http://gear.docfeng.top/get.php?url="+url
+          url="http://gear.docfeng.top/get2.php?url="+url
         }
         var str=json.str||"";
         var xml=json.xml||false;
