@@ -122,9 +122,11 @@ funcs={
                  }
             }  
             txt=txt?txt[1]:"";
+alert(txt)
             //匹配下一章地址
             var reg=/<a[^>]*?href="([^"]*?)"[^>]*?>下[^<]*?</;
             var nexturl=html.match(reg);
+alert(nexturl)
             nexturl=nexturl?nexturl[1]:"";
             nexturl=nexturl.getFullUrl(json.url);
             //是否有分章
