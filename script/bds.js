@@ -61,17 +61,58 @@ bds={
     });
   },
   async getlisthtml(url){
-    //获取目录{html,url}
-    return new Promise(function(resolve){
-      ajax(url,function(json){
-        resolve(json);
-      });
-    });
+    return await http.get(url,{cors:true});
   },
   async getlist(url){
     var json=await this.getlisthtml(url);
     
   },
+    async formatlist(json){
+        var html=json.html;
+        var url=json.url;
+        var arr=[];
+        var fun=async function(html){
+            var reg_di=new RegExp("<a[^>]*?href=[\"']([^\"'>]*?)[\"'][^>]*?>(第[^\-<]*?)<","g");
+            let arr=html.matches(reg_di);
+            for(var i=0;i<arr.length;i++){
+                arr[i][0]=arr[i][0].getFullUrl(url);
+            }
+            //下一页地址
+            var reg=/<a[^>]*?href=["|']([^"']*?)["|][^>]*?>([^<第]*?下一页[^<]*?)</;
+            var nexturl=html.match(reg);
+            if(nexturl){
+               nexturl=nexturl[1].getFullUrl(url);
+            }
+            return {arr:arr,url:nexturl};
+        }
+        var json=await fun(html);
+        arr[arr.length]=json.arr
+        while(json.url){
+               var html=await http.get(nexturl,{cors:true});
+               json=await fun(html);
+               arr[arr.length]=json.arr
+         }
+         var index=0;
+         if(arr.length>1){
+              for(var i=0;i<arr[0].length;i++){
+                    if(arr[0][i][0]==arr[1][i][0]){
+                        index++;
+                    }
+              }
+              let myarr=[];
+              for(var i=0;i<arr.length;i++){
+                  for(var i2=0;i2<index;i2++){
+                      arr[i].shift();
+                  }
+                  myarr=myarr.concat(arr[i]);
+              }
+              arr=myarr;
+          }
+          alert(arr)
+          if(arr.length==1){arr=arr[0]}
+          alert(arr)
+          return arr;
+    },
   savelist(name,arr){
     //保存目录
     fso.fso.write(`Shelf/${name}.json`,JSON.stringify(arr),false);
