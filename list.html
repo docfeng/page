@@ -129,8 +129,9 @@ funcs={
             nexturl=nexturl?nexturl[1]:"";
             nexturl=nexturl.getFullUrl(json.url);
             //是否有分章
-            if(nexturl && nexturl.indexOf("_")>nexturl.length-8 && nexturl.length-nexturl.indexOf("/")>5){
+            if(nexturl && nexturl.indexOf("_")>nexturl.length-8 && nexturl.length-nexturl.lastIndexOf("/")>5){
                 alert(nexturl)
+                alert(nexturl.length-nexturl.lastIndexOf("/"))
                 let html2=await http.get(nexturl,{cors:true});
                 if(html!=html2){
                 let t=await format({"html":html2,"url":nexturl});
