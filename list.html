@@ -102,6 +102,7 @@ funcs={
       var title=arr[i][1];
       var html=await http.get(url,{cors:true});
       var text=await this.formatpage({html,url});
+      alert(text)
     },
     async formatpage(json){
         var format=async function(json){
