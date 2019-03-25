@@ -13,19 +13,13 @@
 <title>小说下载</title>
 <script src="http://git.docfeng.top/script/http.js"></script>
 <script src="http://git.docfeng.top/script/base.js"></script>
+<script src="http://git.docfeng.top/script/fso.js"></script>
 <script src="http://git.docfeng.top/script/menu.js"></script>
 <script src="http://git.docfeng.top/script/bds.js"></script>
 <link rel="stylesheet" href="http://git.docfeng.top/css/main.css" type="text/css"></link> 
 <link rel="stylesheet" href="css/test.css" type="text/css">
 <link rel="stylesheet" href="css/msg.css" type="text/css">
 <style type='text/css'>
-//小说
-/*#novel_menu{width:100%;
-	position:absolute; 
-	Bottom:0px;
-	display: none;
-} */	
-//table h3{font-size:10%;}
 input{
   //height:1.5em;
   font-size:0.7em;
@@ -35,17 +29,6 @@ input[type=text]{
 }
 input[type=number]{
   height:15px;
-}
-#novel_view_body{
-	background: #666;
-      width:100%;
-      	height:572px;
-      	overflow:hidden;
-      	text-overflow:ellipsis;
-      	white-space:inherit;
-}
-#novel_view_body_content{
-	lineHeight:16px;
 }
 </style>
 <body>
@@ -80,13 +63,14 @@ input[type=number]{
         <div id=s1 style="height:95%;overflow-x:hidden;overflow-y:auto;">
             <table id="list_table" onclick="List.tableFun(event.srcElement);"></table>
         </div>
-    </div>    
-    
+    </div>       
  <!--结束-->
 </div>
 <script>
 window.onload=function(){
-  
+  var hash1=hash();
+  listname.value=hash1.name;
+  listurl.value=hash1.url;
 }
 	
 window.onresize=function(){ 
