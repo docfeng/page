@@ -129,7 +129,7 @@ funcs={
             nexturl=nexturl?nexturl[1]:"";
             nexturl=nexturl.getFullUrl(json.url);
             //是否有分章
-            if(nexturl && nexturl.indexOf("_")>nexturl.length-8){
+            if(nexturl && nexturl.indexOf("_")>nexturl.length-8 && nexturl.length-nexturl.indexOf("/")>5){
                 alert(nexturl)
                 let html=await http.get(nexturl,{cors:true});
                 let t=await format({"html":html,"url":nexturl});
