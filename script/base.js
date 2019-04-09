@@ -335,3 +335,16 @@ window.onerror = function(sMessage, sUrl, sLine) {
      alert("发生错误！\n" + sMessage + "文件:" + sUrl + "\n 行号:" + sLine);
      return true;
 }
+
+showEval=function(a){
+    if(!window.ifr1){
+    var ifr=document.createElement("iframe");
+    ifr.id="ifr1";
+    document.body.appendChild(ifr);
+    ifr.src="http://git.docfeng.top/eval.html"
+  
+  ifr.style="width:100%;height:100%;position:absolute;top:0px;left:0px;";
+    }else{
+        ifr1.style.display="block"
+    }
+}
