@@ -32,25 +32,7 @@ input[type=number]{
 }
 </style>
 <body>
-<div class="myhead" id="Mytitle" style="height:18px;"></div>
-<div class="menu fix" id="menu">
-    <ul data-index=0>
-        <li>调试eval</li>
-        <li>目录</li>
-    </ul>
-<!--1  调试-->
-    <div>
-        <form id="form_2">
-            <input type="button" value="eval" onclick="eval(form_2.txt1.value);" />
-            <input type="button" value="read" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){form_2.txt1.value+=txt;});}" />
-            <input type="button" value="reload" onclick="location.reload();" />
-            <input type="button" value="加载script" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){eval(txt);alert(txt);});}" /><br />
-            <input type="text" id="script1" style="height:10px" />
-            <textarea name="txt1" ></textarea>
-        </form>
-    </div>
-    <!--3 目录-->
-    <div>
+<input type="button" value="showEval" onclick="showEval();" />
             name:<input type="text" size=8 id="listname" />
             url:<input type="text" size=14 id="listurl" />
             <br/>
@@ -63,9 +45,6 @@ input[type=number]{
         <div id=s1 style="height:95%;overflow-x:hidden;overflow-y:auto;">
             <table id="list_table" onclick="funcs.showpage(event.srcElement);"></table>
         </div>
-    </div>       
- <!--结束-->
-</div>
 <script>
 window.onload=function(){
   var hash1=hash();
