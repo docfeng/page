@@ -1,6 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin:*");
 header("content-type:text/html;charset=utf-8");  //设置编码
+header('Access-Control-Expose-Headers:url');
 //header('X-Powered-By:daixiaorui.com');
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
   if($_POST["url"]){
