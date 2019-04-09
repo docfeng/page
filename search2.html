@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<meta http-equiv="Expires" content="0"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-control" content="no-cache"> 
+<meta http-equiv="Cache" content="no-cache">
+<meta name="full-screen" content="yes"/>
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<base href="http://git.docfeng.top/" />
+<title>搜索页</title>
+<script src="http://git.docfeng.top/script/http.js"></script>
+<script src="http://git.docfeng.top/script/fso.js"></script>
+<script src="http://git.docfeng.top/script/base.js"></script>
+<script src="http://git.docfeng.top/script/menu.js"></script>
+<script src="http://git.docfeng.top/script/bds.js"></script>
+<link rel="stylesheet" href="http://git.docfeng.top/css/main.css" type="text/css"></link> 
+<link rel="stylesheet" href="css/test.css" type="text/css">
+<link rel="stylesheet" href="css/msg.css" type="text/css">
+<style type='text/css'>
+input{
+  //height:1.5em;
+  font-size:0.7em;
+}
+input[type=text]{
+  height:15px;
+}
+input[type=number]{
+  height:15px;
+}
+</style>
+<body>
+        <form id="form_6">
+            <input type="button" value="showEval" onclick="showEval();" />
+            <input type="button" value="获取列表" onclick="funcs.getfilelist();" />
+            <input type="button" value="获取本地搜索结果" onclick="funcs.readsearch();" />
+            <!--书架-->
+            <div style="width:100%;height:50px;overflow-y:scroll;">
+              <table id="f6_table1" onclick="funcs.tfun1(event.srcElement);"></table>
+            </div>
+            
+            <!--搜索-->
+            <input type="text" id="searchname" onchange="">
+            <input type="button" value="搜索" onclick="funcs.getsearch(searchname.value);" />
+            <input type="button" value="保存" onclick="funcs.savesearch();" />
+            <input type="button" value="重载" onclick="funcs.getsearch();" />
+            <div style="width:100%;height:85%;overflow-y:scroll;">
+              <table id="f6_table2" onclick="funcs.tfun2(event.srcElement);" ondblclick="funcs.tfun2_2(event.srcElement);"></table>
+            </div>
+        </form>
+<script>
+window.onload=function(){
+  
+}
+	
+window.onresize=function(){ 
+   //n.resize();
+}
+//window.addeventlistener("resize",function(){alert()},false);
+funcs={
+    //保存搜索结果
+    savesearch(){
+        var arr=this.arr;
+        bds.savesearch(this.name,arr);
+    },
+    //百度搜索
+    async getsearch(str){
+        var str=str||this.name||"";
+        this.name=str;
+        if(!str)return 0;
+        var arr=await bds.getsearch(str);
+        this.arr=arr;
+        this.showsearch(arr);
+    },
+    //获取本地搜索结果
+    async readsearch(name){
+        var arr=bds.readsearch(name||this.name);
+        this.arr=arr;
+        this.showsearch(arr);
+    },
+    //小说搜索结果
+    showsearch(arr){
+        var txt1=""
+        for(var i=0;i<arr.length;i++){
+            var txt2="<tr><td><h3>"+arr[i][0]+"</h3><h4>"+arr[i][1]+"</h4><h4>"+arr[i][2]+"</h4></td></tr>";
+            txt1+=txt2;
+        }
+        f6_table2.innerHTML=txt1;
+    },
+    //搜索页点击事件,显示目录
+  async tfun2(obj){
+      var obj=obj.parentNode;
+      var i=obj.parentNode.rowIndex;
+      var str=this.name;
+      var arr=this.arr;
+      var t=this;
+      //如果本地没有结果;
+      if(!arr[i][2]){
+        var json=await http.get(arr[i][1],{xml:true,cors:true});
+        var url=arr[i][1]=json.xml.getResponseHeader("url");
+        arr[i][2]=true;
+        arr[i][3]=json.html;
+        this.showsearch(arr);
+        fso.write(str,JSON.stringify(arr),false);
+      }else{
+          //var listbasepath="bds/"+str+"/"+arr[i][0].match(/https?:\/\/([^\/]*?)\//)[1];
+          var url=arr[i][1];
+          /*inilist({html:html,url:url},function(arr){
+            fso.fso.write(listbasepath+".json",JSON.stringify(arr),false);
+            t.listarr=arr;
+            //显示目录
+            //t.showt3(arr);
+            List.show(str,arr,url);
+            //保存目录
+            bds.saveall(str,arr,url);
+            //alert(arr)
+          });*/
+      }
+      window.open("http://git.docfeng.top/list.html#url="+url+";name="+str)
+  },
+  //搜索页双击事件,重载目录
+  async tfun2_2(obj){
+      var obj=obj.parentNode;
+      var i=obj.parentNode.rowIndex;
+      var str=this.name;
+      var arr=this.arr;
+      var t=this;
+      var json=await bds.getlisthtml(arr[i][0]);
+      var basepath="bds/"+str+"/"+json.url.match(/https?:\/\/([^\/]*?)\//)[1];
+      fso.write(basepath+".txt",json.html,false,function(a){alert(true)});
+      inilist(json,function(arr){
+          t.listarr=arr;
+          //显示目录
+          //t.showt3(arr);
+          List.show(str,arr,json.url);
+          //保存目录
+          bds.savelist(str,arr);
+          bds.saveShelf(str,arr,json.url)
+          fso.fso.write(basepath+".json",JSON.stringify(arr),false);
+      });
+  },
+}
+
+showEval=function(a){
+    if(!window.ifr1){
+    var ifr=document.createElement("iframe");
+    ifr.id="ifr1";
+    body.appendChild(ifr);
+    ifr.src="http://git.docfeng.top/eval.html"
+  
+  ifr.style="width:100%;height:100%;position:absolute;top:0px;left:0px;";
+    }else{
+        ifr1.style.display="block"
+    }
+}
+</script>
+</body>
+</html>
