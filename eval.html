@@ -148,14 +148,14 @@ and (orientation : portrait) {
 <body>
 <div class="top_box1" id="top_box">
 		<div class="control_box" id="control_box">
-				<input type="button" value='eval' onclick="window.top.postMessage({data:page.txt.value},"*")" />
+				<input type="button" value='eval' onclick="window.top.postMessage({data:page.txt.value},\"*\")" />
 				<input type="button" value='reload' onclick='location.reload()'/>
 				<input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
 		  <input type="button" value="write" onclick="w()"/>
 		  <input type="button" value="read" onclick="read()"/>
 		  <input type="button" value="add" onclick="add()"/>
 		  <input type="button" value="del" onclick="d()"/>
-		  <input type="button" value="hide" onclick='window.top.postMessage({data:"ifr1.style.display=\"none\";"})'/>
+		  <input type="button" value="hide" onclick='window.top.postMessage({data:"ifr1.style.display=\"none\";"},"*")'/>
 		</div>
 		<div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
 				<input id="button1" type="button" value="page1" 	style="color:red;"		onclick="shift(1)">
