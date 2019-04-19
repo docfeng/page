@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     fclose($myfile);
     echo "ture";
   }
-}else{
-
+  die();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -397,6 +397,3 @@ hide_ins=function(){
 </script>
 </body>
 </html>
-<?php
-}
-?>
