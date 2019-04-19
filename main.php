@@ -149,42 +149,43 @@ and (orientation : portrait) {
   .ins_box{display:block;}
 }
 </style>
+<script src="//git.docfeng.top/script/http.js"></script>
 </head>
 <body>
 <div class="top_box1" id="top_box">
-		<div class="control_box" id="control_box">
-				<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
-				<input type="button" value='reload' onclick='location.reload()'/>
-				<input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
-		  <input type="button" value="write" onclick="w()"/>
-		  <input type="button" value="read" onclick="read()"/>
-		  <input type="button" value="add" onclick="add()"/>
-		  <input type="button" value="del" onclick="d()"/>
-		  <input type="button" value="open" onclick='var obj = window.open("about:blank");obj.document.write(page.txt.value);'/>
-		  <input type="button" value="打开" onclick='window.open(page.name.value);'/>
-		</div>
-		<div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
-				<input id="button1" type="button" value="page1" 	style="color:red;"		onclick="shift(1)">
-				<input id="button2" type="button" value="page2" onclick="shift(2);">
-				<input id="button3" type="button" value="page3" onclick="shift(3);">
-				<input id="button4" type="button" value="page4" onclick="shift(4);">
-				<input id="button5" type="button" value="page5" onclick="shift(5);">
-				<input id="button6" type="button" value="page6" onclick="shift(6);">
-		</div>
+    <div class="control_box" id="control_box">
+        <input type="button" value='eval' onclick="eval(page.txt.value)" />
+        <input type="button" value='reload' onclick='location.reload()'/>
+        <input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
+        <input type="button" value="write" onclick="phpFSO.write()"/>
+        <input type="button" value="read" onclick="phpFSO.read()"/>
+        <input type="button" value="add" onclick="phpFSO.add()"/>
+        <input type="button" value="del" onclick="phpFSO.delete()"/>
+        <input type="button" value="open" onclick='var obj = window.open("about:blank");obj.document.write(page.txt.value);'/>
+        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+    </div>
+    <div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
+        <input id="button1" type="button" value="page1" 	style="color:red;"		onclick="shift(1)">
+        <input id="button2" type="button" value="page2" onclick="shift(2);">
+        <input id="button3" type="button" value="page3" onclick="shift(3);">
+        <input id="button4" type="button" value="page4" onclick="shift(4);">
+        <input id="button5" type="button" value="page5" onclick="shift(5);">
+        <input id="button6" type="button" value="page6" onclick="shift(6);">
+    </div>
 </div>
 <div class="ins_box" id="ins_box" >
-		<input type="button" value='.' 	onclick="ins('.')" />
-		<input type="button" value="a" 		onclick="ins('alert()')"/>
-		<input type="button" value='""' 		onclick="ins('&quot;&quot;')"/>
-		<input type="button" value='=' 		onclick="ins('=')" />
-		<input type="button" value='f' 		onclick="ins('function(){}')" />
-		<input type="button" value='[]' 		onclick="ins('[]')" />
-		<input type="button" value='{}' 		onclick="ins('{}')" />
-		<input type="button" value='{' 		onclick="ins('{')" />
-		<input type="button" value='}' 		onclick="ins('}')" />
-		<input type="button" value='\' 		onclick="ins('\\')" />
-		<input type="button" value='+' 		onclick="ins('+')" />
-		<input type="button" value='<<<' 		onclick="del()" />
+    <input type="button" value='.' onclick="ins('.')" />
+    <input type="button" value="a" onclick="ins('alert()')"/>
+    <input type="button" value='""' onclick="ins('&quot;&quot;')"/>
+    <input type="button" value='=' onclick="ins('=')" />
+    <input type="button" value='f' onclick="ins('function(){}')" />
+    <input type="button" value='[]' onclick="ins('[]')" />
+    <input type="button" value='{}' onclick="ins('{}')" />
+    <input type="button" value='{' onclick="ins('{')" />
+    <input type="button" value='}' onclick="ins('}')" />
+    <input type="button" value='\' onclick="ins('\\')" />
+    <input type="button" value='+' onclick="ins('+')" />
+    <input type="button" value='<<<' onclick="del()" />
 </div>
 
 <div class="edit_box" id="edit_box">
@@ -203,44 +204,45 @@ var name_=Array()
 var txt_=Array()
 		
 shift=function(i){
-  eval("button" + index).style.color="black";
-  if(page.name.value!=""){
-     eval("button" + index).value=page.name.value;
-     set_sto("name"+index,page.name.value);
-     if(page.txt.value!=""){
-     	set_sto("txt"+index,page.txt.value);
-      }
-  }
-  page.style.display="none";
-  page=eval("page"+i);
-  page.style.display="block";
-  index=i;
-  eval("button" + index).style.color="red";
-  page.name.value=get_sto("name"+index)||"";
-  page.txt.value=get_sto("txt"+index)||"";
+    eval("button" + index).style.color="black";
+    if(page.name.value!=""){
+        eval("button" + index).value=page.name.value;
+        set_sto("name"+index,page.name.value);
+        if(page.txt.value!=""){
+            set_sto("txt"+index,page.txt.value);
+        }
+    }
+    page.style.display="none";
+    page=eval("page"+i);
+    page.style.display="block";
+    index=i;
+    eval("button" + index).style.color="red";
+    page.name.value=get_sto("name"+index)||"";
+    page.txt.value=get_sto("txt"+index)||"";
 }  
 
-
-read=function(){
-    var path="";//"main.php";
-    var str="name="+page.name.value;
-    post(path,str,function(a){page.txt.value=a});
-}
-w=function(){
-    var path="";//"main.php";
-    var str='name='+page.name.value+'&txt=' +encodeURIComponent(page.txt.value);
-    post(path,str,function(a){alert(a)});
-}
-
-add=function(){
-    var name=page.name.value;
-    var txt=page.txt.value;
-    git.add(name,txt);
-}
-
-d=function(){
-    var name=page.name.value;
-    git.del(name);
+phpFSO={
+    async read(){
+        var path="";//"main.php";
+        var str="name="+page.name.value;
+        var re=await http.post(path,str);
+        page.txt.value=re;
+    },
+    async write(){
+        var path="";//"main.php";
+        var str='name='+page.name.value+'&txt=' +encodeURIComponent(page.txt.value);
+        var re=await http.post(path,str);
+        alert(a);
+    },
+    async add(){
+        var name=page.name.value;
+        var txt=page.txt.value;
+        git.add(name,txt);
+    },
+    async delete(){
+        var name=page.name.value;
+        git.del(name);
+    }
 }
 del=function() {
     var textObj=page.txt;
@@ -301,18 +303,18 @@ document.oninput=function(a){
 } 
 
 window.onkeydown=function(a){
-  var obj=event.srcElement;//this.getSelection().focusNode.txt;
-  obj.len=obj.value.length;
+    var obj=event.srcElement;//this.getSelection().focusNode.txt;
+    obj.len=obj.value.length;
 }
 
 window.onload=function(){
-  eval(get_sto("js"));
-  page=page0;
-  addForm(1);addForm(2);
-  addForm(3);addForm(4);
-  addForm(5);addForm(6);
-  shift(1);
-  window.onresize();
+    eval(get_sto("js"));
+    page=page0;
+    addForm(1);addForm(2);
+    addForm(3);addForm(4);
+    addForm(5);addForm(6);
+    shift(1);
+    window.onresize();
 }
 window.onresize=function(){
   //window.innerHeight<400?show_ins():hide_ins();
@@ -356,32 +358,6 @@ set_sto=function(a,b){
 }
 get_sto=function(a){
      return localStorage.getItem(a)
-}
-
-post=function(path,str,fun) {  
-  var xmlHttp=null; 
-  try { // Firefox, Opera 8.0+, Safari 
-   xmlHttp=new XMLHttpRequest();
-  }catch (e) { // Internet Explorer 
-    try { 
-    xmlHttp=new ActiveXObject("Msxml2.XMLHTTP"); 
-    }catch (e) { 
-      xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-      } 
-    } 
-  if (xmlHttp==null) { 
-      alert ("您的浏览器不支持AJAX！"); 
-       return; 
-  }
-  xmlHttp.onreadystatechange=function(){
-    if(xmlHttp.readyState==4) { 
-     fun(xmlHttp.responseText)
-    }
-  }
-  xmlHttp.open("POST",path,true); 
-  xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-  xmlHttp.send(str); 
-  //xmlHttp=null;
 }
 
 show_ins=function(){
