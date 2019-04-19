@@ -1,0 +1,10 @@
+
+(async function(a){
+alert(gitFSO.delete)
+      var name=page.name.value;
+     alert(name) 
+        await git.deleteFile({"owner":"docfeng",repos:"page","name":name});
+        
+  alert(await gitFSO.delete())
+  
+ })() 
