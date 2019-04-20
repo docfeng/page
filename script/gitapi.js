@@ -23,6 +23,7 @@ gitapi=class gitapi{
         var psw=psw||prompt("密码:"+name);
         var users=await store.getItem("users");
         alert(users)
+        users=users?JSON.parse(users):{};
         users=JSON.parse(users);
         //var token=prompt("token");
         var author="Basic "+btoa(name+":"+psw);
