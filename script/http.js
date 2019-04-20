@@ -89,7 +89,7 @@ http={
                     xmlHttp.setRequestHeader(p,json.head[p]);
                 }
             }
-            //xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
             xmlHttp.send(str); 
         });
     }
