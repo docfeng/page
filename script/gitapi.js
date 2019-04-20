@@ -2,56 +2,120 @@ gitapi=class gitapi{
     constructor(name){
         this.name=name;
     }
-    async login(name){
+    async getUser(name){
+        this.name=name||this.name;
         if(this.user){return this.user};
-        var users=localStorage.getItem("users");
+        var users=await store.getItem("users");
         if(users){
             users=JSON.parse(users);
-            var name=name||this.name;
+            var name=name||this.name||prompt("用户名","docfeng");
             if(users[name]){
                 var author=users[name];
                 let user={name,author};
                 this.user=user;
                 return user;
             }
-        }else{
-            users={};
         }
-        let psw=prompt("密码");
+       return await this.login(name); 
+    }
+    async login(name,psw){
+        var name=name||prompt("用户名","docfeng");
+        var psw=psw||prompt("密码:"+name);
+        var users=await store.getItem("users");
+        alert(users)
+        users=JSON.parse(users);
         //var token=prompt("token");
         var author="Basic "+btoa(name+":"+psw);
         this.user={name,author};
         users[name]=author;
-        localStorage.setItem("users",JSON.stringify(users));
+        alert(JSON.stringify(users));
+        await store.setItem("users",JSON.stringify(users));
         return this.user;
     }
+    async getsha(repos,name){
+        if(!this.shas){
+            await this.getFiles(repos);
+        } 
+        var sha=this.shas[name]||null;
+        return sha;
+   } 
     async getRepos(){
-        let user=await this.login();
+        var user=await this.getUser();
         if(!user){return false;}
         var json={
             url:`https://api.github.com/users/${user.name}/repos`,
             head:{Authorization:user.author}
         }
-        var re=await f.ajax(json);
-        return re.text;
+        var re=await http.ajax(json);
+        return re;
     }
-    async getFiles(name){
-        let user=await this.login();
+    async getFiles(repos,name=""){
+        var user=await this.getUser();
         var json={
-            url:`https://api.github.com/repos/${user.name}/${name}/contents`,
+            url:`https://api.github.com/repos/${user.name}/${repos}/contents/${name}`,
             head:{Authorization:user.author}
         }
-        var re=await f.ajax(json);
-        return re.text;
+        var text=await http.ajax(json);
+        var re=JSON.parse(text);
+        var shas={};
+        for(var i=0;i<re.length;i++){
+            if(re[i].type="file"){
+                shas[re[i].path]=re[i].sha;
+            }
+        } 
+        this.shas=shas; 
+        return re;
+    }
+    async getDir(user,repos,name=""){
+        var re={};
+        var users=await store.getItem("users");
+        users=JSON.parse(users); 
+        if(!user||!users[user]){
+            var dir=[];
+            for(var i in users){
+                dir[dir.length]=i;
+            }
+            re.dir= dir;
+            return re;
+        }
+       if(users[user]) {
+           var git=new gitapi(user);
+           if(!repos){
+               var repo=await git.getRepos();
+               repo=JSON.parse(repo);
+               var dir=[];
+               for(var i=0;i<repo.length;i++){
+                   dir[dir.length]=repo[i].name;
+               }
+               re.dir= dir;
+               return re;
+           }else{
+               var repo=await git.getFiles(repos,name);
+               //alert(JSON.stringify(repo,null,4))
+               var dir=[];
+               var file=[];
+               for(var i=0;i<repo.length;i++){
+                   if(repo[i].type="file"){
+                       file[file.length]=repo[i].path;
+                   }else{
+                       //type="dir";
+                       dir[dir.length]=repo[i].path;alert(repo[i].type)
+                   }
+               }
+               re.file=file;
+               re.dir=dir;
+               return re;
+           }  
+       }  
     }
     async getFile(repos_name,file_name,branch="master"){
-        let user=await this.login();
+        var user=await this.getUser();
         var json={
             url:`https://api.github.com/repos/${user.name}/${repos_name}/contents/${file_name}?ref=${branch}`,
             head:{Authorization:user.author}
         }
-        var j=await f.ajax(json);
-        var json=JSON.parse(j.text);
+        var text=await http.ajax(json);
+        var json=JSON.parse(text);
         var re="";
         if(json.content){
               var re=window.atob(json.content);
@@ -60,34 +124,84 @@ gitapi=class gitapi{
         return re;
     }
     async createFile(para){
-        //status:201
-        para.branch=para.branch?para.branch:"master";
-        para.message=para.message?para.message:"add";
+        var user=await this.getUser();
+        //status:201 true;422 false;200 write true
+        var owner=para.owner;
+        var repos=para.repos; 
+        var name=para.name; 
+        var sha=await this.getsha(repos,name);
+        var branch=para.branch?para.branch:"master";
+        var message=para.message?para.message:"add";
+        var author= user.author;
         var str=window.btoa(unescape(encodeURIComponent(para.txt)));
         var data={
-            "message": para.message,
+            "message": message,
             "content": str,
-            "branch" : para.branch
+            "sha":sha,
+            "branch" : branch
         }
         var json={
-            url:"https://api.github.com/repos/"+para.owner+"/"+para.repos+"/contents/"+para.path,
-            head:{Authorization:para.author},
+            url:"https://api.github.com/repos/"+owner+"/"+repos+"/contents/"+name,
+            head:{Authorization:user.author},
             type:"put",
+            xml:true,
             data:JSON.stringify(data)
         }
-        var j=await f.ajax(json);
-        var json=JSON.parse(j.text);
+        var re=await http.ajax(json);
+        var status=re.xml.status;
+        switch(status){
+            case 200:alert("写入成功");break;
+            case 201:alert("创建成功");break;
+            case 422:alert("false");break;
+        }
+        var json=JSON.parse(re.html);
         var re="";
         if(json.content){
-            var re=window.atob(json.content);
-            re= decodeURIComponent(escape(re));
+            re=json.content.sha;
+            this.shas[name]=re; 
         }
         return re;
     }
     async writeFile(){
         
     }
-    async deleteFile(){}
+    async deleteFile(para){
+        //status:200 true;404 false;422参数错误
+        var user=await this.getUser();
+        var owner=para.owner;
+        var repos=para.repos; 
+        var name=para.name;
+        var sha=await this.getsha(repos,name);
+        if(!sha){
+            alert("不存在文件");
+            return 0;
+        }
+        var branch=para.branch?para.branch:"master";
+        var message=para.message?para.message:"delete";
+        var author= user.author;
+        var data={
+            "message": message,
+            "sha":sha,
+            "branch" : branch
+        }
+        var json={
+            url:"https://api.github.com/repos/"+owner+"/"+repos+"/contents/"+name,
+            head:{Authorization:user.author},
+            type:"delete",
+            xml:true,
+            data:JSON.stringify(data)
+        }
+        var re=await http.ajax(json);
+        var status=re.xml.status;
+        switch(status){
+            case 200:alert("删除成功");
+                delete this.shas[name];
+                break;
+            case 404:alert("没有文件");break;
+            case 422:alert("参数错误");break;
+        }
+       return re; 
+    }
     async createRespos(){}
     async deleteRespos(){}
     async getIssues(){}
@@ -102,54 +216,19 @@ gitapi=class gitapi{
     async createComment(){}
 }
 
-
-f={}
-f.ajax=function(json){
-    //method,url,async,data
-    json.type=json.type?json.type:"get";
-    json.url=json.url?json.url:"";
-    json.async=json.async?json.async:true;
-    json.data=json.data?json.data:null;
-    var xmlhttp=null;
-    if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
-      xmlhttp=new XMLHttpRequest();
-    }else if (window.ActiveXObject){// code for IE6, IE5
-      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    if (xmlhttp==null){
-      alert("Your browser does not support XMLHTTP.");
-      return 0;
-    }
-    return new Promise((resolve)=>{
-      xmlhttp.onreadystatechange=function(){
-        if(xmlhttp.readyState==4){// 4 = "loaded"
-          if(xmlhttp.status==200){// 200 = "OK"
-            //alert(xmlhttp.getAllResponseHeaders());
-            //alert(xmlhttp.getResponseHeader('X-RateLimit-Remaining'))
-            resolve({"text":xmlhttp.responseText,"xmlhttp":xmlhttp})
-          }else{
-            resolve({"text":xmlhttp.responseText,"xmlhttp":xmlhttp});
-          }
-        }
-      }
-      xmlhttp.open(json.type,json.url,json.async);
-      if(json.head){
-        for(var p in json.head){
-          xmlhttp.setRequestHeader(p,json.head[p]);
-        }
-      }
-      xmlhttp.send(json.data);
-    });
-}
-
-
 /*
 (async function(a){
-await gitapi.login();
+  var git=new gitapi("docfeng);
+  alert(await git.getRepos());
+  a1=await git.getFiles("page");
 alert(await gitapi.getRepos());
+alert(await git.getFile("page","git.html"));
+  var name="2019041901.txt";
+  alert(await git.deleteFile({"owner":"docfeng",repos:"page","name":name,txt:"reghhhst"}))
 //alert(await gitapi.getFiles("page"));
 })()
 
 */
-alert(gitapi)
+//git=new gitapi("docfeng")
+//alert()
 
