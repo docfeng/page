@@ -48,14 +48,14 @@ http={
     },
     async ajax(json){
         var  json=json;
-        var method=json.method;
+        var method=json.method||json.type||"get";
+        var async=json.async||true;
         var cors=json.cors||false;
-        var url=json.url;
-        var str=json.str;
+        var url=json.url||"";
+        var str=json.str||json.data||null;
         if(cors){
           url="http://gear.docfeng.top/get2.php?url="+url
         }
-        var str=json.str||"";
         var xml=json.xml||false;
         var xmlHttp=this.xmlhttp();
         xmlHttp.timeout=20000;
@@ -84,7 +84,12 @@ http={
                 throw setError("ajax超时20s","url:"+url);
             };
             xmlHttp.open(method,url,true); 
-            xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            if(json.head){
+                for(var p in json.head){
+                    xmlHttp.setRequestHeader(p,json.head[p]);
+                }
+            }
+            //xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
             xmlHttp.send(str); 
         });
     }
