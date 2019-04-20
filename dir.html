@@ -9,7 +9,13 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <META HTTP-EQUIV="expires" CONTENT="0">
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<script src="http://git.docfeng.top/script/http.js?2"></script>
+<title>文件管理系统for git</title>
+<meta name="description" content="版本号1.0" />
+<script src="http://git.docfeng.top/script/base.js"></script>
+<script src="script/http.js"></script>
+<script src="script/gitapi.js?i=1"></script>
+<script src="script/db.js"></script>
+<script src="script/store.js"></script>
 <style type="text/css">
 *{
     margin:0px;
@@ -21,7 +27,7 @@ html,body{
   overflow-y:hidden;
 }
 body{
-  font-size:1.5em; 
+  //font-size:2em; 
   //line-height:24px;
 }
 dialog{
@@ -60,14 +66,6 @@ dialog{
   border:1px solid black;
   background-color:green;
 }
-
-textarea{
-  width:100%;
-  height:400px;
-}
-
-
-
 dialog{
     height:100%;width:100%;background-color:green;
 }
@@ -87,56 +85,44 @@ dialog{
     //padding-top: 20px;
     //padding-bottom: 20px;
 }
+#file_txt{
+  width:100%;
+  height:400px;
+}
 </style>
 </head>
 <body>
 <div class="contain">
     <header>
-        <input type="button" value='<<<' onclick="fso.showback()" />
-<input type="button" value='>>>' onclick="fso.showforword()" />
         <input type="button" value='reload' onclick='location.reload()'/>
-        <input type="button" value='dir' onclick='msg.dir("")'/>
-        <input type="button" value='file' onclick='msg.file("")'/>
-        <input type="button" value="open" onclick='var obj = window.open("about:blank");obj.document.write(page.txt.value);'/>
-        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+        <input type="button" value='createDir' onclick='let _path=path?path+"/":path;let name=prompt("文件夹名称",_path+"");(async function(a){await htmlFSO.createDir(name);htmlFSO.show();})()'/>
+        <input type="button" value="deleteDir" onclick="htmlFSO.deleteDir(path);"/>
+        <input type="button" value="createFile" onclick='let _path=path?path+"/":path;msg.file(_path)'/>
+        <input type="button" value="login" onclick='git.login()'/>
+        <div id="pathUl"></div>
     </header>
     <div class="main" oncontextmenu="alert()">
-    <ul class="dir" onclick="fso.getDir(event.srcElement.innerHTML)" ondblclick="msg.dir(event.srcElement.innerHTML)">
+    <ul id="dirUl" class="dir" ondblclick="msg.dir(event.srcElement.innerHTML)">
+      
     </ul>
-    <div class="file" ondblclick="msg.file(event.srcElement.innerHTML)">
+    <div id="fileUl" class="file" ondblclick="msg.file(event.srcElement.innerHTML)">
         
     </div>
     </div>
-    <footer>
-    </footer>
+    <footer></footer>
 </div>
 
-<dialog id="dialog_dir" onclick="if(this.open){this.close()}">
-    <div class="dialog">
-    <header>文件夹操作</header>
-    <section  onclick="event.stopPropagation();">
-        <label for="dir_name">名称:</label>
-        <input type="text" id="dir_name" /><br/>
-        <input type="button" value="createDir" onclick="fso.createDir(dir_name.value)"/>
-        <input type="button" value="deleteDir" onclick="fso.deleteDir(dir_name.value)"/>
-    </section>
-    <footer>
-        <menu>
-            <button type="button" onclick="">取消</button>
-        </menu>
-    </footer>
-    </div>
-</dialog>
 <dialog id="dialog_file" onclick="if(this.open){this.close()}">
     <div class="dialog">
     <header>文件操作</header>
     <section  onclick="event.stopPropagation();">
+        <input type="button" value="getFile" onclick="htmlFSO.getFile(file_name.value)"/>
+        <input type="button" value="writeFile" onclick="htmlFSO.writeFile(file_name.value,file_txt.value)"/>
+        <input type="button" value="deleteFile" onclick="htmlFSO.deleteFile(file_name.value)"/>
+        <input type="button" value="downloadFile" onclick="htmlFSO.downloadFile(file_name.value)"/>
+        <br />
         <label>name:</label>
         <input type="text" id="file_name" /><br/>
-        <input type="button" value="getFile" onclick="fso.getFile(file_name.value)"/>
-        <input type="button" value="writeFile" onclick="fso.writeFile(file_name.value,file_txt.value)"/>
-        <input type="button" value="deleteFile" onclick="fso.deleteFile(file_name.value)"/>
-        <input type="button" value="downloadFile" onclick="fso.downloadFile(file_name.value)"/>
         <textarea id="file_txt"></textarea>
     </section>
     <footer>
@@ -147,85 +133,127 @@ dialog{
     </div>
 </dialog>
 <script>
-path="http://192.168.0.7:8080/dir.php";
-files_arr=[];
-files_index=-1;
-window.addEventListener("load",function(){
-  fso.getDir("");
+var path="";
+window.addEventListener("load",async function(){
+  git=new gitapi("docfeng");
+  htmlFSO.show();
 },false);
-    fso={
-        showback(){
-            if(files_index==0)return false;
-            files_index--;
-            this.showDir(files_arr[files_index]);
-        },
-        showforword(){
-            if(!files_arr[files_index+1])return false;
-            files_index++;
-            this.showDir(files_arr[files_index]);
-        },
-        async showDir(json){
-          var dir=json.dir;
-          var dir_li="";
-          for(var i=0;i<dir.length;i++){
-              dir_li+=`<li>${dir[i]}</li>`;
-          }
-          document.querySelector(".dir").innerHTML=dir_li;
-          var files=json.file;
-          var file_li="";
-          for(var i=0;i<files.length;i++){
-              file_li+=`<li>${files[i]}</li>`;
-          }
-          document.querySelector(".file").innerHTML=file_li;
-        },
+window.addEventListener("hashchange",async function(){
+  htmlFSO.show();
+},false);
+
+htmlFSO={
         async getDir(name){
-            var str="order=getDir&txt=777&name="+name;
-            var re=await http.post(path,str);
-            //alert(re);
-            files_arr[files_arr.length]=JSON.parse(re);
-            files_index++;
-            this.showDir(JSON.parse(re));
+            var hash=window.hash();
+            var path=hash["path"]||"";
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            var json=await git.getDir(user,repos,path);
+            json.dir=json.dir||[];
+            json.file=json.file||[];
+            return json;
         },
         async createDir(name){
             if(!confirm("是否创建文件夹:"+name)){return false;}
-            var re=await http.post(path,"order=createDir&name="+name);
+            var re=await http.post("","order=createDir&name="+name);
             alert(re);
         },
         async deleteDir(name){
-            if(!confirm("是否删除文件夹:"+name)){return false;}
-            var re=await http.post(path,"order=deleteDir&name="+name);
-            alert(re);
+            if(name==""){alert("不允许删除根目录");return false;}
+            if(confirm("是否删除文件夹:"+name)){
+              var re = await http.post("","order=deleteDir&name="+name);
+              alert(re);
+              window.history.go(-1);
+            }
+        },
+        async show(){
+            var json=await this.getDir();
+            //alert(json)
+            //alert(json.file)
+            var dirs=json.dir;
+            var dirHtml=""
+            for(var i=0;i<dirs.length;i++){
+              dirHtml+=`<li>${dirs[i]}</li>`;
+            }
+            dirUl.innerHTML=dirHtml;
+            var files=json.file;
+            var fileHtml=""
+            for(var i=0;i<files.length;i++){
+                fileHtml+=`<li>${files[i]}</li>`;
+            }
+            fileUl.innerHTML=fileHtml;
+            var pathArr=path.split("/");
+            var pathHtml="";
+            for(var i=0;i<pathArr.length;i++){
+                pathHtml+=`<button>${pathArr[i]}</button>/`;
+            }
+            pathUl.innerHTML=pathHtml;
         },
         async getFile(name){
-            var re=await http.post(path,"order=getFile&name="+name);
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            await git.getUser(user);
+            var re=await git.getFile(repos,name);
             file_txt.value=re;
         },
         async deleteFile(name){
             if(!confirm("是否删除文件:"+name)){return false;}
-            var re=await http.post(path,"order=deleteFile&name="+name);
+            var re=await http.post("","order=deleteFile&name="+name);
             alert(re);
         },
         async writeFile(name,txt){
             if(!confirm("是否写入文件:"+name)){return false;}
             var txt=encodeURIComponent(txt);
-            var re=await http.post(path,"order=writeFile&name="+name+"&txt="+txt);
+            var re=await http.post("","order=writeFile&name="+name+"&txt="+txt);
             alert(re);
         },
         async downloadFile(name){
-            var re=await http.post(path,"order=downloadFile&name="+name);
+            var re=await http.post("","order=downloadFile&name="+name);
             alert(re);
         }
     }
     msg={
         dir(name){
-            dialog_dir.showModal();
-            dialog_dir.querySelector("#dir_name").value=name;
+            //dialog_dir.showModal();
+            //dialog_dir.querySelector("#dir_name").value=name;
+            var hash=window.hash();
+            var _hash="";
+            if(!hash["user"]){
+                _hash="user="+name;
+            }else{
+                _hash="user="+hash["user"];
+                if(!hash["repos"]){
+                    _hash+=";repos="+name;
+                }else{
+                    _hash+=";repos="+hash["repos"];
+                    _hash+=";path="+name;
+                }
+            }
+            alert(_hash)
+            location.hash=_hash;
         },
         file(name){
             dialog_file.showModal();
             dialog_file.querySelector("#file_name").value=name;
         }
     }
+//监听回退按钮
+if (window.history && window.history.pushState) { 
+  window.addEventListener('popstate',function() { 
+    var hashLocation = location.hash; 
+    var hashSplit = hashLocation.split("#!/");
+    var hashName = hashSplit[1]; 
+    if (hashName !== '') { 
+      var hash = window.location.hash; 
+      if (hash === '') { 
+        window.history.pushState('forward', null, '');
+        if(window.onback){window.onback();1}
+      } 
+    } 
+  },false);
+  window.history.pushState('forward', null, ''); 
+}
 </script>
 </body>
 </html>
