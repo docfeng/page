@@ -9,16 +9,17 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <META HTTP-EQUIV="expires" CONTENT="0">
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<script src="js/_ini.js"></script>
-<!--<script src="script/git.js?i=1"></script>
+<!--<script src="//git.docfeng.top/js/_ini.js"></script>
+<script src="//git.docfeng.top/script/http.js"></script>
+<script src="//git.docfeng.top/script/git.js"></script>
+<script src="//git.docfeng.top/script/db.js"></script>
+<script src="//git.docfeng.top/script/store.js"></script>
 -->
-<script src="script/http.js?i=1"></script>
-<script src="script/git.js?i=1"></script>
-<script src="script/db.js?i=1"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
-
-<script src="script/store.js?i=1"></script>
-
+<script src="//git.docfeng.top/js/_ini.js"></script>
+<script src="script/http.js"></script>
+<script src="script/gitapi2.0.js"></script>
+<script src="script/db2.0.js"></script>
+<script src="script/store2.0.js"></script>
 <script>var ttt="";</script>
 <style type="text/css">
 html,body{
@@ -128,7 +129,7 @@ and (orientation : portrait) {
 /* 手机 */
 @media all and (max-width: 768px) {
   textarea{
-    font: 0.7em Arial, Helvetica, sans-serif;
+    font: 0.8em Arial, Helvetica, sans-serif;
     white-space:nowrap;
    }
 }
@@ -147,16 +148,17 @@ and (orientation : portrait) {
 </head>
 <body>
 <div class="top_box1" id="top_box">
-		<div class="control_box" id="control_box">
-				<input type="button" value='eval' 		onclick="eval(page.txt.value)" />
-				<input type="button" value='reload' onclick='location.reload()'/>
-				<input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
-		  <input type="button" value="write" onclick="w()"/>
-		  <input type="button" value="read" onclick="read()"/>
-		  <input type="button" value="add" onclick="add()"/>
-		  <input type="button" value="del" onclick="d()"/>
-		  <input type="button" value="open" onclick='var obj = window.open("about:blank");obj.document.write(page.txt.value);'/>
-		  <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+    <div class="control_box" id="control_box">
+        <input type="button" value='eval' onclick="eval(page.txt.value)" />
+        <input type="button" value='reload' onclick='location.reload()'/>
+        <input type="button" value='file' onclick='/*alert(fso.createFile("1.js"))*/'/>
+        <input type="button" value="write" onclick="htmlFSO.write()"/>
+        <input type="button" value="read" onclick="htmlFSO.read()"/>
+        <input type="button" value="add" onclick="htmlFSO.add()"/>
+        <input type="button" value="del" onclick="htmlFSO.delete();"/>
+        <input type="button" value="open" onclick='var obj = window.open("about:blank");obj.document.write(page.txt.value);'/>
+        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+    </div>
 		</div>
 		<div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
 				<input id="button1" type="button" value="page1" 	style="color:red;"		onclick="shift(1)">
@@ -196,7 +198,6 @@ var index=1;
 var button=button1;
 var name_=Array()
 var txt_=Array()
-		
 shift=function(i){
   eval("button" + index).style.color="black";
 
@@ -217,31 +218,31 @@ shift=function(i){
   page.txt.value=get_sto("txt"+index)||"";
 }  
 
+htmlFSO={
+    async read(){
+        var pageTXT=page.txt;
+        var name=page.name.value;
+        var text=await git.getFile("page",name);
+        page.txt.value=text
+    },
+    async write(){
+        var name=page.name.value;
+        var txt=page.txt.value;
+        await git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
+    },
+    async add(){
+        var name=page.name.value;
+        var txt=page.txt.value;
+        await git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
+    },
+    async delete(){
+        var name=page.name.value;
+        var re=await git.deleteFile({"owner":"docfeng",repos:"page","name":name});
+        //alert(re)
+        return true;
+    }
+}
 
-read=function(){
-  var pageTXT=page.txt;
-  var str=page.name.value;
-  git.read(str,function(a)  
-  {
-    pageTXT.value=a;
-  });
-}
-w=function(){
-  var name=page.name.value;
-  var txt=page.txt.value;
-  git.write(name,txt);
-}
-
-add=function(){
-  var name=page.name.value;
-  var txt=page.txt.value;
-  git.add(name,txt);
-}
-
-d=function(){
-  var name=page.name.value;
-  git.del(name);
-}
 del=function() {
  var textObj=page.txt;
  if (textObj.setSelectionRange) { 
@@ -282,6 +283,36 @@ ins=function(string) {
  } 
  textObj.focus();
 } 
+
+document.oninput=function(a){
+  var obj=event.srcElement;//this.getSelection().focusNode.txt;
+  var str1="";
+    if(obj.len>obj.value.length){
+        str1="删除";
+    }else if(obj.value.length-obj.len>1){
+        str1="粘贴";
+    }else{
+        var i1=obj.selectionStart
+        str1=obj.value.substring(i1-1, i1);
+        switch(str1){
+            case "\n":
+                str1="回车"
+                var len=obj.value.substring(0, i1-1).match(/(\u0020*)[^\n]*$/);
+                str1=len[1].length;
+                ins(len[1]);
+                break;
+            case " ":
+                str1="空格";
+                //ins("  ");
+                break;
+        }
+    }
+} 
+
+window.onkeydown=function(a){
+    var obj=event.srcElement;//this.getSelection().focusNode.txt;
+    obj.len=obj.value.length;
+}
 
 window.onload=function(){
   eval(get_sto("js"));
@@ -336,32 +367,6 @@ get_sto=function(a){
      return localStorage.getItem(a)
 }
 
-post=function(path,str,fun) {  
-  var xmlHttp=null; 
-  try { // Firefox, Opera 8.0+, Safari 
-   xmlHttp=new XMLHttpRequest();
-  }catch (e) { // Internet Explorer 
-    try { 
-    xmlHttp=new ActiveXObject("Msxml2.XMLHTTP"); 
-    }catch (e) { 
-      xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-      } 
-    } 
-  if (xmlHttp==null) { 
-      alert ("您的浏览器不支持AJAX！"); 
-       return; 
-  }
-  xmlHttp.onreadystatechange=function(){
-    if(xmlHttp.readyState==4) { 
-     fun(xmlHttp.responseText)
-    }
-  }
-  xmlHttp.open("POST",path,true); 
-  xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-  xmlHttp.send(str); 
-  //xmlHttp=null;
-}
-
 show_ins=function(){
   ins_box.style.display="block";
 }
@@ -369,7 +374,7 @@ hide_ins=function(){
   ins_box.style.display="none";
 }
 window.addEventListener('load',function(){
-  myStorage=new myStorage(function(){git=new git();});
+    git=new gitapi("docfeng");
 }, false);
 </script>
 </body>
