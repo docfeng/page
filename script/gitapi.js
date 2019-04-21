@@ -99,7 +99,7 @@ gitapi=class gitapi{
                        file[file.length]=repo[i].path;
                    }else{
                        //type="dir";
-                       dir[dir.length]=repo[i].path;alert(repo[i].type)
+                       dir[dir.length]=repo[i].path;
                    }
                }
                re.file=file;
