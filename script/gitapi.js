@@ -55,7 +55,7 @@ gitapi=class gitapi{
             url:`https://api.github.com/repos/${user.name}/${repos}/contents/${name}`,
             head:{Authorization:user.author}
         }
-        var text=await http.get(json);
+        var text=await http.get(json.url);
         var re=JSON.parse(text);
         var shas={};
         for(var i=0;i<re.length;i++){
