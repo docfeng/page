@@ -120,7 +120,11 @@ gitapi=class gitapi{
         var re="";
         if(json.content){
               var re=window.atob(json.content);
-            re= decodeURIComponent(escape(re));
+              re= decodeURIComponent(escape(re));
+        }
+        if(json.sha){
+            this.shas=this.shas||{};
+            this.shas[json.path]=json.sha;
         }
         return re;
     }
