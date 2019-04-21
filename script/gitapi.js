@@ -24,7 +24,6 @@ gitapi=class gitapi{
         var users=await store.getItem("users");
         alert(users)
         users=users?JSON.parse(users):{};
-        users=JSON.parse(users);
         //var token=prompt("token");
         var author="Basic "+btoa(name+":"+psw);
         this.user={name,author};
