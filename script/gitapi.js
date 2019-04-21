@@ -95,7 +95,7 @@ gitapi=class gitapi{
                var dir=[];
                var file=[];
                for(var i=0;i<repo.length;i++){
-                   if(repo[i].type="file"){
+                   if(repo[i].type=="file"){
                        file[file.length]=repo[i].path;
                    }else{
                        //type="dir";
