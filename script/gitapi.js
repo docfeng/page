@@ -59,7 +59,7 @@ gitapi=class gitapi{
         var re=JSON.parse(text);
         var shas={};
         for(var i=0;i<re.length;i++){
-            if(re[i].type="file"){
+            if(re[i].type=="file"){
                 shas[re[i].path]=re[i].sha;
             }
         } 
