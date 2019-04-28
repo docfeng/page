@@ -13,8 +13,8 @@
 <meta name="description" content="版本号1.0" />
 <script src="http://git.docfeng.top/script/base.js"></script>
 <script src="script/http.js"></script>
-<script src="script/gitapi.js"></script>
-<script src="script/db.js?i=1"></script>
+<script src="script/gitapi.js?i=1"></script>
+<script src="script/db.js"></script>
 <script src="script/store.js"></script>
 <style type="text/css">
 *{
@@ -116,7 +116,6 @@ dialog{
     <div class="dialog">
     <header>文件操作</header>
     <section  onclick="event.stopPropagation();">
-        <input type="button" value="eval" onclick="eval(file_txt.value)"/>
         <input type="button" value="getFile" onclick="htmlFSO.getFile(file_name.value)"/>
         <input type="button" value="writeFile" onclick="htmlFSO.writeFile(file_name.value,file_txt.value)"/>
         <input type="button" value="deleteFile" onclick="htmlFSO.deleteFile(file_name.value)"/>
@@ -200,14 +199,19 @@ htmlFSO={
         },
         async deleteFile(name){
             if(!confirm("是否删除文件:"+name)){return false;}
-            var re=await http.post("","order=deleteFile&name="+name);
-            alert(re);
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            var re=await git.deleteFile({"owner":user,repos:repos,"name":name});
+            alert(re)
+            return true;
         },
         async writeFile(name,txt){
             if(!confirm("是否写入文件:"+name)){return false;}
-            var txt=encodeURIComponent(txt);
-            var re=await http.post("","order=writeFile&name="+name+"&txt="+txt);
-            alert(re);
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            await git.createFile({"owner":user,repos:repos,"name":name,"txt":txt});
         },
         async downloadFile(name){
             var re=await http.post("","order=downloadFile&name="+name);
@@ -237,6 +241,7 @@ htmlFSO={
         file(name){
             dialog_file.showModal();
             dialog_file.querySelector("#file_name").value=name;
+            htmlFSO.getFile(name);
         }
     }
 //监听回退按钮
