@@ -1,0 +1,27 @@
+https://developer.github.com/v3/media/
+
+Accept: application/vnd.github.full+json
+
+application/vnd.github.v3+json
+application/vnd.github.v3.raw+json
+
+
+application/vnd.github.VERSION.raw+json
+body
+
+application/vnd.github.VERSION.text+json
+body_text
+
+application/vnd.github.VERSION.html+json
+body_html
+
+application/vnd.github.VERSION.full+json
+body,body_text,body_html
+
+application/vnd.github.VERSION+json
+application/json
+
+application/vnd.github.VERSION.raw
+
+response header:
+X-GitHub-Media-Type
