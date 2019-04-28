@@ -1,5 +1,6 @@
 //chrome.openFile("../git/noveldownload/noveldownload.html");
 http={
+    corsUrl:"http://gear.docfeng.top/get2.php",
     xmlhttp:function(){
         var xmlHttp=null; 
         try { // Firefox, Opera 8.0+, Safari 
@@ -54,7 +55,7 @@ http={
         var url=json.url||"";
         var str=json.str||json.data||null;
         if(cors){
-          url="http://gear.docfeng.top/get2.php?url="+url
+          url=this.corsUrl+"?url="+url
         }
         var xml=json.xml||false;
         var xmlHttp=this.xmlhttp();
