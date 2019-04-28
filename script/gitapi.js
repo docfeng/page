@@ -208,18 +208,47 @@ gitapi=class gitapi{
     }
     async createRespos(){}
     async deleteRespos(){}
-    async getIssues(){}
+    async getIssues(user_name,repos_name,number=""){
+        var user=await this.getUser();
+        var user_name=user_name||user.name;
+        var number=number==""?"":"/"+number;
+        var json={
+            url:`https://api.github.com/repos/${user_name}/${repos_name}/issues${number}`,
+            head:{Authorization:user.author}
+        }
+        var text=await http.ajax(json);
+        var json=JSON.parse(text);//url,comments_url,number,title,body
+        return json;
+    }
     async getIssue(){}
     async deleteIssue(){}
     async writeIssue(){}
     async createIssue(){}
-    async getComments(){}
+    async getComments(){
+        var user=await this.getUser();
+        if(arguments.length==1){
+            var url=arguments[0];
+        }else{
+            var user_name=arguments[0]||user.name;
+            var repos_name=arguments[1];
+            var number=arguments[2];
+            if(!user_name||!repos_name||!number)return false;
+            url=`https://api.github.com/repos/${user_name}/${repos_name}/issues/${number}/comments`
+        }
+        var json={
+            url:url,
+            head:{Authorization:user.author}
+        }
+        var text=await http.ajax(json);
+        alert(text) 
+        var json=JSON.parse(text);//url,html_url,issues_url,id,url.login,body
+        return json
+    }
     async getComment(){}
     async deleteComment(){}
     async writeComment(){}
     async createComment(){}
 }
-
 /*
 (async function(a){
   var git=new gitapi("docfeng);
