@@ -25,7 +25,6 @@ var data=
 * 填好后
 * 黑客科技 *
 `;
-git.formatMD
 var obj = window.open("about:blank");
 git.markdown(data).then(function(body){
 
