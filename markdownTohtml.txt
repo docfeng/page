@@ -1,0 +1,55 @@
+git.markdown=async function(str){
+        var user=await this.getUser();
+        var author= user.author;
+        var data={
+            "text": str,
+            "mode": "markdown"
+        }
+        var json={
+            url:"https://api.github.com/markdown",
+            head:{Authorization:user.author},
+            type:"post",
+            //xml:true,
+            data:JSON.stringify(data)
+        }
+        var re=await http.ajax(json);
+        //alert(re) 
+        return re;
+    }
+
+
+var data=
+`# 标题1
+## 标题
+> 今天天气很好
+* 填好后
+* 黑客科技 *
+`;
+git.formatMD
+var obj = window.open("about:blank");
+git.markdown(data).then(function(body){
+
+//alert(html);
+var html=`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>test</title>
+<link rel="stylesheet" href="/md_github.css" type="text/css" />
+<link rel="stylesheet" href="https://sindresorhus.com/github-markdown-css/github-markdown.css">
+</head>
+<article class="markdown-body">
+${body}
+</article>
+</body>
+</html>`;
+//var obj = window.open("about:blank");
+obj.document.write(html);
+});
+
+
+
