@@ -1,6 +1,6 @@
 //chrome.openFile("../git/noveldownload/noveldownload.html");
 http={
-    corsUrl:"http://gear.docfeng.top/get2.php",
+    corsUrl:"https://bird.ioliu.cn/v2/",
     xmlhttp:function(){
         var xmlHttp=null; 
         try { // Firefox, Opera 8.0+, Safari 
