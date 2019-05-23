@@ -11,3 +11,9 @@ git
 本地
 Reader
 downloader
+
+indexDB操作
+
+task任务
+长期任务 短期任务
+
