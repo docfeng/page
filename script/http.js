@@ -55,7 +55,8 @@ http={
         var url=json.url||"";
         var str=json.str||json.data||null;
         if(cors){
-          url=this.corsUrl+"?url="+url
+            var corsUrl=json.corsUrl||this.corsUrl;
+            url=corsUrl+"?url="+url
         }
         var xml=json.xml||false;
         var xmlHttp=this.xmlhttp();
