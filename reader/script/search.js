@@ -99,7 +99,11 @@ search={
       var name=this.name;
       var json=this.json;
       var url=json[i][1];
-      var o=await http.get(url,{xml:true});
+	  if(browser.MyApp){
+		  var o=await http.get(url,{xml:true});
+	  }else{
+		  var o=await http.get(url,{xml:true,cors:true,corsUrl:"http://gear.docfeng.top/get2.php"});
+	  }
       var url=o.url;
       var html=o.html
       json[i][1]=url;
