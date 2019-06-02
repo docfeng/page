@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<meta http-equiv="Expires" content="0"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-control" content="no-cache"> 
+<meta http-equiv="Cache" content="no-cache">
+<meta name="full-screen" content="yes"/>
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta content="telephone=no,email=no" name="format-detection">
+<meta name="keywords" content="阅读器" />
+<meta name="description" content="阅读器。" />
+	<script src="http://git.docfeng.top/script/http.js"></script>
+    <script src="http://git.docfeng.top/script/gitapi.js"></script>
+    <script src="http://git.docfeng.top/script/db.js"></script>
+	<script src="http://git.docfeng.top/script/store.js"></script>
+	
+	<script src="script/list.js"></script>
+	<script src="flexible.0.3.4.js"></script>
+	<script type="text/javascript" src="script/base.js"></script>
+	<script type="text/javascript" src="script/novel2.js"></script>
+	<script src="script/msg.js"></script>
+	<script> window. channelID = '200001'; </script>
+	<link href="https://s.zhulang.com/images/zl-logo114.png" rel="apple-touch-icon-precomposed">
+
+	<title>阅读器</title>
+
+
+<link rel="stylesheet" href="css/msg.css" type="text/css">
+<link rel="stylesheet" href="https://s.zhulang.com/wap/pub/v2/style/read-3873a62e78.css" type="text/css">
+<style type="text/css">
+	.app-bar {height: 1.4rem;background-color: transparent;padding:0 0;}
+	.app-bar.with-cls {padding-left:0;}
+	.app-bar i.cls {
+		right: 1%;
+	    top: -20%; 
+	    width: .5rem;
+	    height: .5rem;
+	    line-height: .5rem;
+	}
+	#ggList {
+		position:relative;
+		z-index: 42;
+	}
+	body.page-lr #ggList {
+	    bottom: 0px;
+	    position: fixed;
+	    width: 100%;
+	    z-index: 9;
+	}
+	#oneCls {
+	    display: block;
+	    position: absolute;
+	    bottom: 0%;
+	    right: 0%;
+	    color: #dfdfdf;
+	    font-weight: 100;
+	    z-index: 10;
+	    text-align: center;
+	}
+	[data-dpr="1"] #oneCls {
+		background: #333;
+		font-size: 10px;
+		opacity: .7;
+	    height: 20px;
+	    line-height: 20px;
+	}
+	[data-dpr="2"] #oneCls {
+		background: #333;
+		font-size:20px;
+	    height: 40px;
+	    line-height: 40px;
+	}
+	[data-dpr="3"] #oneCls {
+		background: #333;
+		font-size:30px;
+	    height: 60px;
+	    line-height: 60px;
+	}
+	.wkssp-logo {display: none;}
+	#feed_nat_1 .wkssp-s-three-image-with-title h3{ font-size: 120%;} 
+	body.page-ud .rd-txt {padding-bottom: 0 !important;}
+	body.fn-on .idx-zd {
+		position: fixed;
+		display: block;
+		height: 10%;
+		width: 12%;
+		z-index: 999;
+		top: 45%;
+		left: 89%;
+		background: black;
+		opacity: 0;
+	}
+	.free-downs {
+		margin-right: 10px;
+		color: #EEB422;
+	}
+	.free-downs a {color: #EEB422;}
+</style>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+//初始化
+window.addEventListener("load",async function(){
+  List=window.MyObject.List;
+  var list=await novel.getList();
+  window.page(novel.index1);
+  setTimeout(function(){
+    window.section(novel.index2);
+  },200);
+  //点击显示目录
+  document.getElementById("idx-zd").onclick = function() {
+        novel.showlist();
+        return;
+  }
+},false);
+  //alert($("#idx-zd").html())
+</script>
+<script>
+	/*var userInfo = {
+		uid : "",
+		nick : ""
+	};
+	var bookInfo = {
+		bid : "448689",
+		chid: "310301",
+		bookname : "帝国的晨辉",
+		chname : "第010章 夜袭"
+	};*/
+</script>
+</head>
+<body ontouchstart class=" fstep-5 bg-2 page-lr rd-day ">
+  <div class="rd-cnt">
+    <div class="rd-top" id="rd-top">
+      <!--小说名称-->
+      <span class="fl" id="page-name">第010章 夜袭</span>
+      <span class="fr free-downs"><a href="javascript:ini(prompt('跳转章节'))">免费下载</a></span>
+      <!--小说页码:1/4-->
+      <span class="fr page-nav" id="page-nav"></span>
+    </div>
+    <!-- 小说txt显示页 -->
+    <div class="rd-txt" id="rd-txt">
+      <div class="ud-link" style="position:relative; z-index:38">
+        <a href="https://www.baidu.com">上一章</a>
+        <a href="https://www.baidu.com">下一章</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="fn-cnt">
+    <div class="fn-top" id="fn-top">
+      <a href="javascript:alert(0)" class="fl backicon">
+        <i class="icon icon-back">返回</i>
+      </a>
+    </div>
+    
+    <div class="fn-btm fb-icon" id="fn-btm">
+      <ul>
+        <li class="night">
+					      <div>
+					        <i class="icon icon-moon"></i>
+						       <span>关灯</span>
+					      </div>
+        </li>
+        <li class="night1" onclick="window.location.reload()">
+					      <div>
+						       <i class="icon icon-moon"></i>
+						       <span>重载</span>
+					      </div>
+				     </li>
+        <li class="day">
+          <div>
+            <i class="icon icon-sun"></i>
+            <span>开灯</span>
+          </div>
+				     </li>
+				     <li class="li-cfg">
+          <div>
+            <i class="icon icon-cfg"></i>
+						       <span>设置</span>
+					      </div>
+				     </li>
+			    </ul>
+    </div>
+    <!--设置界面-->
+    <div class="cfg-pnl" id="cfg-pnl">
+      <ul>
+        <li class="cfg-font" id="cfg-control">
+          <label>控制</label>
+          <div>
+            <menu>
+            <menuitem class="fs-add" onclick="window.uppage()">上一章</menuitem>
+            <menuitem class="fs-rdu" onclick="window.next()">下一章</menuitem>
+            </menu>
+          </div>
+        </li>
+        <li class="cfg-font" id="cfg-font">
+          <label>字体</label>
+          <div>
+            <menu>
+            <menuitem class="fs-add">
+            A<em>+</em>
+            </menuitem>
+            <menuitem class="fs-rdu">
+            A<em>-</em>
+            </menuitem>
+            <menuitem class="fs-dft">默认</menuitem>
+            </menu>
+          </div>
+        </li>
+      
+        <li class="cfg-mode" id="cfg-mode">
+          <label>模式</label>
+          <div>
+            <menu>
+            <menuitem class="mode-ud">上下滑动</menuitem>
+            <menuitem class="mode-lr">左右滑动</menuitem>
+            </menu>
+          </div>
+        </li>
+      
+        <li class="cfg-bg" id='cfg-bg'>
+          <label>背景</label>
+          <div>
+            <menu>
+            <menuitem data-cls="bg-1" class="bg-1">bg1</menuitem>
+            <menuitem data-cls="bg-2" class="bg-2"></menuitem>
+            <menuitem data-cls="bg-3" class="bg-3"></menuitem>
+            <menuitem data-cls="bg-4" class="bg-4"></menuitem>
+            <menuitem data-cls="bg-5" class="bg-5">bg5</menuitem>
+            </menu>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--end of .fn-cnt-->
+
+  <div class="tap-hdl" id="tap-hdl">
+    <div class="pg-up">
+      <p>上一页</p>
+    </div>
+    <div class="pg-up-1"></div>
+    <div class="fn-div">
+      <div>
+        <i class="bg-hand"></i>
+        <span>点击功能呼出</span>
+      </div>
+    </div>
+    <div class="pg-dn">
+      <p>下一页</p>
+    </div>
+    <div class="pg-dn-1"></div>
+    <div class="pg-lft"><p>上一页</p></div>
+    <div class="pg-rit"><p>下一页</p></div>
+		
+    <input type="hidden" name="chpt-prev" id="prev-url" value="https://m.zhulang.com/BdRead/index/book_id/amyebGxp/ch_id/aWidZmVh/channel/aGiWZmRh.html">
+    <input type="hidden" name="next-prev" id="next-url" value="https://m.zhulang.com/BdRead/index/book_id/amyebGxp/ch_id/aWmZamti/channel/aGiWZmRh.html">
+  </div>
+    <!--end of .tap-hdl-->
+  <div class="idx-bg"></div>
+  <div class="idx-cnt" id="idx-cnt">
+    <div class="idx-hdl" id="idx-hdl">
+     
+    </div>
+    <!--目录-->
+    <div class="idx-zd" id="idx-zd"></div>
+  </div>
+  <!--end of idx-cnt -->
+  <div id="msg-cnt" class="msg-cnt"><span></span></div>
+
+<div class="alert">
+  <div class="alert_head">
+    <div class="alert_title">标题</div>
+    <div class="alert_close">&#8855;</div>
+  </div>
+  <div class="alert_body">
+    显示
+  </div>
+</div>
+  <script>
+  /*
+(function(){
+    function getLocal() {
+        // ajax
+        getLocal.prototype.inter = function() {
+            $.ajax({
+                url: 'https://m.zhulang.com/mock',
+                type: 'GET',
+                data: {},
+                success: function(data) {
+                    //var data = JSON.parse(data);
+                    alert(data)
+                    //localStorage.setItem('mock', JSON.stringify(c_mock));
+                },
+                error: function(data) {
+                    console.log(data)
+                }
+            })
+        };
+        getLocal.prototype.locals = function() {
+            //alert()
+        };
+    };
+    var mock = localStorage.getItem('mock');
+    var ready = localStorage.getItem('ready');
+    var storage = new getLocal();
+    if (ready == null || ready == undefined) {
+        localStorage.removeItem('mock');
+        localStorage.setItem('ready', '1');
+        storage.inter();
+    } else {
+        if (mock == null || mock == undefined) {
+            storage.inter();
+        } else {
+            storage.locals();
+        }
+    }
+})();*/
+  </script>
+  <script type="text/javascript" src="fso_jsonp.js"></script>
+  <script type="text/javascript" src="geth.js"></script>
+  <script type="text/javascript" src="script/readpage-0.1.js"></script>
+</body>
+</html>
