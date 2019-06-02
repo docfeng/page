@@ -63,7 +63,7 @@ search={
   async read(name){
     //获取本地保存的搜索结果
     var json=await fso.read(`Shelf/${name}/Source.json`);
-    if(json=="false"){
+    if(json=="false"||!json){
         json="[]";
     }
     json=this.json=JSON.parse(json);
