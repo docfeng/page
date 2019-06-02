@@ -101,10 +101,13 @@ search={
       var url=json[i][1];
 	  if(browser.MyApp){
 		  var o=await http.get(url,{xml:true});
+		  var url=o.url;
 	  }else{
 		  var o=await http.get(url,{xml:true,cors:true,corsUrl:"http://gear.docfeng.top/get2.php"});
+		  var url=o.xml.getResponseHeader("url");
 	  }
-      var url=o.url;
+	  //显示目录页
+      menu_obj.shift(2);
       var html=o.html
       json[i][1]=url;
       this.save(name,json);
