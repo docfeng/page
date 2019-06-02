@@ -31,7 +31,7 @@
 var Fso={
     fso:{},
     write:async function(name,value,bool=false){
-		var a=name.split{"/"};
+		var a=name.split("/");
 		var d="";
 		for(var i=0;i<a.length-1;i++){
 			d+=a[i];
