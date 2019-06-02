@@ -31,8 +31,17 @@
 var Fso={
     fso:{},
     write:async function(name,value,bool=false){
-         var re=await this.fso.write(name,value,bool);
-         return re;
+		var a=name.split{"/"};
+		var d="";
+		for(var i=0;i<a.length-1;i++){
+			d+=a[i];
+			if(!this.fso.exist(d)){
+			   this.fso.createFolder(d);
+			}
+			d+="/";
+		}
+        var re=await this.fso.write(name,value,bool);
+        return re;
     },
     read:async function(name){
         toast(name)
@@ -53,7 +62,16 @@ var Fso={
          alert(this.fso.writeZip(name1,name2))
     }
 }
-
+var Fso2={
+    write:async function(name,value,bool=false){
+         var re=await store.setItem(name,value);
+         return re;
+    },
+    read:async function(name){
+         var re=await store.getItem(name);
+         return re;
+    }
+}
 /*if(!window.fso){
   window.fso=new Fso(new fso_jsonp(),"online");
 }else{
@@ -63,6 +81,8 @@ var Fso={
 if(window.browser&&browser.MyApp){
     Fso.fso=fso;
     window.fso=Fso;
+}else{
+	window.fso=Fso2;
 }
 
 /*pfso.write("1.txt","测试dfc方法腹股沟工嘎嘎嘎嘎行",true,function(x){alert(x.txt)});
