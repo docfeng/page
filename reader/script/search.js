@@ -26,14 +26,19 @@
 */
 
 search={
-  get:async function(name){
-      //搜索
-      this.name=name;
-      var html=await http.get("http://www.baidu.com/s?q1="+name+
-          "&q2=&q3=&q4=&rn=20&lm=0&ct=0"+
-         "&ft=&q5=1&q6=&tn=baiduadv");
-       this.json= this.format(html);
-       return this.json;
+    get:async function(name){
+        //搜索
+		this.name=name;
+		var url="http://www.baidu.com/s?q1="+name+
+			"&q2=&q3=&q4=&rn=20&lm=0&ct=0"+
+			"&ft=&q5=1&q6=&tn=baiduadv";
+		if(browser.MyApp){
+			var html=await http.get(url);
+		}else{
+			var html=await http.get(url,{cors:true,corsUrl:"http://gear.docfeng.top/get2.php"});
+		}
+		this.json= this.format(html);
+		return this.json;
   },
   format(html){
     var arr=[];
