@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<meta http-equiv="Expires" content="0"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-control" content="no-cache"> 
+<meta http-equiv="Cache" content="no-cache">
+<meta name="full-screen" content="yes"/>
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>小说下载</title>
+<script src="http://git.docfeng.top/script/http.js"></script>
+<script src="http://git.docfeng.top/script/gitapi.js"></script>
+<script src="http://git.docfeng.top/script/db.js"></script>
+<script src="http://git.docfeng.top/script/store.js"></script>
+
+<script src="script/base.js"></script>
+<script src="script/fso.js"></script>
+
+<script src="script/shift.js"></script>
+<script src="script/msg.js"></script>
+<script src="script/menu.js"></script>
+
+<script src="script/list.js"></script>
+<script src="script/Shelf.js"></script>
+<script src="script/search.js"></script>
+
+<link rel="stylesheet" href="css/main.css" type="text/css"></link> 
+<link rel="stylesheet" href="css/test.css" type="text/css">
+<style type='text/css'>
+//小说
+/*#novel_menu{width:100%;
+	position:absolute; 
+	Bottom:0px;
+	display: none;
+} */	
+//table h3{font-size:10%;}
+input{
+  //height:1.5em;
+  font-size:0.7em;
+}
+input[type=text]{
+  height:15px;
+}
+input[type=number]{
+  height:15px;
+}
+#novel_view_body{
+	background: #666;
+      width:100%;
+      	height:572px;
+      	overflow:hidden;
+      	text-overflow:ellipsis;
+      	white-space:inherit;
+}
+#novel_view_body_content{
+	lineHeight:16px;
+}
+</style>
+<style>
+#setting{
+  display:none;
+}
+
+.toast-wrap{
+      opacity: 0;
+      position: fixed;
+      bottom: 50%;
+      color: #fff;
+      width: 100%;
+      text-align: center;
+   }
+   .toast-msg{
+      background-color: rgba(0,0,0,0.7);
+      padding: 2px 5px;
+      border-radius: 5px;
+   }
+  .toastAnimate{
+      animation: toastKF 2s;
+  }
+  @keyframes toastKF{
+      0% {opacity: 0;}
+     25% {opacity: 1; z-index: 9999}
+     50% {opacity: 1; z-index: 9999}
+     75% {opacity: 1; z-index: 9999}
+     100% {opacity: 0; z-index: 0}
+  }
+  
+  .console{
+      display:none;
+      position: fixed;
+      bottom: 25%;
+      color: #fff;
+      background-color: rgba(0,0,0,0.7);
+      left:30%;
+      width: 40%;
+      height:50%;
+      text-align: center;
+      overflow-y:scroll;
+  }
+  
+  .refreshText {
+            width: 100%;
+            height:0px;
+            line-height: 0px;
+            text-align: center;
+            //transform: translateY(-50px);
+        }
+</style>
+</head>
+<body>
+<div class="myhead" id="Mytitle" style="height:18px;"></div>
+<div class="menu fix" id="menu">
+    <ul data-index=1>
+        <li>调试eval</li>
+        <li>书架</li>
+        <li>目录</li>
+        <li>bds</li>
+    </ul>
+<!--1  调试-->
+    <div>
+        <form id="form_2">
+            <input type="button" value="eval" onclick="eval(form_2.txt1.value);" />
+            <input type="button" value="read" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){form_2.txt1.value+=txt;});}" />
+            <input type="button" value="加载script" onclick="var arr=script1.value.split(',');for(var i=0;i<arr.length;i++){get(arr[i],function(txt){eval(txt);alert(txt);});}" />
+            <input type="button" value='reload' onclick="document.location.reload();" />
+            <input type="button" value='epub' onclick='fso.writeZip(form_1.novel_name.value+".epub",form_1.novel_name.value)' />
+            <input type=button value="打开" onclick="chrome.openFile(form_1.novel_name.value+'.epub')"/>
+            <input type=button value="删除" onclick="fso.delete('zip/OPS')"/>
+            <br />
+            <input type="text" id="script1" style="height:10px" />
+            <textarea name="txt1" ></textarea>
+        </form>
+    </div>
+    <!--2  书架-->
+    <div>
+          <form id="form_3">
+              <input type="button" value="搜索" onclick="menu_obj.shift(3)" />
+              <input type="button" value='set' onclick="Shelf.set()" />  
+              <input type="button" value='get' onclick="Shelf.get()" />
+			  <input type="button" value='download' onclick="Shelf.download()" />  
+              <input type="button" value='upload' onclick="Shelf.upload()" />
+              <input type="button" value='检查更新' onclick="Shelf.update()" />	
+              <input type="button" value='删除' onclick="shelf_table.dataset.order='delete'" />
+              <div id="shelf_div" style="height:95%;overflow-x:hidden;overflow-y:auto;">
+                  <p class="refreshText"></p>
+                  <table id="shelf_table" style="table-layout:fixed" data-order="click" onclick="Shelf.click(event.srcElement,this.dataset.order);this.dataset.order='click';"></table>
+              </div>
+          </form>
+    </div>
+    <!--3 目录-->
+    <div>
+        <form id="form_4">
+            name:<input type="text" size=8 id="f4_name" />
+            url:<input type="text" size=14 id="f4_url" />
+            <br/>
+            new:<input type="text" size=14 id="f4_new">
+            count:<input type="text" size=4 id="f4_count">
+            <input type="number" min=0 max=1000 onchange="List.scroll(this.value)" />
+            <input type="button" value="换源" onclick="List.changeSource(f4_name.value);" />
+            <input type="button" value='更新' onclick="List.update(f4_url.value)" /> 
+            <input type="button" value='添加' onclick="List.addBook()" />  
+            <div id="List_Source" style="display:none;height:95%;overflow-x:hidden;overflow-y:auto;">
+                <table id="list_source" onclick="List.click(event.srcElement);"></table>
+            </div>
+        <div id=s1 style="height:90%;overflow-x:hidden;overflow-y:auto;">
+            <table id="list_table" onclick="List.click(event.srcElement);"></table>
+        </div>
+        </form>
+    </div>
+<!--搜索-->
+    <div>
+        <form id="form_6">
+            <input type="text" id="f6_name" onchange="">
+            <input type="button" value="搜索" onclick="search.get2(f6_name.value);" />
+            <input type="button" value="重载" onclick="search.get3(f6_name.value);" />
+            <div style="width:100%;height:50%;overflow-y:scroll;">
+              <table id="f6_table" onclick="search.click(event.srcElement);" ondblclick="search.dblclick(event.srcElement);"></table>
+            </div>
+        </form>
+    </div>    
+    
+ <!--结束-->
+</div>
+<div class="alert" style="display:none">
+  <div class="alert_head">
+    <div class="alert_title">标题</div>
+    <div class="alert_close">&#8855;</div>
+  </div>
+  <div class="alert_body">
+    显示
+  </div>
+</div>
+<div class="toast-wrap">
+            <span class="toast-msg"></span>
+</div>
+
+<div class="console">
+
+</div>
+
+<script>
+var console=function(){
+    var task="";
+    var bool=true;
+    var t=false;
+    var msg=document.getElementsByClassName('console')[0];
+    var console={
+      add:function(value){
+        task+=value+"<br>";
+        msg.innerHTML=task;
+        msg.scrollTop=msg.scrollHeight-msg.offsetHeight;
+        if(t)clearTimeout(t)
+        t=setTimeout(function(){
+            msg.style.display="none";
+            
+            alert(task);task="";bool=true;
+        }, 30000);
+        if(bool){this.show()}
+    },
+    show:function(){
+        bool=false;
+        setTimeout(function(){
+             msg.style.display="block";
+        },100);
+    }
+  }
+  return console;
+}()
+
+window.onload=function(){
+  if(browser.MyApp)chrome.computer();
+  git=new gitapi("docfeng");
+  List=window.MyObject.List;
+  Shelf=window.MyObject.Shelf;
+  Shelf.show();
+  addDownFlush(shelf_div)
+}
+	
+window.onresize=function(){ 
+}
+//window.addeventlistener("resize",function(){alert()},false);
+
+addDownFlush=function(obj){
+    var refreshText=obj.querySelector(".refreshText");
+    var Y=0;
+    var touch=function(event){
+        var event = event || window.event;
+        switch(event.type){
+            case "touchstart":
+                Y= event.touches[0].pageY;
+                break;
+            case "touchend":
+                if(isTop()){
+                    refreshText.innerHTML = "正在刷新...";
+                    setTimeout(function(){
+                        obj.style.transform = "translateY(0)";
+                        refreshText.style.height="0px";
+                        refreshText.innerHTML="";
+                    },500)
+                }
+                return;
+                break;
+            case "touchmove":
+                if(isTop() && (event.touches[0].pageY-Y) > 0){
+                    //refreshText.style.height = "20px";
+                    obj.style.transform = "translateY(20px)";
+                    obj.style.transition = "all ease 0.5s";
+                    refreshText.innerHTML = "释放立即刷新...";
+                }
+                //event.preventDefault();
+                //event.touches[0].clientX
+                break;
+        }
+    }
+    var isTop=function(){
+        var t = obj.scrollTop||document.documentElement.scrollTop||document.body.scrollTop;
+        return t === 0 ? true : false;
+    }
+    obj.addEventListener('touchstart',touch,false);
+    obj.addEventListener('touchmove',touch,false);
+    obj.addEventListener('touchend',touch,false);
+}
+
+
+get_radio=function(obj){
+    for(var i=0;i<obj.length;i++){
+        if(obj[i].checked){
+            return obj[i].value;
+         }
+     }
+     return false;
+}
+ 
+shiftDiv=function(div){
+    if(_reg.style.display==""||_reg.style.display=="block")
+    {
+        div.style.display="none";
+    }else{
+        div.style.display="block";
+    } 
+}
+
+document.oncontextmenu=function() {
+    event.returnValue=false;
+    msg("当前设置不允许使用右键！");
+}
+var toast=function(){
+    var task=[];
+    var bool=true;
+    function toast(msg){
+        task[task.length]=msg;
+        var show=function(){
+            bool=false;
+            var msg=task.shift();
+            setTimeout(function(){
+                document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML=msg;
+                var toastTag =document.getElementsByClassName('toast-wrap')[0];
+                toastTag.className = toastTag.className.replace('toastAnimate','');
+                setTimeout(function(){
+                    toastTag.className = toastTag.className + ' toastAnimate';
+                    if(task.length>0){
+                        show();
+                    }else{bool=true;}
+                 }, 1000);
+             },1500);
+         }
+         if(bool){show();}
+    }
+    return toast;
+}()
+</script>
+</body>
+</html>
