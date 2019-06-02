@@ -119,7 +119,7 @@ funcs={
       var t=this;
       //如果本地没有结果;
       if(!arr[i][2]){
-        var json=await http.get(arr[i][1],{xml:true,cors:true});
+        var json=await http.get(arr[i][1],{xml:true,cors:true,corsUrl:"http://gear.docfeng.top/get2.php"});
         var url=arr[i][1]=json.xml.getResponseHeader("url");
         arr[i][2]=true;
         arr[i][3]=json.html;
