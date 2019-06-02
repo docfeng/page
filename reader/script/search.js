@@ -57,13 +57,8 @@ search={
   },
   save(name,arr){
     //保存搜索结果
-    if(!fso.fso.exist("Shelf/"+name)){
-       if(!fso.fso.exist("Shelf")){
-           fso.fso.createFolder("Shelf");
-        }
-        fso.fso.createFolder("Shelf/"+name);
-    }
-    return fso.fso.write(`Shelf/${name}/Source.json`,JSON.stringify(arr),false);
+	fso.write(`Shelf/${name}/Source.json`,JSON.stringify(arr),false);
+	return true;
   },
   async read(name){
     //获取本地保存的搜索结果
