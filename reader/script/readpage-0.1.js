@@ -117,9 +117,11 @@ show=function(str){
 //初始化界面
 !function() {
 //12
+    //设置cookie
     function o() {
         setTimeout(function() {
             var t = ["fstep-" + at.cur, tt.cur, "page-" + F, "rd-" + X];
+            var R = (/BlackBerry|Windows Phone/i.test(navigator.userAgent), "__zwReadCfg");
             U.set(R, t.join(","), {
                 path: "/",
                 maxAge: 31104e3
@@ -149,9 +151,8 @@ show=function(str){
     
     
     
-    
+    //屏幕幕布
     function l() {
-      //屏幕幕布
         /*$("#tip-bg").length || et.append('<div class="tip-bg" id="tip-bg"></div>');
         var t = U.get(rt);
         "undefined" == t && (et.removeClass("tip-off").addClass("tip-on"), H = !0);
@@ -171,6 +172,37 @@ show=function(str){
             }
         })*/
     }
+    //面板点击
+    function f() {
+        ot.on("click", ".fn-div",
+        function(t) {
+            H || (t.preventDefault(), et.toggleClass("fn-on").removeClass("cfg-on").removeClass("idx-on"), V = !1)
+        }).on("touchmove",
+        function(t) {
+            et.removeClass("cfg-on").removeClass("fn-on")
+        })
+        
+        ot.on("click", "div",
+        function(t) {
+            if (!H) {
+                var n = $(this);
+                return n.hasClass("pg-lft") && !z() && _(),
+                n.hasClass("pg-rit") && !z() && T(),
+                !1
+            }
+        })
+        
+        ot.on("click", ".pg-up",
+        function(t) {
+            return ! z() && P(),
+            !1
+        }).on("click", ".pg-dn",
+        function(t) {
+            return ! z() && D(),
+            !1
+        })
+    }
+    //设置页面底部
     function u() {
         $(".fb-icon").on("click", "li>a, li>div",
         function() {
@@ -182,27 +214,14 @@ show=function(str){
             },
             500)
         }),
-        $("#fn-btm").on("click", "li.li-cfg div",
-        function(t) {
-            return t.preventDefault(),
-            et.toggleClass("cfg-on"),
-            !1
-        }),
+
         $(window).on("resize orientationchange",
         function(t) {
             et.removeClass("cfg-on").removeClass("fn-on"),
             "lr" == F && S(Z)
         })
     }
-    function f() {
-        ot.on("click", ".fn-div",
-        function(t) {
-            H || (t.preventDefault(), et.toggleClass("fn-on").removeClass("cfg-on").removeClass("idx-on"), V = !1)
-        }).on("touchmove",
-        function(t) {
-            et.removeClass("cfg-on").removeClass("fn-on")
-        })
-    }
+    
     function h() {
         //alert("h")
         /*
@@ -401,17 +420,35 @@ show=function(str){
             t.toggleClass("idx-rvt")
         })*/
     }
-    function b() {
-        ft.on("click", "menuitem",
-        function(t) {
+    //字体控制
+    function fontset() {
+        $("#cfg-font").on("click", "menuitem",function(t) {
             t.preventDefault();
             var n = $(this),
             e = at.cur,
             o = at.dft;
             n.hasClass("disabled") || n.hasClass("cur") || (n.hasClass("fs-add") && w(e + 1), n.hasClass("fs-rdu") && w(e - 1), n.hasClass("fs-dft") && w(o))
-        })
+        });
     }
+    //字体设置
+    function w(t, n) {
+		    var ft = $("#cfg-font"),
+		    ut = ft.find(".fs-add"),
+		    ht = ft.find(".fs-rdu"),
+		    mt = ft.find(".fs-dft");
+        var e = at.range,
+        t = 1 * t;
+        if ("number" == typeof t && (0 > t && (t = 0), t > e && (t = e), 0 == t ? ht.addClass("disabled") : ht.removeClass("disabled"), t == e ? ut.addClass("disabled") : ut.removeClass("disabled"), t == at.dft ? mt.addClass("cur") : mt.removeClass("cur"), at.cur = t, !n)) {
+            var o = $("body"),
+            i = o.attr("class"),
+            a = i.replace(/\s*fstep-\d\s*/g, " fstep-" + t + " ");
+            o.attr("class", a),
+            S(Z)
+        }
+    }
+    
     function C() {
+    	  //设置背景色
         var t = $("#cfg-bg");
         t.on("click", "menuitem",
         function(t) {
@@ -427,6 +464,7 @@ show=function(str){
                 n.addClass("cur").siblings("menuitem").removeClass("cur")
             }
         });
+        //设置底部
         var n = $("#fn-btm");
         n.on("click", "li.night div",
         function(t) {
@@ -441,8 +479,26 @@ show=function(str){
             X = "day",
             o()
         })
+        
+        $("#fn-btm").on("click", "li.li-down",
+        function(t) {
+            t.preventDefault();
+            var n = navigator.userAgent,
+            e = "目前支持iOS和安卓系统",
+            o = $(this);
+            return /Windows Phone|webOS|BlackBerry/i.test(n) ? void B.showMsg(e) : /MicroMessenger/i.test(n) ? void B.showMsg("请在浏览器中打开本页") : /windows|win32|Android/i.test(n) ? void(window.location = o.data("apk")) : /AppleWebKit.*Mobile/i.test(n) || /macintosh|mac os x/i.test(n) ? void(window.location = o.data("ipa")) : void B.showMsg(e)
+        })
+        
+        $("#fn-btm").on("click", "li.li-cfg div",
+        function(t) {
+            return t.preventDefault(),
+            et.toggleClass("cfg-on"),
+            !1
+        })
     }
+
     function x() {
+    	  //设置滑动模式：左右、上下
         $("#cfg-mode").on("click", "menuitem",
         function(t) {
             var n = $(this);
@@ -456,6 +512,7 @@ show=function(str){
             }
         })
     }
+    //页面点击、窗口关闭时设置cookie
     function y() {
         window.onbeforeunload = function() {
             o();
@@ -465,89 +522,7 @@ show=function(str){
             o()
         })
     }
-    function O() {
-        ot.on("click", "div",
-        function(t) {
-            if (!H) {
-                var n = $(this);
-                return n.hasClass("pg-lft") && !z() && _(),
-                n.hasClass("pg-rit") && !z() && T(),
-                !1
-            }
-        })
-    }
-    function L() {
-        ot.on("click", ".pg-up",
-        function(t) {
-            return ! z() && P(),
-            !1
-        }).on("click", ".pg-dn",
-        function(t) {
-            return ! z() && D(),
-            !1
-        })
-    }
-    function d() {
-        $("#fn-btm").on("click", "li.li-down",
-        function(t) {
-            t.preventDefault();
-            var n = navigator.userAgent,
-            e = "目前支持iOS和安卓系统",
-            o = $(this);
-            return /Windows Phone|webOS|BlackBerry/i.test(n) ? void B.showMsg(e) : /MicroMessenger/i.test(n) ? void B.showMsg("请在浏览器中打开本页") : /windows|win32|Android/i.test(n) ? void(window.location = o.data("apk")) : /AppleWebKit.*Mobile/i.test(n) || /macintosh|mac os x/i.test(n) ? void(window.location = o.data("ipa")) : void B.showMsg(e)
-        })
-    }
-    function s() {
-        var t = $(".rd-app-bar");
-        if (t.length) {
-            var n = "btm-ad",
-            e = "__zl-btm-key",
-            o = U.get(e);
-            "undefined" == o && (console.log("addClass"), setTimeout(function() {
-                et.addClass(n)
-            },
-            1e3)),
-            t.find(".cls,a").on("click",
-            function(o) {
-                et.removeClass(n);
-                var i = t.data("exp") || 86400;
-                U.set(e, "1", {
-                    path: "/",
-                    maxAge: i
-                })
-            })
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-    
-    
-    
-    
-    function w(t, n) {
-        var e = at.range,
-        t = 1 * t;
-        if ("number" == typeof t && (0 > t && (t = 0), t > e && (t = e), 0 == t ? ht.addClass("disabled") : ht.removeClass("disabled"), t == e ? ut.addClass("disabled") : ut.removeClass("disabled"), t == at.dft ? mt.addClass("cur") : mt.removeClass("cur"), at.cur = t, !n)) {
-            var o = $("body"),
-            i = o.attr("class"),
-            a = i.replace(/\s*fstep-\d\s*/g, " fstep-" + t + " ");
-            o.attr("class", a),
-            S(Z)
-        }
-    }
-    
-    	//屏幕换页动画
+    //屏幕换页动画
     function M(t, n, e, o, i) {
         //动画持续n秒;
         $(t).css("-webkit-transition", "-webkit-transform " + n + "ms ease"),
@@ -567,15 +542,16 @@ show=function(str){
         //如果i为function,n秒后执行i;
         "function" == typeof i && setTimeout(i, n)
     }
-    //rd-txt在n秒内沿x轴移动-t个屏幕距离;
-    function A(t, n) {
-        var e = $(window).width();
-        var o = "#rd-txt";
-        var a = t || Y;
-        var r = n || 0;
-        var G = -e * (a - 1);
-        //o对象r毫秒内沿x轴移动G长度，y轴移动0长度;
-        M(o, r, G, 0);
+    //rd-txt在n秒内沿x轴移动-x个屏幕距离;
+    function A(x, t) {
+        var width = $(window).width();
+        var obj = "#rd-txt";
+        var x = x || Y;
+        var t = t || 0;
+        var X = -width * (x - 1);
+        G=X
+        //obj对象t毫秒内沿x轴移动X长度，y轴移动0长度;
+        M(obj, t, X, 0);
     }
     	//计算界面,移动到第(t*总页数)页;
     function S(t) {
@@ -703,7 +679,7 @@ show=function(str){
     j = getn(7),
     N = B.supportAnimate().supported,
     W = B.io.parseUrl,
-    R = (/BlackBerry|Windows Phone/i.test(navigator.userAgent), "__zwReadCfg"),
+    
     U = B.cookie,
     J = "zreadPos_",
     K = window.bookInfo,
@@ -713,7 +689,7 @@ show=function(str){
     X = "",
     Y = 1,
     Z = 0,
-    G = 0,
+    G = -342,
     H = !1,
     V = !1,
     tt = {
@@ -738,6 +714,7 @@ show=function(str){
         },
         formatPage: function() {
             var t = "#__zrposed",
+            et = $("body"),
             e = et.attr("class"),
             o = W();
             o && "prev" == o.zref;
@@ -749,6 +726,7 @@ show=function(str){
             et.hasClass("page-lr") ? (F = "lr", S(Z), c($("#cfg-mode").find(".mode-lr"))) : (F = "ud", c($("#cfg-mode").find(".mode-ud")), Z && et.scrollTop(et.height() * Z - 32)),
             X = "day";//et.hasClass("rd-night") ? "night": "day";
             var s = e.match(/fstep-\d/);
+            //设置字体大小
             w(s ? s[0].split("-")[1] : 3, "noset");
             var d = e.match(/bg-\d/);
             d = d ? d[0].split("-")[1] : 2,
@@ -764,27 +742,20 @@ show=function(str){
             V = !1
         },
         reactCtls: function() {
-            l(),
-            u(),
-            f(),
-            h(),
-            b(),
-            C(),
-            x(),
-            y(),
-            O(),
-            L(),
-            d(),
-            s()
+            //屏幕幕布 l(),
+            u(),//设置页面底部
+            f(),//设置面板点击
+            //未知h(),
+            fontset(),
+            C(),//设置底部、设置背景色
+            x()//设置滑动模式：左右、上下
+            //y()//页面点击、窗口关闭时设置cookie
         }
     },
     ct = $("#idx-cnt").data("idxloaded") || !1,
     dt = !1,
-    lt = null,
-    ft = $("#cfg-font"),
-    ut = ft.find(".fs-add"),
-    ht = ft.find(".fs-rdu"),
-    mt = ft.find(".fs-dft"); 
+    lt = null; 
+    
     (function() {
         var t = {},
         n = {},
@@ -840,6 +811,7 @@ show=function(str){
                     i.addEventListener("touchmove", this, !1),
                     i.addEventListener("touchend", this, !1)
                 }
+                document.title="start"
             },
             move: function(i) {
                 if (! (i.touches.length > 1 || i.scale && 1 !== i.scale)) {
@@ -852,9 +824,11 @@ show=function(str){
                     "undefined" == typeof o && (o = !!(o || Math.abs(n.x) < Math.abs(n.y))), !o && "lr" == F) {
                         if (i.preventDefault(), 1 == Y && n.x > 0) return;
                         if (Y == q && n.x < 0) return;
+                        document.title+=G
                         M(a, 0, G + n.x, 0)
                     }
                 }
+                document.title+="move"
             },
             end: function(e) {
                 var a = +new Date - t.time,
@@ -873,6 +847,7 @@ show=function(str){
                 }
                 i.removeEventListener("touchmove", u, !1),
                 i.removeEventListener("touchend", u, !1)
+                document.title="end"
             }
         };
         i.addEventListener("touchstart", u, !1)
