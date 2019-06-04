@@ -90,10 +90,10 @@ geth=function(t, n, e) {
             n && v[n] && (t = v[n]);
             var e = e || []; !
             function() {
-                var n = document.createElement("script");
-                n.src = "//hm.baidu.com/hm.js?" + t;
-                var e = document.getElementsByTagName("script")[0];
-                e.parentNode.insertBefore(n, e)
+/*              var n = document.createElement("script");
+              n.src = "//hm.baidu.com/hm.js?" + t;
+              var e = document.getElementsByTagName("script")[0];
+              e.parentNode.insertBefore(n, e)*/
             } (),
             window._hmt = e
         }
