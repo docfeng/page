@@ -15,6 +15,7 @@ downloader
 index.html 
   title:阅读器
   下拉刷新
+  删除顺序
   
 
 
