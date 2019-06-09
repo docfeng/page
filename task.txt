@@ -17,6 +17,11 @@ index.html
   下拉刷新
   删除顺序
   下载数据刷新
+  数据保存
+  name url,arr
+             record,index
+             title,[txt,url]
+             
   
 
 
