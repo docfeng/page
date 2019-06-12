@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-web-app-title" content="github文件读写" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache" /> 
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>文件上传</title>
+<meta name="description" content="版本号1.0" />
+<script src="//git.docfeng.top/script/http.js"></script>
+<script src="//git.docfeng.top/script/gitapi.js"></script>
+<script src="//git.docfeng.top/script/db.js"></script>
+<script src="//git.docfeng.top/script/store.js"></script>
+<body>
+文件:<input type="file" id="file1" multiple="multiple">
+<input type="button" value="上传" onclick="preview()">
+<img id="img1" src="" height="200" alt="Image preview...">
+<span id=ss>gggg</span>
+<video src="https://github.com/docfeng/source/raw/master/Redcon_201712310610155785434128.mp4" width="100%" height="480" controls="controls"></video>
+<audio autoplay="autoplay" id="audio_play" loop="loop">
+<source src="MP3地址" type="audio/mpeg">
+<source src= type="audio/mpeg">
+</audio>
+<input type="text" id="sample" />
+<input type="button" id="sample" onclick="eval(eval1.value)" />
+<textarea id="eval1" style="width:100%;height:500px;"></textarea>
+<script>
+git=new gitapi("docfeng");
+function preview(e) {
+    var name=file1.files[0].name;
+    var reader = new FileReader();
+    reader.onloadend = function () {
+        // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+        var dataURL = reader.result;
+        //var img = new Image();
+        window.img1.src = dataURL;
+        alert(name)
+        var str=dataURL.split("base64,");
+        git.write({"owner":"docfeng",repos:"page","name":name,"txt":str[1]});
+        prompt("","")
+    };
+    reader.readAsDataURL(file1.files[0]); // 读出 base64
+}
+var node = document.querySelector('#sample');
+//alert(node)
+var inputLock = false;
+node.addEventListener('compositionstart', function(){
+    inputLock = true;
+})
+
+node.addEventListener('compositionend', function(){
+    inputLock = false;
+})
+
+node.addEventListener('input', function(){
+    ss.innerHTML=event.target;
+    if(!inputLock ){
+      
+    }// do something for input limit
+});
+git.write=async function(para){
+        var user=await this.getUser();
+        //status:201 true;422 false;200 write true
+        var owner=para.owner;
+        var repos=para.repos; 
+        var name=para.name; 
+        var sha=await this.getsha(repos,name);
+        var branch=para.branch?para.branch:"master";
+        var message=para.message?para.message:"add";
+        var author= user.author;
+        var str=para.txt;//window.btoa(unescape(encodeURIComponent(para.txt)));
+        var data={
+            "message": message,
+            "content": str,
+            "sha":sha,
+            "branch" : branch
+        }
+        var json={
+            url:"https://api.github.com/repos/"+owner+"/"+repos+"/contents/"+name,
+            head:{Authorization:user.author},
+            type:"put",
+            xml:true,
+            data:JSON.stringify(data)
+        }
+        var re=await http.ajax(json);
+        var status=re.xml.status;
+        switch(status){
+            case 200:alert("写入成功");break;
+            case 201:alert("创建成功");break;
+            case 422:alert("false");break;
+        }
+        var json=JSON.parse(re.html);
+        var re="";
+        if(json.content){
+            re=json.content.sha;
+            this.shas[name]=re; 
+        }
+        return re;
+    }
+   git.read= async function(repos_name,file_name,branch="master"){
+        var user=await this.getUser();
+        var json={
+            url:`https://api.github.com/repos/${user.name}/${repos_name}/contents/${file_name}?ref=${branch}`,
+            head:{Authorization:user.author}
+        }
+        var text=await http.ajax(json);
+        var json=JSON.parse(text);
+        var re="";
+        if(json.content){
+       alert() 
+              page5.txt.value=json.content;
+             alert() 
+              var re=window.atob(json.content);
+              re= decodeURIComponent(escape(re));
+        }
+        if(json.sha){ 
+            this.shas=this.shas||{};
+            this.shas[json.path]=json.sha;
+        }
+        return re;
+    }
+    
+  // git.createFile({"owner":"docfeng",repos:"page","name":"test123.txt","txt":str});
+</script>
+</body>
+</html>
