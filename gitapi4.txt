@@ -4,33 +4,33 @@ var query=`query {
     login
     url
     createdAt
-    repositories(first : 5, isFork : false) {
+    repositories(first : 15, isFork : false) {
       edges {
         node {
           name
-          stargazers (first : 10){
+          url 
+          id
+          __typename
+         issues(first: 10) {
+            totalCount
             edges {
-              starredAt
               node {
-                name
+                title
+                bodyHTML
               }
             }
           }
-          forks (first : 10){
-            edges {
-              node {
-                createdAt
-                name
-              }
-            }
-          }
-        }
+          
+         
+          
+         } 
       }
     }
   }
 }`;
-var query=`query {
+var query=`query{
   repository(owner: "docfeng", name: "page") {
+  
     pullRequest(number: 1) {
       commits(first: 10) {
         edges {
@@ -38,7 +38,6 @@ var query=`query {
             commit {
               oid
               message
-              
             }
           }
         }
@@ -63,8 +62,54 @@ var query=`query {
     }
   }
 }
+
 `
 g.query(query).then(function(a){
 alert(JSON.stringify(JSON.parse(a),null,4));
 })
 alert()
+
+/*
+query:viewer,repository
+
+
+viewer{
+    login
+    url
+    createAt
+    repositories
+    
+}
+
+repositories(first:5,isFork:false){
+  edges
+}
+
+         stargazers (first : 10){
+            edges {
+              starredAt
+              node {
+                name
+              }
+            }
+          }
+          forks (first : 10){
+            edges {
+              node {
+                createdAt
+                name
+              }
+            }
+          }
+        
+        issues(first: 10) {
+            totalCount
+            edges {
+              node {
+                title
+                bodyHTML
+              }
+            }
+          }
+
+*/
