@@ -1,0 +1,23 @@
+git=new gitapi("docfeng")
+id="502968532";
+git.getComments("docfeng","blog4",1).then(function(a){
+  //alert(a)
+alert(JSON.stringify(a,null,4))
+})
+git.getComment("docfeng","blog4",id).then(function(a){
+  //alert(a)
+alert(JSON.stringify(a,null,4))
+})
+
+git.writeComment("docfeng","blog4",id,"gjjhhej555").then(function(a){
+  alert(a.body)
+alert(JSON.stringify(a,null,4))
+})
+/*
+git.createComment("docfeng","blog4",1,"fgggghhh").then(function(a){
+  alert(JSON.stringify(a,null,4))
+})*/
+/*git.deleteComment("docfeng","blog4",383562226).then(function(a){
+  alert(a)
+alert(JSON.stringify(a,null,4))
+})*/
