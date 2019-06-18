@@ -327,6 +327,32 @@ gitapi=class gitapi{
         var json=JSON.parse(text);//url,html_url,issues_url,id,url.login,body
         return json
     }
+    async hasChange(time){
+        var url="https://api.github.com/repos/docfeng/page";
+        var json={
+            url:url,
+            method:"head",
+            xml:true,
+            head:{//"If-Modified-Since": new Date().toUTCString()//"Sun, 11 Aug 2013 19:48:59 GMT"
+            }
+        }
+        if(time){
+            json.head["If-Modified-Since"]=time.toUTCString();
+        }
+        var re=await http.ajax(json);
+        //var h=re.xml.getAllResponseHeaders()
+        if(re.xml.status=="304"){
+            return [true,this.getLimit(re.xml)];
+        }else{
+            return [false,this.getLimit(re.xml)];
+        } 
+    }
+    getLimit(xml){
+            return [xml.getResponseHeader("X-RateLimit-Remaining"),
+                xml.getResponseHeader("X-RateLimit-Limit"),
+                xml.getResponseHeader("X-RateLimit-Reset")
+            ];
+    }
 }
 /*
 (async function(a){
