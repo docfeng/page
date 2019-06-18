@@ -231,9 +231,9 @@ gitapi=class gitapi{
         }else{
             var user_name=arguments[0]||user.name;
             var repos_name=arguments[1];
-            var number=arguments[2];
-            if(!user_name||!repos_name||!number)return false;
-            url=`https://api.github.com/repos/${user_name}/${repos_name}/issues/${number}/comments`
+            var issue_number=arguments[2];
+            if(!user_name||!repos_name||!issue_number)return false;
+            url=`https://api.github.com/repos/${user_name}/${repos_name}/issues/${issue_number}/comments`
         }
         var json={
             url:url,
@@ -244,10 +244,89 @@ gitapi=class gitapi{
         var json=JSON.parse(text);//url,html_url,issues_url,id,url.login,body
         return json
     }
-    async getComment(){}
-    async deleteComment(){}
-    async writeComment(){}
-    async createComment(){}
+    async getComment(){
+        var user=await this.getUser();
+        if(arguments.length==1){
+            var url=arguments[0];
+        }else{
+            var user_name=arguments[0]||user.name;
+            var repos_name=arguments[1];
+            var comment_id=arguments[2];
+            if(!user_name||!repos_name||!comment_id)return false;
+            url=`https://api.github.com/repos/${user_name}/${repos_name}/issues/comments/${comment_id}`
+        }
+        var json={
+            url:url,
+            head:{Authorization:user.author}
+        }
+        var text=await http.ajax(json);
+        var json=JSON.parse(text);//url,html_url,issues_url,id,url.login,body
+        return json
+    }
+    async deleteComment(){
+        var user=await this.getUser();
+        if(arguments.length==1){
+            var url=arguments[0];
+        }else{
+            var user_name=arguments[0]||user.name;
+            var repos_name=arguments[1];
+            var comment_id=arguments[2];
+            if(!user_name||!repos_name||!comment_id)return false;
+            url=`https://api.github.com/repos/${user_name}/${repos_name}/issues/comments/${comment_id}`
+        }
+        var json={
+            url:url,
+            method:"delete",
+            head:{Authorization:user.author}
+        }
+        var text=await http.ajax(json);
+        var json=JSON.parse(text);//url,html_url,issues_url,id,url.login,body
+        return json
+    }
+    async writeComment(){
+        var user=await this.getUser();
+        if(arguments.length==1){
+            var url=arguments[0];
+        }else{
+            var user_name=arguments[0]||user.name;
+            var repos_name=arguments[1];
+            var comment_id=arguments[2];
+            var body=arguments[3];
+            if(!user_name||!repos_name||!comment_id)return false;
+            url=`https://api.github.com/repos/${user_name}/${repos_name}/issues/comments/${comment_id}`
+        }
+        var json={
+            url:url,
+            method:"PATCH",
+            str: JSON.stringify({"body":body}),
+            head:{Authorization:user.author}
+        }
+        var text=await http.ajax(json);
+        var json=JSON.parse(text);//url,html_url,issues_url,id,url.login,body
+        return json
+    }
+    async createComment(){
+        var user=await this.getUser();
+        if(arguments.length==1){
+            var url=arguments[0];
+        }else{
+            var user_name=arguments[0]||user.name;
+            var repos_name=arguments[1];
+            var issue_number=arguments[2];
+            var body=arguments[3];
+            if(!user_name||!repos_name||!issue_number||!body)return false;
+            url=`https://api.github.com/repos/${user_name}/${repos_name}/issues/${issue_number}/comments`
+        }
+        var json={
+            url:url,
+            method:"post",
+            str: JSON.stringify({"body":body}),
+            head:{Authorization:user.author}
+        }
+        var text=await http.ajax(json);
+        var json=JSON.parse(text);//url,html_url,issues_url,id,url.login,body
+        return json
+    }
 }
 /*
 (async function(a){
