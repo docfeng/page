@@ -514,12 +514,19 @@ $=(function(){
          document.body.appendChild(win);
 
          return new Promise(function(resolve){
+             let s=evt.addEvent(function(a){
+                  document.body.removeChild(win);
+                  resolve("evt");
+                  return true;
+             });
              obj.certain=function(a){
+                   evt.removeEvent(s);
                      document.body.removeChild(win);
                      resolve(re);
              }
     
              obj.cancel=function(a){
+                   evt.removeEvent(s);
                 document.body.removeChild(win);
                  resolve(false);
              }
