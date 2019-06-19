@@ -31,7 +31,7 @@ $=(function(){
 text-align:center
 }
 .select_box{
-    height:50%;
+    height:200px;
     overflow:scroll;
 }
 .select_box div:hover{
@@ -95,6 +95,7 @@ text-align:center
          win.appendChild(box);
          obj.win=win;
          obj.section=section;
+         obj.header=header;
          return obj;
      }
 
@@ -107,7 +108,7 @@ text-align:center
           var re=index?data[index]:data[0];
           var d=document.createElement("div");
           d.classList.add("select_box");
-          d.innerHTML=name;
+          obj.header.innerHTML=name;
           d.onclick=function(e){
                  var ele=e.srcElement;
                  if(ele==d)return;
