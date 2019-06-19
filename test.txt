@@ -77,5 +77,111 @@ sel("储存",["input","方法","ffggg"],0).then(function(a){
 
 
 
+msg=(function(){
+     var win=document.createElement("div");
+     var box=document.createElement("div");
+     var header=document.createElement("div");
+     var section=document.createElement("div")
+     var footer=document.createElement("div");
+     var certain=document.createElement("input");
+     var cancel=document.createElement("input");
+
+     win.classList.add("setting_m_box");
+     box.classList.add("setting_box");
+     header.classList.add("setting_head_box");
+     section.classList.add("setting_body_box");
+     footer.classList.add("setting_footer_box");
+
+     certain.type="button";
+     cancel.type="button";
+     certain.value="确定";
+     cancel.value="取消";
+
+     box.addEventListener("click",function(e){
+            var event=e||window.event;
+            event.stopPropagation();
+     },false);
+     footer.append(cancel,certain);
+     box.append(header,section,footer);
+     win.appendChild(box);
+     document.body.appendChild(win);
+     var msg=async function(arr){
+         var re={};
+         for(var i=0;i<arr.length;i++){
+             var a=arr[i];
+             var d=document.createElement("div")
+             d.innerHTML=a[0];
+             if(!a[1]||a[1]=="input"){
+                 re[a[0]]=a[2]||"";
+                 var text=document.createElement("input");
+                 text.type="text";
+                 text.value=a[2]||"";
+                 text.oninput=function(e){
+                     re[a[0]]=text.value;
+                 }
+                 d.appendChild(text);
+                 if(a[3]){
+                     var sel=document.createElement("input");
+                     sel.type="button";
+                     sel.value="选择";
+                     sel.onclick=async function(a){
+                         text.value="选择";
+                     }
+                    d.appendChild(sel);
+                  }
+             }
+             if(a[1]=="select"&&a[2]){
+                  re[a[0]]="";
+                  var s=a[2];
+                  var html=""
+                  for(var i=0;i<s.length;i++){
+                      html+=`<div>${s[i]}</div>`;
+                  }
+                  var s=document.createElement("div");
+                  s.innerHTML=html;
+                  s.onclick=function(e){
+                      var ele=e.srcElement;
+                      re[a[0]]=ele.innerHTML;
+                      ele.style.backgroundColor="black"
+                  }
+                  d.appendChild(s);
+             }
+             section.appendChild(d);
+         }
+         win.style.display="block";
+         return new Promise(function(resolve){
+             certain.onclick=function(a){
+                 win.style.display='none';
+                 resolve(re);
+             }
+    
+             cancel.onclick=function(a){
+                 win.style.display='none';
+                 resolve(false);
+             }
+  
+             win.onclick=function(a){
+                 win.style.display='none';
+                 resolve(false);
+             };
+         });
+     }
+     return msg
+})()
+msg([
+["储存","input","方法"],
+["秦吏"],
+["df","select",[1,2,3,4,6]]
+]).then(function(a){
+    alert(JSON.stringify(a,null,4));
+})
+
+
+
+
+
+
+
+
 
 
