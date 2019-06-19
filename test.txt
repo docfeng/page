@@ -1,6 +1,29 @@
 
-
 $=(function(){
+     if(!document.querySelector("#msg_box")){
+     var style = document.createElement("style");
+     style.id="msg_box" 
+     style.type = "text/css";
+     style.innerHTML=`
+.setting_m_box{
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  //background-color:OrangeRed;
+  z-index:113;
+  display:none;
+}
+.setting_box{
+  position:fixed;
+  width:100%;
+  min-height:50%;
+  bottom:0px;
+  background-color:Orange;
+}`;
+        document.getElementsByTagName("HEAD").item(0).appendChild(style);
+    }
      var obj=[];
      var createWin=function(){
          var obj={};
@@ -140,6 +163,10 @@ $=(function(){
      return $;
 })()
 
+
+
+
+
 $.select("储存",["input","方法","ffggg"],0).then(function(a){
     alert(a);
 })
@@ -154,7 +181,7 @@ $.select("储存1",["input","方法","ffggg"],0).then(function(a){
 
 
 
-msg([
+$.msg([
 ["储存","input","方法"],
 ["秦吏"],
 ["df","select",[1,2,3,4,6]]
