@@ -367,3 +367,273 @@ var browser = (function () {
         webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
     };
 })();
+
+$=(function(){
+     if(!document.querySelector("#msg_box")){
+     var style = document.createElement("style");
+     style.id="msg_box" 
+     style.type = "text/css";
+     style.innerHTML=`
+.setting_m_box{
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  //background-color:OrangeRed;
+  z-index:113;
+  //display:none;
+  font-size:1.2em; 
+}
+.setting_m_box input{
+  size:6;
+  font-size:1em;
+}
+.setting_box{
+  position:fixed;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  
+  width:100%;
+  min-height:50%;
+  bottom:20%;
+  background-color:Orange;
+  border:1px solid #AAF;
+}
+.setting_body_box{
+    width:100%;
+    text-align:center;
+    border:1px solid #0AF; 
+    flex-grow:3;
+}
+.select_box{
+    height:200px;
+    overflow:scroll;
+}
+.select_box div:hover{
+  background:red;
+}
+.setting_header_box{
+  text-align:center;
+  min-height:1em;
+}
+.setting_footer_box{
+    width:60%;
+    display:flex;
+    border:1px solid #00F;
+    align-content: stretch;
+    justify-content:space-around;
+    align-items:center;
+    //right:0;
+    //text-align:center;
+}
+.setting_footer_box input{
+  font-size:1.2em;
+}
+`;
+        document.getElementsByTagName("HEAD").item(0).appendChild(style);
+    }
+     var obj=[];
+     var createWin=function(){
+         var obj={};
+         var win=document.createElement("div");
+         var box=document.createElement("div");
+         var header=document.createElement("div");
+         var section=document.createElement("div")
+         var footer=document.createElement("div");
+         var certain=document.createElement("input");
+         var cancel=document.createElement("input");
+
+         win.classList.add("setting_m_box");
+         box.classList.add("setting_box");
+         header.classList.add("setting_header_box");
+         section.classList.add("setting_body_box");
+         footer.classList.add("setting_footer_box");
+
+         certain.type="button";
+         cancel.type="button";
+         certain.value="确定";
+         cancel.value="取消";
+
+         box.addEventListener("click",function(e){
+              var event=e||window.event;
+              event.stopPropagation();
+         },false);
+
+         certain.onclick=function(a){
+                 obj.certain()
+         }
+    
+         cancel.onclick=function(a){
+             obj.cancel();
+         }
+  
+         win.onclick=function(a){
+             obj.cancel();
+         };
+         footer.append(cancel,certain);
+         box.append(header,section,footer);
+         win.appendChild(box);
+         obj.win=win;
+         obj.section=section;
+         obj.header=header;
+         return obj;
+     }
+
+
+     var $={}
+     $.select=async function(name,data,index){
+          var obj=createWin()
+          var section=obj.section;
+          var win=obj.win;
+          var re=index?data[index]:data[0];
+          var d=document.createElement("div");
+          d.classList.add("select_box");
+          obj.header.innerHTML=name;
+          d.onclick=function(e){
+                 var ele=e.srcElement;
+                 if(ele==d)return;
+                 re=ele.innerHTML;
+                 /*if(ele.style.backgroundColor=="blue"){
+                      ele.style.backgroundColor="white";
+                 }else{
+                      ele.style.backgroundColor="blue";
+                 }*/
+         }
+         for(var i=0;i<data.length;i++){
+             var a=data[i];
+             var s=document.createElement("div")
+             s.innerHTML=a;
+             d.appendChild(s);
+         }
+         section.appendChild(d);
+         win.style.display="block";
+         //alert(name)
+         document.body.appendChild(win);
+
+         return new Promise(function(resolve){
+             obj.certain=function(a){
+                     document.body.removeChild(win);
+                     resolve(re);
+             }
+    
+             obj.cancel=function(a){
+                document.body.removeChild(win);
+                 resolve(false);
+             }
+         });
+     }
+     $.msg=async function(arr){
+         var re={};
+         var obj=createWin()
+         var section=obj.section;
+         var win=obj.win;
+         for(var i=0;i<arr.length;i++){
+             let a=arr[i];
+             let name=a[0];
+             let value=a[1];
+             let dataList=a[2];
+             var d=document.createElement("div")
+             d.innerHTML=name;
+             re[name]=value||"";
+             let text=document.createElement("input");
+             text.type="text";
+             text.value=value||"";
+             text.oninput=function(e){
+                     re[name]=text.value;
+             }
+             d.appendChild(text);
+             if(dataList){
+                     let s=document.createElement("input");
+                     s.type="button";
+                     s.value="选择";
+                     s.onclick=async function(e){
+                         var r=await $.select(name,dataList,0);
+                         //alert(r)
+                         text.value=r;
+                         re[name]=r;
+                     }
+                    d.appendChild(s);
+             }
+             section.appendChild(d);
+         }
+         win.style.display="block";
+         document.body.appendChild(win);
+         return new Promise(function(resolve){
+             obj.certain=function(a){
+                 document.body.removeChild(win);
+                 resolve(re);
+             }
+    
+             obj.cancel=function(a){
+                  document.body.removeChild(win);
+                 resolve(false);
+             }
+         });
+     }
+     $.addBottomEvent=(function(){
+    var fun;
+    var Y=0;
+    var Y2=0;
+    var time;
+    var u = {
+            //切换事件
+            handleEvent: function(e) {
+                switch (e.type) {
+                case "touchstart":
+                    this.start(e);
+                    break;
+                case "touchmove":
+                    this.move(e);
+                    break;
+                case "touchend":
+                    this.end(e);
+                    break;
+                case "webkitTransitionEnd":
+                case "msTransitionEnd":
+                case "oTransitionEnd":
+                case "otransitionend":
+                case "transitionend":
+                    this.transitionEnd(e);
+                }
+                e.stopPropagation && e.stopPropagation();
+            },
+            start: function(e) {
+                    var o = e.touches[0];
+                    var y=o.pageY;
+                    var h=window.innerHeight;
+                    if(h-y<20){
+                        time=new Date();
+                        Y=Y2=y;
+                        document.addEventListener("touchmove", this, !1),
+                        document.addEventListener("touchend", this, !1)
+                    }
+            },
+            move: function(e) {
+                var o = e.touches[0];
+                Y2=o.pageY;
+                if (! (e.touches.length > 1)) {
+                    e.disableScroll && e.preventDefault();
+                    //var o = e.touches[0];
+                }
+            },
+            end: function(e) {
+                var o = e.touches[0];
+                var t=new Date - time;
+                if(t<500&&(Y-Y2)>60&&fun){
+                     fun(e)
+                }
+                Y=0;Y2=0;
+                document.removeEventListener("touchmove", this, !1);
+                document.removeEventListener("touchend", this, !1);
+            }
+        };
+        document.addEventListener("touchstart", u, !1);
+        return function(f){
+           fun=f;
+        }
+     })()
+     return $;
+})();
