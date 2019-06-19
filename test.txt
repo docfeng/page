@@ -1,7 +1,6 @@
 
 $=(function(){
      if(!document.querySelector("#msg_box")){
-    alert() 
      var style = document.createElement("style");
      style.id="msg_box" 
      style.type = "text/css";
