@@ -30,11 +30,24 @@ $=(function(){
 .setting_body_box{
 text-align:center
 }
+.select_box{
+    height:50%;
+    overflow:scroll;
+}
+.select_box div:hover{
+  background:red;
+}
 .setting_footer_box{
-text-align:center;
+    position:fixed;
+    bottom:0px;
+    width:100%;
+    margin:auto;
+   // left:0;
+    //right:0;
+    text-align:center;
 }
 .setting_footer_box input{
-  font-size:2em;
+  font-size:1.2em;
 }
 `;
         document.getElementsByTagName("HEAD").item(0).appendChild(style);
@@ -93,16 +106,17 @@ text-align:center;
           var win=obj.win;
           var re=index?data[index]:data[0];
           var d=document.createElement("div");
+          d.classList.add("select_box");
           d.innerHTML=name;
           d.onclick=function(e){
                  var ele=e.srcElement;
                  if(ele==d)return;
                  re=ele.innerHTML;
-                 if(ele.style.backgroundColor=="blue"){
+                 /*if(ele.style.backgroundColor=="blue"){
                       ele.style.backgroundColor="white";
                  }else{
                       ele.style.backgroundColor="blue";
-                 }
+                 }*/
          }
          for(var i=0;i<data.length;i++){
              var a=data[i];
