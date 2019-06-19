@@ -698,23 +698,22 @@ evt={
           delete this[state];
           window.history.go(-1)
         }
+    },
+    fireEvent=function(state){
+        var event = document.createEvent('HTMLEvents');
+        event.initEvent("back", true, true);
+        event.eventType = state;
+        document.dispatchEvent(event);
     }
 }
 window.addEventListener('back', evt, false);
-
-fireEvent=function(e,m=""){
-    var event = document.createEvent('HTMLEvents');
-    event.initEvent(e, true, true);
-    event.eventType = m;
-    document.dispatchEvent(event);
-}
 
 if (window.history && window.history.pushState) { 
   window.addEventListener('popstate',function(e) { 
     var state=e.state;
 if(typeof state=="string"){
     //alert(state)
-    fireEvent("back",state);
+    evt.fireEvent(state);
 }else{
     alert(JSON.stringify(state))
 } 
