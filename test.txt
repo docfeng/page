@@ -1,6 +1,7 @@
 
 $=(function(){
      if(!document.querySelector("#msg_box")){
+    alert() 
      var style = document.createElement("style");
      style.id="msg_box" 
      style.type = "text/css";
@@ -13,7 +14,12 @@ $=(function(){
   height:100%;
   //background-color:OrangeRed;
   z-index:113;
-  display:none;
+  //display:none;
+  font-size:1.2em; 
+}
+.setting_m_box input{
+  size:6;
+  font-size:1em;
 }
 .setting_box{
   position:fixed;
@@ -21,7 +27,17 @@ $=(function(){
   min-height:50%;
   bottom:0px;
   background-color:Orange;
-}`;
+}
+.setting_body_box{
+text-align:center
+}
+.setting_footer_box{
+text-align:center;
+}
+.setting_footer_box input{
+  font-size:2em;
+}
+`;
         document.getElementsByTagName("HEAD").item(0).appendChild(style);
     }
      var obj=[];
@@ -167,14 +183,14 @@ $=(function(){
 
 
 
-$.select("储存",["input","方法","ffggg"],0).then(function(a){
+/*$.select("储存",["input","方法","ffggg"],0).then(function(a){
     alert(a);
 })
 
 $.select("储存1",["input","方法","ffggg"],0).then(function(a){
     alert(a);
 })
-
+*/
 
 
 
