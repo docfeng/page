@@ -175,6 +175,68 @@ text-align:center;
              }
          });
      }
+     $.addBottomEvent=(function(){
+    var fun;
+    var Y=0;
+    var Y2=0;
+    var time;
+    var u = {
+            //切换事件
+            handleEvent: function(e) {
+                switch (e.type) {
+                case "touchstart":
+                    this.start(e);
+                    break;
+                case "touchmove":
+                    this.move(e);
+                    break;
+                case "touchend":
+                    this.end(e);
+                    break;
+                case "webkitTransitionEnd":
+                case "msTransitionEnd":
+                case "oTransitionEnd":
+                case "otransitionend":
+                case "transitionend":
+                    this.transitionEnd(e);
+                }
+                e.stopPropagation && e.stopPropagation();
+            },
+            start: function(e) {
+                    var o = e.touches[0];
+                    var y=o.pageY;
+                    var h=window.innerHeight;
+                    if(h-y<20){
+                        time=new Date();
+                        Y=Y2=y;
+                        document.addEventListener("touchmove", this, !1),
+                        document.addEventListener("touchend", this, !1)
+                    }
+            },
+            move: function(e) {
+                var o = e.touches[0];
+                Y2=o.pageY;
+                if (! (e.touches.length > 1)) {
+                    e.disableScroll && e.preventDefault();
+                    //var o = e.touches[0];
+                }
+            },
+            end: function(e) {
+                var o = e.touches[0];
+                var t=new Date - time;
+                if(t<500&&(Y-Y2)>60&&fun){
+                     fun(e)
+                }
+                Y=0;Y2=0;
+                document.removeEventListener("touchmove", this, !1);
+                document.removeEventListener("touchend", this, !1);
+            }
+        };
+        document.addEventListener("touchstart", u, !1);
+        return function(f){
+           fun=f;
+        }
+     })()
      return $;
 })()
 
