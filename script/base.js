@@ -699,7 +699,7 @@ evt={
           window.history.go(-1)
         }
     },
-    fireEvent=function(state){
+    fireEvent(state){
         var event = document.createEvent('HTMLEvents');
         event.initEvent("back", true, true);
         event.eventType = state;
