@@ -22,13 +22,19 @@ $=(function(){
 }
 .setting_box{
   position:fixed;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
   width:100%;
   min-height:50%;
-  bottom:0px;
+  bottom:20%;
   background-color:Orange;
+  border:1px solid #AAF;
 }
 .setting_body_box{
-text-align:center
+    text-align:center;
+    border:1px solid #0AF; 
+    flex-grow:3;
 }
 .select_box{
     height:200px;
@@ -37,14 +43,17 @@ text-align:center
 .select_box div:hover{
   background:red;
 }
+.setting_header_box{
+  min-height:1em;
+}
 .setting_footer_box{
-    position:fixed;
-    bottom:0px;
     width:100%;
-    margin:auto;
-   // left:0;
+    display:flex;
+    border:1px solid #00F;
+    justify-content:space-around;
+    aligns-item:center;
     //right:0;
-    text-align:center;
+    //text-align:center;
 }
 .setting_footer_box input{
   font-size:1.2em;
@@ -65,7 +74,7 @@ text-align:center
 
          win.classList.add("setting_m_box");
          box.classList.add("setting_box");
-         header.classList.add("setting_head_box");
+         header.classList.add("setting_header_box");
          section.classList.add("setting_body_box");
          footer.classList.add("setting_footer_box");
 
