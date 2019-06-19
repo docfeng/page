@@ -25,6 +25,8 @@ $=(function(){
   display: -webkit-flex;
   display: flex;
   flex-direction: column;
+  align-items:center;
+  
   width:100%;
   min-height:50%;
   bottom:20%;
@@ -32,6 +34,7 @@ $=(function(){
   border:1px solid #AAF;
 }
 .setting_body_box{
+    width:100%;
     text-align:center;
     border:1px solid #0AF; 
     flex-grow:3;
@@ -48,11 +51,12 @@ $=(function(){
   min-height:1em;
 }
 .setting_footer_box{
-    width:100%;
+    width:60%;
     display:flex;
     border:1px solid #00F;
+    align-content: stretch;
     justify-content:space-around;
-    aligns-item:center;
+    align-items:center;
     //right:0;
     //text-align:center;
 }
