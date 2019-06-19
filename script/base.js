@@ -575,12 +575,19 @@ $=(function(){
          win.style.display="block";
          document.body.appendChild(win);
          return new Promise(function(resolve){
+              let s=evt.addEvent(function(a){
+                  document.body.removeChild(win);
+                  resolve("evt");
+                  return true;
+             });
              obj.certain=function(a){
                  document.body.removeChild(win);
+                 evt.removeEvent(s)
                  resolve(re);
              }
     
              obj.cancel=function(a){
+                 evt.removeEvent(s)
                   document.body.removeChild(win);
                  resolve(false);
              }
@@ -650,3 +657,67 @@ $=(function(){
      })()
      return $;
 })()
+
+evt={
+     num:0,
+     async handleEvent(e){
+        var type=e.eventType;
+        var fun=this[type];
+        if(fun){
+            var re=await fun();
+            if(re){
+                delete this[type];
+            }
+        };
+    },
+    remove(){
+        window.removeEventListener("back",this,false);
+    },
+    set(state,fun){
+        window.history.replaceState(state, null, '');
+        window.history.pushState('forward', null, '');
+        this[state]=fun;
+    },
+    addEvent(fun){
+        var state="event"+this.num;
+        this.num++;
+        window.history.replaceState(state, null, '');
+        window.history.pushState('forward', null, '');
+        this[state]=fun;
+        return state
+    },
+    removeEvent(state){
+        if(this[state]){
+          delete this[state];
+          window.history.go(-1)
+        }
+    }
+}
+window.addEventListener('back', evt, false);
+
+fireEvent=function(e,m=""){
+    var event = document.createEvent('HTMLEvents');
+    event.initEvent(e, true, true);
+    event.eventType = m;
+    document.dispatchEvent(event);
+}
+
+if (window.history && window.history.pushState) { 
+  window.addEventListener('popstate',function(e) { 
+    var state=e.state;
+if(typeof state=="string"){
+    //alert(state)
+    fireEvent("back",state);
+}else{
+    alert(JSON.stringify(state))
+} 
+  },false);
+  window.history.replaceState('onback', null, '');
+  window.history.pushState('forward', null, ''); 
+}
+
+evt.onback=function(a){
+     window.history.pushState('forward', null, '');
+     alert("onback")
+     //window.removeEventListener("back",evt,false);
+}
