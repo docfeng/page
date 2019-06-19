@@ -525,7 +525,7 @@ $=(function(){
              }
          });
      }
-     $.msg=async function(arr){
+     $.input=async function(arr){
          var re={};
          var obj=createWin()
          var section=obj.section;
@@ -533,8 +533,21 @@ $=(function(){
          for(var i=0;i<arr.length;i++){
              let a=arr[i];
              let name=a[0];
-             let value=a[1];
-             let dataList=a[2];
+             let data=a[1];
+             let value="";
+             let dataList="";//a[2];
+             if(data){
+                 if(data instanceof Array){
+                     if(a[2]&&typeof a[2]=="number"){
+                         value=data[a[2]];
+                     }else{
+                         value=data[0];
+                     }
+                     dataList=data;
+                 }else{
+                     value=data;
+                 }
+             }
              var d=document.createElement("div")
              d.innerHTML=name;
              re[name]=value||"";
@@ -636,4 +649,4 @@ $=(function(){
         }
      })()
      return $;
-})();
+})()
