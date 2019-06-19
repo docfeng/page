@@ -1,0 +1,81 @@
+sel=(function(){
+     var win=document.createElement("div");
+     var box=document.createElement("div");
+     var header=document.createElement("div");
+     var section=document.createElement("div")
+     var footer=document.createElement("div");
+     var certain=document.createElement("input");
+     var cancel=document.createElement("input");
+
+     win.classList.add("setting_m_box");
+     box.classList.add("setting_box");
+     header.classList.add("setting_head_box");
+     section.classList.add("setting_body_box");
+     footer.classList.add("setting_footer_box");
+
+     certain.type="button";
+     cancel.type="button";
+     certain.value="确定";
+     cancel.value="取消";
+
+     box.addEventListener("click",function(e){
+            var event=e||window.event;
+            event.stopPropagation();
+     },false);
+     footer.append(cancel,certain);
+     box.append(header,section,footer);
+     win.appendChild(box);
+     document.body.appendChild(win);
+     var msg=async function(name,data,index){
+         var re=index?data[index]:data[0];
+         var d=document.createElement("div");
+         d.innerHTML=name;
+         d.onclick=function(e){
+                 var ele=e.srcElement;
+                 if(ele==d)return;
+                 re=ele.innerHTML;
+                 if(ele.style.backgroundColor=="blue"){
+                      ele.style.backgroundColor="white";
+                 }else{
+                      ele.style.backgroundColor="blue";
+                 }
+         }
+         for(var i=0;i<data.length;i++){
+             var a=data[i];
+             var s=document.createElement("div")
+             s.innerHTML=a;
+             d.appendChild(s);
+         }
+         section.appendChild(d);
+         win.style.display="block";
+         return new Promise(function(resolve){
+             certain.onclick=function(a){
+                 win.style.display='none';
+                 document.body.removeChild(win);
+                 resolve(re);
+             }
+    
+             cancel.onclick=function(a){
+                 win.style.display='none';
+                 document.body.removeChild(win);
+                 resolve(false);
+             }
+  
+             win.onclick=function(a){
+                 win.style.display='none';
+                 document.body.removeChild(win);
+                 resolve(false);
+             };
+         });
+     }
+     return msg
+})()
+
+sel("储存",["input","方法","ffggg"],0).then(function(a){
+    alert(a);
+})
+
+
+
+
+
