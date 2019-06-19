@@ -516,7 +516,7 @@ $=(function(){
          return new Promise(function(resolve){
              let s=evt.addEvent(function(a){
                   document.body.removeChild(win);
-                  resolve("evt");
+                  resolve(false);
                   return true;
              });
              obj.certain=function(a){
@@ -584,7 +584,7 @@ $=(function(){
          return new Promise(function(resolve){
               let s=evt.addEvent(function(a){
                   document.body.removeChild(win);
-                  resolve("evt");
+                  resolve(false);
                   return true;
              });
              obj.certain=function(a){
