@@ -1,36 +1,60 @@
-sel=(function(){
-     var win=document.createElement("div");
-     var box=document.createElement("div");
-     var header=document.createElement("div");
-     var section=document.createElement("div")
-     var footer=document.createElement("div");
-     var certain=document.createElement("input");
-     var cancel=document.createElement("input");
+$=(function(){
+     var obj=[];
+     var createWin=function(){
+         var obj={};
+         var win=document.createElement("div");
+         var box=document.createElement("div");
+         var header=document.createElement("div");
+         var section=document.createElement("div")
+         var footer=document.createElement("div");
+         var certain=document.createElement("input");
+         var cancel=document.createElement("input");
 
-     win.classList.add("setting_m_box");
-     box.classList.add("setting_box");
-     header.classList.add("setting_head_box");
-     section.classList.add("setting_body_box");
-     footer.classList.add("setting_footer_box");
+         win.classList.add("setting_m_box");
+         box.classList.add("setting_box");
+         header.classList.add("setting_head_box");
+         section.classList.add("setting_body_box");
+         footer.classList.add("setting_footer_box");
 
-     certain.type="button";
-     cancel.type="button";
-     certain.value="确定";
-     cancel.value="取消";
+         certain.type="button";
+         cancel.type="button";
+         certain.value="确定";
+         cancel.value="取消";
 
-     box.addEventListener("click",function(e){
-            var event=e||window.event;
-            event.stopPropagation();
-     },false);
-     footer.append(cancel,certain);
-     box.append(header,section,footer);
-     win.appendChild(box);
-     document.body.appendChild(win);
-     var msg=async function(name,data,index){
-         var re=index?data[index]:data[0];
-         var d=document.createElement("div");
-         d.innerHTML=name;
-         d.onclick=function(e){
+         box.addEventListener("click",function(e){
+              var event=e||window.event;
+              event.stopPropagation();
+         },false);
+
+         certain.onclick=function(a){
+                 obj.certain()
+         }
+    
+         cancel.onclick=function(a){
+             obj.cancel();
+         }
+  
+         win.onclick=function(a){
+             obj.cancel();
+         };
+         footer.append(cancel,certain);
+         box.append(header,section,footer);
+         win.appendChild(box);
+         obj.win=win;
+         obj.section=section;
+         return obj;
+     }
+
+
+     var $={}
+     $.select=async function(name,data,index){
+          var obj=createWin()
+          var section=obj.section;
+          var win=obj.win;
+          var re=index?data[index]:data[0];
+          var d=document.createElement("div");
+          d.innerHTML=name;
+          d.onclick=function(e){
                  var ele=e.srcElement;
                  if(ele==d)return;
                  re=ele.innerHTML;
@@ -48,28 +72,83 @@ sel=(function(){
          }
          section.appendChild(d);
          win.style.display="block";
+         alert(name)
+
+         document.body.appendChild(win);
          return new Promise(function(resolve){
-             certain.onclick=function(a){
-                 win.style.display='none';
+             obj.certain=function(a){
+                     document.body.removeChild(win);
+                     resolve(re);
+             }
+    
+             obj.cancel=function(a){
+                document.body.removeChild(win);
+                 resolve(false);
+             }
+         });
+     }
+     $.msg=async function(arr){
+         var re={};
+         var obj=createWin()
+         var section=obj.section;
+         var win=obj.win;
+         for(var i=0;i<arr.length;i++){
+             var a=arr[i];
+             let name=a[0];
+             let value=a[1];
+             let dataList=a[2];
+             var d=document.createElement("div")
+             d.innerHTML=name;
+             re[name]=value||"";
+             var text=document.createElement("input");
+             text.type="text";
+             text.value=value||"";
+             text.oninput=function(e){
+                     re[name]=text.value;
+             }
+             d.appendChild(text);
+             if(dataList){
+                     var s=document.createElement("input");
+                     s.type="button";
+                     s.value="选择";
+                     s.onclick=async function(e){
+                         var r=await $.select(name,dataList,0);
+ alert(r)
+                         text.value="选择";
+                     }
+                    d.appendChild(s);
+             }
+             section.appendChild(d);
+         }
+         win.style.display="block";
+         document.body.appendChild(win);
+         return new Promise(function(resolve){
+             obj.certain=function(a){
                  document.body.removeChild(win);
                  resolve(re);
              }
     
-             cancel.onclick=function(a){
-                 win.style.display='none';
-                 document.body.removeChild(win);
+             obj.cancel=function(a){
+                  document.body.removeChild(win);
                  resolve(false);
              }
-  
-             win.onclick=function(a){
-                 win.style.display='none';
-                 document.body.removeChild(win);
-                 resolve(false);
-             };
          });
      }
-     return msg
+     return $;
 })()
+
+$.select("储存",["input","方法","ffggg"],0).then(function(a){
+    alert(a);
+})
+
+$.select("储存1",["input","方法","ffggg"],0).then(function(a){
+    alert(a);
+})
+
+
+
+
+
 
 sel("储存",["input","方法","ffggg"],0).then(function(a){
     alert(a);
@@ -77,97 +156,7 @@ sel("储存",["input","方法","ffggg"],0).then(function(a){
 
 
 
-msg=(function(){
-     var win=document.createElement("div");
-     var box=document.createElement("div");
-     var header=document.createElement("div");
-     var section=document.createElement("div")
-     var footer=document.createElement("div");
-     var certain=document.createElement("input");
-     var cancel=document.createElement("input");
 
-     win.classList.add("setting_m_box");
-     box.classList.add("setting_box");
-     header.classList.add("setting_head_box");
-     section.classList.add("setting_body_box");
-     footer.classList.add("setting_footer_box");
-
-     certain.type="button";
-     cancel.type="button";
-     certain.value="确定";
-     cancel.value="取消";
-
-     box.addEventListener("click",function(e){
-            var event=e||window.event;
-            event.stopPropagation();
-     },false);
-     footer.append(cancel,certain);
-     box.append(header,section,footer);
-     win.appendChild(box);
-     document.body.appendChild(win);
-     var msg=async function(arr){
-         var re={};
-         for(var i=0;i<arr.length;i++){
-             var a=arr[i];
-             var d=document.createElement("div")
-             d.innerHTML=a[0];
-             if(!a[1]||a[1]=="input"){
-                 re[a[0]]=a[2]||"";
-                 var text=document.createElement("input");
-                 text.type="text";
-                 text.value=a[2]||"";
-                 text.oninput=function(e){
-                     re[a[0]]=text.value;
-                 }
-                 d.appendChild(text);
-                 if(a[3]){
-                     var sel=document.createElement("input");
-                     sel.type="button";
-                     sel.value="选择";
-                     sel.onclick=async function(a){
-                         text.value="选择";
-                     }
-                    d.appendChild(sel);
-                  }
-             }
-             if(a[1]=="select"&&a[2]){
-                  re[a[0]]="";
-                  var s=a[2];
-                  var html=""
-                  for(var i=0;i<s.length;i++){
-                      html+=`<div>${s[i]}</div>`;
-                  }
-                  var s=document.createElement("div");
-                  s.innerHTML=html;
-                  s.onclick=function(e){
-                      var ele=e.srcElement;
-                      re[a[0]]=ele.innerHTML;
-                      ele.style.backgroundColor="black"
-                  }
-                  d.appendChild(s);
-             }
-             section.appendChild(d);
-         }
-         win.style.display="block";
-         return new Promise(function(resolve){
-             certain.onclick=function(a){
-                 win.style.display='none';
-                 resolve(re);
-             }
-    
-             cancel.onclick=function(a){
-                 win.style.display='none';
-                 resolve(false);
-             }
-  
-             win.onclick=function(a){
-                 win.style.display='none';
-                 resolve(false);
-             };
-         });
-     }
-     return msg
-})()
 msg([
 ["储存","input","方法"],
 ["秦吏"],
