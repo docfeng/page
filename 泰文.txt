@@ -1,0 +1,43 @@
+//alert("&#3655&#3655&#3655&#3655&#3655&#3657&#3657&#3657&#3657&#3657")
+
+var test = "顾里ོꦿృ༊"
+test=test.replace("顾","来").replace("里","杰");
+//alert(test.length)
+//字符串转字符实体
+function stringToEntity(str,radix){
+  let arr=[]
+  //返回的字符实体默认10进制，也可以选择16进制
+  radix=radix||0
+  for(let i=0;i<str.length;i++){                               
+    arr.push((!radix?'&#'+str.charCodeAt(i):'&#x'+str.charCodeAt(i).toString(16))+';')
+  }
+  let tmp=arr.join('')
+  console.log(`'${str}' 转实体为 '${tmp}'`)
+  return tmp
+}
+prompt("",stringToEntity(test));
+prompt("",entityToString(stringToEntity(test)));
+//字符实体转字符串
+function entityToString(entity){
+  let entities=entity.split(';')
+  entities.pop()
+  let tmp=''
+  for(let i=0;i<entities.length;i++){
+    let num=entities[i].trim().slice(2)
+    if(num[0]==='x')//10进制还是16进制
+      num=parseInt(num.slice(1),16);
+    else num=parseInt(num);
+    tmp+=String.fromCharCode(num)
+  }
+  console.log(`'${entity}' 转字符串为 '${tmp}'`)
+  return tmp
+}
+/*
+     var str = ""
+     for( var i=0;    i<test.length; i++ )
+     {
+      temp = test.charCodeAt(i).toString(16);
+      str    += "\\u"+ new Array(5-String(temp).length).join("0") +temp;
+     }
+    alert(str)
+   */ 
