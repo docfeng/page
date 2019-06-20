@@ -1,0 +1,126 @@
+$=(function(){
+     if(!document.querySelector("#circleStyle")){
+     var style = document.createElement("style");
+     style.id="circleStyle" 
+     style.type = "text/css";
+     style.innerHTML=`
+.circleStyle{
+      position:fixed;
+      top:50%;
+      left:50%;
+      z-index:113;
+      width: 30px;      
+      height: 30px;
+      background-color:white;
+      border:1px solid #AAF;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      filter:alpha(Opacity=80);
+      -moz-opacity:0.5;
+      opacity: 0.5;
+}
+*{
+-webkit-touch-callout:none;
+  -webkit-user-select:none;
+  -khtml-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+.circleMove{
+    background-color:black;
+    filter:alpha(Opacity=80);
+      -moz-opacity:1;
+      opacity: 1;
+}
+`;
+        document.getElementsByTagName("HEAD").item(0).appendChild(style);
+    }
+
+     var $={}
+     $.circle=async function(){
+          var move = {
+            X:0,
+            Y:0,
+            handleEvent: function(e) {
+                switch (e.type) {
+                case "touchstart":
+                    this.start(e);
+                    break;
+                case "touchmove":
+                    this.move(e);
+                    break;
+                case "touchend":
+                    this.end(e);
+                    break;
+                case "webkitTransitionEnd":
+                case "msTransitionEnd":
+                case "oTransitionEnd":
+                case "otransitionend":
+                case "transitionend":
+                    this.transitionEnd(e);
+                }
+                e.stopPropagation && e.stopPropagation();
+            },
+            start: function(e) {
+                    var o = e.touches[0];
+                    this.Y=o.pageY;
+                    this.X=o.pageX;
+                    var obj=e.srcElement;
+                    var top=window.getComputedStyle(obj).top;
+                    var left=window.getComputedStyle(obj).left;
+                    top=parseInt(top.slice(0,-2));
+                    left=parseInt(left.slice(0,-2));
+                    this.top=top;
+                    this.left=left;
+                    this.s=window.setTimeout(function(a){
+                         obj.classList.add("circleMove");
+e.preventDefault();e.stopPropagation();
+                         //alert(44)
+                    },200)
+                    document.addEventListener("touchmove", this, !1),
+                    document.addEventListener("touchend", this, !1)
+            },
+            move: function(e) {
+                window.clearTimeout(this.s);
+                var o = e.touches[0];
+                var obj=e.srcElement;
+                var Y=o.pageY;
+                var X=o.pageX;
+                var top=this.top
+                var left=this.left
+                obj.style.top=(Y-this.Y+top)+"px";
+                obj.style.left=(X-this.X+left)+"px";;
+                //if (! (e.touches.length > 1)) {
+                e.preventDefault();
+            },
+            end: function(e) {
+                window.clearTimeout(this.s);
+                var obj=e.srcElement;
+                if(obj.classList.contains("circleMove")){
+                     obj.classList.remove("circleMove");
+                 }
+                document.removeEventListener("touchmove", this, !1);
+                document.removeEventListener("touchend", this, !1);
+            }
+        };
+          var win=document.createElement("div");
+          win.classList.add("circleStyle");
+          win.onclick=function(a){
+             document.body.removeChild(win);
+          };
+         win.addEventListener('contextmenu', function(e){
+             e.preventDefault();
+         });
+         win.addEventListener("touchstart", move, !1);
+         document.body.appendChild(win);
+     }
+     return $;
+})()
+$.circle()
+
+
+
+
+
