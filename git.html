@@ -156,7 +156,7 @@ and (orientation : portrait) {
         <input type="button" value="read" onclick="htmlFSO.read()"/>
         <input type="button" value="add" onclick="htmlFSO.add()"/>
         <input type="button" value="del" onclick="htmlFSO.delete();"/>
-        <input type="button" value="open" onclick='var obj = window.open("about:blank");obj.document.write(page.txt.value);'/>
+        <input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();'/>
         <input type="button" value="打开" onclick='window.open(page.name.value);'/>
     </div>
 		</div>
@@ -200,10 +200,8 @@ var name_=Array()
 var txt_=Array()
 shift=function(i){
   eval("button" + index).style.color="black";
-
   if(page.name.value!=""){
-     eval("button" + index).value=
-   	         page.name.value;
+     eval("button" + index).value=page.name.value;
      set_sto("name"+index,page.name.value);
      if(page.txt.value!=""){
      	set_sto("txt"+index,page.txt.value);
@@ -248,10 +246,8 @@ del=function() {
  if (textObj.setSelectionRange) { 
   var rangeStart = textObj.selectionStart; 
   var rangeEnd = textObj.selectionEnd; 
-  var tempStr1 = textObj.value.
-                 substring(0, rangeStart-1); 
-  var tempStr2 = textObj.value.
-                 substring(rangeEnd); 
+  var tempStr1 = textObj.value.substring(0, rangeStart-1); 
+  var tempStr2 = textObj.value.substring(rangeEnd); 
   textObj.value = tempStr1+tempStr2; 
   var length=rangeStart-1;
   textObj.setSelectionRange(length,length);
@@ -265,11 +261,9 @@ ins=function(string) {
  if (textObj.setSelectionRange) { 
   var rangeStart = textObj.selectionStart; 
   var rangeEnd = textObj.selectionEnd; 
-  var tempStr1 = textObj.value.
-                substring(0, rangeStart); 
+  var tempStr1 = textObj.value.substring(0, rangeStart); 
   //textObj.focus();
-  var tempStr2 = textObj.value.
-                substring(rangeEnd); 
+  var tempStr2 = textObj.value.substring(rangeEnd); 
   textObj.value = tempStr1 + string;
   //textObj.blur();
   textObj.value+= tempStr2;
