@@ -258,7 +258,8 @@ del=function() {
 copy=(function(){
     var tag;
     window.onselect=function(e){
-        if(e.srcElement.tagName=="TEXTAREA"){
+        var tagName=e.srcElement.tagName;
+        if(tagName=="TEXTAREA"||tagName=="INPUT"){
             tag=e.srcElement;
             //alert(window.getSelection())
         }
@@ -268,11 +269,11 @@ copy=(function(){
         var obj=tag;
         //obj.select();
         var start = obj.selectionStart; 
-        var end = obj.selectionEnd;
-        tag.focus();
-        page.txt.setSelectionRange(start,end); 
+        var end = 0//obj.selectionEnd;
+        obj.focus();
+        //obj.setSelectionRange(start,end); 
         var re=document.execCommand("copy");
-        tag=null;
+        obj=tag=null;
         return re;
     }
 })()
