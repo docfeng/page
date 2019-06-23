@@ -255,7 +255,27 @@ del=function() {
  } 
  textObj.focus();
 }
-
+copy=(function(){
+    var tag;
+    window.onselect=function(e){
+        if(e.srcElement.tagName=="TEXTAREA"){
+            tag=e.srcElement;
+            //alert(window.getSelection())
+        }
+    }
+    return function(index,length){
+        if(!tag)return 0;
+        var obj=tag;
+        //obj.select();
+        var start = obj.selectionStart; 
+        var end = obj.selectionEnd;
+        tag.focus();
+        page.txt.setSelectionRange(start,end); 
+        var re=document.execCommand("copy");
+        tag=null;
+        return re;
+    }
+})()
 ins=function(string) {
  var textObj=page.txt;
  if (textObj.setSelectionRange) { 
