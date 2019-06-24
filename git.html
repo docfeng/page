@@ -299,8 +299,8 @@ ins=function(string) {
  textObj.focus();
 } 
 
-document.oninput=function(a){
-  var obj=event.srcElement;//this.getSelection().focusNode.txt;
+document.oninput=function(e){
+  var obj=e.srcElement;//this.getSelection().focusNode.txt;
   var str1="";
     if(obj.len>obj.value.length){
         str1="删除";
@@ -312,9 +312,19 @@ document.oninput=function(a){
         switch(str1){
             case "\n":
                 str1="回车"
-                var len=obj.value.substring(0, i1-1).match(/(\u0020*)[^\n]*$/);
-                str1=len[1].length;
-                ins(len[1]);
+                var str=obj.value.substring(0, i1-1).match(/(\u0020*)[^\n]*$/);
+                str=str[1];
+                var len=str.length;
+                if (obj.setSelectionRange){ 
+                    var rangeStart = obj.selectionStart; 
+                    var rangeEnd = obj.selectionEnd; 
+                    var tempStr1 = obj.value.substring(0, rangeStart);
+                    var tempStr2 = obj.value.substring(rangeEnd); 
+                    obj.value = tempStr1 + str + tempStr2;
+                    len=rangeStart+len;
+                    obj.setSelectionRange(len,len);
+                } 
+                obj.focus();
                 break;
             case " ":
                 str1="空格";
@@ -322,10 +332,10 @@ document.oninput=function(a){
                 break;
         }
     }
-} 
+}
 
-window.onkeydown=function(a){
-    var obj=event.srcElement;//this.getSelection().focusNode.txt;
+window.onkeydown=function(e){
+    var obj=e.srcElement;//this.getSelection().focusNode.txt;
     obj.len=obj.value.length;
 }
 
