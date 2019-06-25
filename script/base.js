@@ -554,6 +554,14 @@ $=(function(){
          document.body.appendChild(win);
          fullScreen(win);
      }
+     $.iframe=function(url){
+         var code=`<iframe style="width:100%;height:100%;background:white;" url="${url}"></iframe>`
+         var iniFun=function(obj){
+             obj.querySelector("iframe").contentWindow.location.href=url;
+             fullScreen(obj);
+          }
+          this.createBox(code,iniFun);
+     }
      $.select=async function(name,data,index){
           var obj=createWin()
           var section=obj.section;
