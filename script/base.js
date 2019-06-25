@@ -558,7 +558,7 @@ $=(function(){
          var code=`<iframe style="width:100%;height:100%;background:white;" url="${url}"></iframe>`
          var iniFun=function(obj){
              obj.querySelector("iframe").contentWindow.location.href=url;
-             //fullScreen(obj);
+             fullScreen(obj);
           }
           this.createBox(code,iniFun);
      }
