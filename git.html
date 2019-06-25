@@ -170,18 +170,18 @@ and (orientation : portrait) {
 		</div>
 </div>
 <div class="ins_box" id="ins_box" >
-		<input type="button" value='.' 	onclick="ins('.')" />
-		<input type="button" value="a" 		onclick="ins('alert()')"/>
-		<input type="button" value='""' 		onclick="ins('&quot;&quot;')"/>
-		<input type="button" value='=' 		onclick="ins('=')" />
-		<input type="button" value='f' 		onclick="ins('function(){}')" />
-		<input type="button" value='[]' 		onclick="ins('[]')" />
-		<input type="button" value='{}' 		onclick="ins('{}')" />
-		<input type="button" value='{' 		onclick="ins('{')" />
-		<input type="button" value='}' 		onclick="ins('}')" />
-		<input type="button" value='\' 		onclick="ins('\\')" />
-		<input type="button" value='+' 		onclick="ins('+')" />
-		<input type="button" value='<<<' 		onclick="del()" />
+		<input type="button" value='.' onclick="ins('.')" />
+		<input type="button" value="go" onclick="goto()"/>
+		<input type="button" value='""' onclick="ins('&quot;&quot;')"/>
+		<input type="button" value='=' onclick="ins('=')" />
+		<input type="button" value='f' onclick="ins('function(){}')" />
+		<input type="button" value='[]' onclick="ins('[]')" />
+		<input type="button" value='{}' onclick="ins('{}')" />
+		<input type="button" value='{' onclick="ins('{')" />
+		<input type="button" value='}' onclick="ins('}')" />
+		<input type="button" value='\' onclick="ins('\\')" />
+		<input type="button" value='+' onclick="ins('+')" />
+		<input type="button" value='<<<' onclick="del()" />
 </div>
 
 <div class="edit_box" id="edit_box">
@@ -401,6 +401,20 @@ hide_ins=function(){
 window.addEventListener('load',function(){
     git=new gitapi("docfeng");
 }, false);
+
+goto=function(index){
+    var index=index||prompt("跳转行")||1;
+    var obj=page.txt;
+    var str=obj.value;
+    var x=0;
+    for(var i=1;i<index;i++){
+        x=str.indexOf("\n",x+1);
+        x=x+1
+    }
+    obj.focus();
+    obj.setSelectionRange(x,x);
+    obj.focus()
+}
 </script>
 </body>
 </html>
