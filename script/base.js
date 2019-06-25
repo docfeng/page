@@ -531,27 +531,7 @@ $=(function(){
 
      var $={}
      $.createBox=createBox;
-     $.iframe=function(url){
-         var win=document.createElement("div");
-         var iframe=document.createElement("iframe");
-
-         win.classList.add("setting_m_box");
-         //iframe.classList.add("setting_box");
-         iframe.style="width:100%;height:100%;background:white;"
-         iframe.src=url;
-         let s=evt.addEvent(function(a){
-                  win.removeChild(iframe);
-                  document.body.removeChild(win);
-                  iframe=null;
-                  win=null;
-                  return true;
-         });
-         
-         win.appendChild(iframe);
-         win.style.display="block";
-         document.body.appendChild(win);
-         
-     }
+     
      $.iframe=function(url){
          var win=document.createElement("div");
          var iframe=document.createElement("iframe");
