@@ -719,7 +719,7 @@ HTMLFormat = (function() {
 })();
 
 htmlformat=function(){
-  var value=page3.txt.value;
+  var value=page2.txt.value;
   var html=document.createElement("html");
   html.innerHTML=value;
   var script=html.querySelectorAll("script");
@@ -733,7 +733,7 @@ htmlformat=function(){
   //var script=html.getElementsByTagName("script");
   for(var i=0;i<css.length;i++){
       var code=css[i].innerHTML;
-      css[i].innerHTML=CSSdecode;
+      css[i].innerHTML=CSSdecode(code);
   }
   html=html.outerHTML;
   alert(html)
