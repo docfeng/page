@@ -438,6 +438,8 @@ $=(function(){
     var createBox=function(code,fun,cancelFun){
          var win=document.createElement("div");
          win.classList.add("alert_box");
+         win.style.display="block";
+         document.body.appendChild(win);
          let s=evt.addEvent(function(a){
                   document.body.removeChild(win);
                   win=null;
@@ -446,8 +448,6 @@ $=(function(){
          });
          win.innerHTML=code;
          fun&& fun(win);
-         win.style.display="block";
-         document.body.appendChild(win);
      }
      var obj=[];
      var createWin=function(){
@@ -558,7 +558,7 @@ $=(function(){
          var code=`<iframe style="width:100%;height:100%;background:white;" url="${url}"></iframe>`
          var iniFun=function(obj){
              obj.querySelector("iframe").contentWindow.location.href=url;
-             fullScreen(obj);
+             //fullScreen(obj);
           }
           this.createBox(code,iniFun);
      }
