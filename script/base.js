@@ -374,7 +374,7 @@ $=(function(){
      style.id="msg_box" 
      style.type = "text/css";
      style.innerHTML=`
-.setting_m_box{
+.alert_box,.setting_m_box{
   position:fixed;
   top:0px;
   left:0px;
@@ -435,6 +435,20 @@ $=(function(){
 `;
         document.getElementsByTagName("HEAD").item(0).appendChild(style);
     }
+    var createBox=function(code,fun,cancelFun){
+         var win=document.createElement("div");
+         win.classList.add("alert_box");
+         let s=evt.addEvent(function(a){
+                  document.body.removeChild(win);
+                  win=null;
+                  cancelFun && cancelFun();
+                  return true;
+         });
+         win.innerHTML=code;
+         fun&& fun(win);
+         win.style.display="block";
+         document.body.appendChild(win);
+     }
      var obj=[];
      var createWin=function(){
          var obj={};
@@ -516,6 +530,7 @@ $=(function(){
 
 
      var $={}
+     $.createBox=createBox;
      $.iframe=function(url){
          var win=document.createElement("div");
          var iframe=document.createElement("iframe");
