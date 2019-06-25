@@ -772,7 +772,7 @@ evt.onback=function(a){
      //window.removeEventListener("back",evt,false);
 }
 
-function fullScreen(obj){
+fullScreen=function(obj){
     var el = obj||document.documentElement;
     var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;      
     if(typeof rfs != "undefined" && rfs) {
@@ -781,7 +781,7 @@ function fullScreen(obj){
     return;
 }
         //退出全屏
-function exitScreen(){
+exitScreen=function(){
     if (document.exitFullscreen) {  
         document.exitFullscreen();  
     }else if (document.mozCancelFullScreen) {  
@@ -796,7 +796,7 @@ function exitScreen(){
     }
 }
         //ie低版本的全屏，退出全屏都这个方法
-        function iefull(){
+iefull=function(){
             var el = document.documentElement;
             var rfs =  el.msRequestFullScreen;
             if(typeof window.ActiveXObject != "undefined") {
