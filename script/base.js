@@ -461,29 +461,104 @@ $=(function(){
               var event=e||window.event;
               event.stopPropagation();
          },false);
-
+         
+         let s=evt.addEvent(function(a){
+                  document.body.removeChild(win);
+                  obj.cancel();
+                  obj=null;
+                  win=null;
+                  return true;
+         });
+             
          certain.onclick=function(a){
+                 evt.removeEvent(s);
+                 document.body.removeChild(win);
+                 win=null;
                  obj.certain()
+                 obj=null;
          }
     
          cancel.onclick=function(a){
+             evt.removeEvent(s);
+             document.body.removeChild(win);
+             win=null;
              obj.cancel();
+             obj=null;
          }
   
          win.onclick=function(a){
+             evt.removeEvent(s);
+             document.body.removeChild(win);
+             win=null;
              obj.cancel();
+             obj=null;
          };
          footer.append(cancel,certain);
          box.append(header,section,footer);
          win.appendChild(box);
+         win.style.display="block";
+         //alert(name)
+         document.body.appendChild(win);
+         
          obj.win=win;
          obj.section=section;
          obj.header=header;
+         
+         box=null;
+         section=null;
+         header=null;
+         footer=null;
+         certain=null;
+         cancel=null;
+         
          return obj;
      }
 
 
      var $={}
+     $.iframe=function(url){
+         var win=document.createElement("div");
+         var iframe=document.createElement("iframe");
+
+         win.classList.add("setting_m_box");
+         //iframe.classList.add("setting_box");
+         iframe.style="width:100%;height:100%;background:white;"
+         iframe.src=url;
+         let s=evt.addEvent(function(a){
+                  win.removeChild(iframe);
+                  document.body.removeChild(win);
+                  iframe=null;
+                  win=null;
+                  return true;
+         });
+         
+         win.appendChild(iframe);
+         win.style.display="block";
+         document.body.appendChild(win);
+         
+     }
+     $.iframe=function(url){
+         var win=document.createElement("div");
+         var iframe=document.createElement("iframe");
+
+         win.classList.add("setting_m_box");
+         //iframe.classList.add("setting_box");
+         iframe.style="width:100%;height:100%;background:white;"
+         iframe.src=url;
+         let s=evt.addEvent(function(a){
+                  win.removeChild(iframe);
+                  //exitScreen()
+                  document.body.removeChild(win);
+                  iframe=null;
+                  win=null;
+                  return true;
+         });
+         
+         win.appendChild(iframe);
+         win.style.display="block";
+         document.body.appendChild(win);
+         fullScreen(win);
+     }
      $.select=async function(name,data,index){
           var obj=createWin()
           var section=obj.section;
@@ -496,11 +571,6 @@ $=(function(){
                  var ele=e.srcElement;
                  if(ele==d)return;
                  re=ele.innerHTML;
-                 /*if(ele.style.backgroundColor=="blue"){
-                      ele.style.backgroundColor="white";
-                 }else{
-                      ele.style.backgroundColor="blue";
-                 }*/
          }
          for(var i=0;i<data.length;i++){
              var a=data[i];
@@ -509,25 +579,13 @@ $=(function(){
              d.appendChild(s);
          }
          section.appendChild(d);
-         win.style.display="block";
-         //alert(name)
-         document.body.appendChild(win);
 
          return new Promise(function(resolve){
-             let s=evt.addEvent(function(a){
-                  document.body.removeChild(win);
-                  resolve(false);
-                  return true;
-             });
              obj.certain=function(a){
-                   evt.removeEvent(s);
-                     document.body.removeChild(win);
                      resolve(re);
              }
-    
+             
              obj.cancel=function(a){
-                   evt.removeEvent(s);
-                document.body.removeChild(win);
                  resolve(false);
              }
          });
@@ -579,27 +637,18 @@ $=(function(){
              }
              section.appendChild(d);
          }
-         win.style.display="block";
-         document.body.appendChild(win);
+         
          return new Promise(function(resolve){
-              let s=evt.addEvent(function(a){
-                  document.body.removeChild(win);
-                  resolve(false);
-                  return true;
-             });
              obj.certain=function(a){
-                 document.body.removeChild(win);
-                 evt.removeEvent(s)
                  resolve(re);
              }
     
              obj.cancel=function(a){
-                 evt.removeEvent(s)
-                  document.body.removeChild(win);
                  resolve(false);
              }
          });
      }
+     
      $.addBottomEvent=(function(){
     var fun;
     var Y=0;
@@ -727,3 +776,39 @@ evt.onback=function(a){
      alert("onback")
      //window.removeEventListener("back",evt,false);
 }
+
+function fullScreen(obj){
+    var el = obj||document.documentElement;
+    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;      
+    if(typeof rfs != "undefined" && rfs) {
+    rfs.call(el);
+    };
+    return;
+}
+        //退出全屏
+function exitScreen(){
+    if (document.exitFullscreen) {  
+        document.exitFullscreen();  
+    }else if (document.mozCancelFullScreen) {  
+        document.mozCancelFullScreen();
+    }else if (document.webkitCancelFullScreen) {
+    document.webkitCancelFullScreen();
+    }else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+    }
+    if(typeof cfs != "undefined" && cfs) {
+        cfs.call(el);
+    }
+}
+        //ie低版本的全屏，退出全屏都这个方法
+        function iefull(){
+            var el = document.documentElement;
+            var rfs =  el.msRequestFullScreen;
+            if(typeof window.ActiveXObject != "undefined") {
+                //这的方法 模拟f11键，使浏览器全屏
+                var wscript = new ActiveXObject("WScript.Shell");
+                if(wscript != null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
+        }
