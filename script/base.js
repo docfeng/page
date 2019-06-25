@@ -447,7 +447,7 @@ $=(function(){
                   return true;
          });
          win.innerHTML=code;
-         fun&& fun(win);
+         fun&& fun(win,s);
      }
      var obj=[];
      var createWin=function(){
@@ -531,7 +531,40 @@ $=(function(){
 
      var $={}
      $.createBox=createBox;
-     
+     $.createWin=async function(name,html,fun){
+          var code=`
+          <div class="setting_box" onclick="window.event.stopPropagation();">
+              <div class="setting_header_box">${name}</div>
+              <div class="setting_body_box">
+                  ${html}
+              </div>
+              <div class="setting_footer_box">
+                  <input type="button" value="确定" id="certain" />
+                  <input type="button" value="取消" id="cancel" />
+              <div>
+          </div>
+              `;
+          var iniFun=function(obj,s){
+              obj.onclick=obj.querySelector("#cancel").onclick=function(){
+                  evt.removeEvent(s);
+                  obj.parentNode.removeChild(obj);
+                  obj=null;
+                  fun.cancel()
+              }
+              obj.querySelector("#certain").onclick=function(a){
+                  evt.removeEvent(s);
+                  obj.parentNode.removeChild(obj);
+                  obj=null;
+                  fun.certain();
+              }
+              fun.ini(obj)
+           }
+           var cancelFun=function(){
+                  fun.cancel();
+           }
+           $.createBox(code,iniFun,cancelFun);
+       }
+       
      $.iframe=function(url){
          var win=document.createElement("div");
          var iframe=document.createElement("iframe");
@@ -591,6 +624,32 @@ $=(function(){
              obj.cancel=function(a){
                  resolve(false);
              }
+         });
+     }
+     $.select=function(name,data,index){
+         return new Promise(function(resolve){
+             var re=index?data[index]:data[0];
+             var html=""
+             for(var i=0;i<data.length;i++){
+                 var a=data[i];
+                 html+=`<div>${a}</div>`;
+             }
+             var code=`<div class="select_box" id="select1">${html}</div>`;
+             var fun={};
+             fun.cancel=function(){
+                 resolve(false);
+             }
+             fun.certain=function(){
+                 resolve(re);
+             }
+             fun.ini=function(obj){
+                 obj.querySelector("#select1").onclick=function(e){
+                   var ele=e.srcElement;
+                   if(ele==this)return;
+                   re=ele.innerHTML;
+                  }
+             }
+             $.createWin(name,code,fun);
          });
      }
      $.input=async function(arr){
