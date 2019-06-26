@@ -23,7 +23,7 @@ downloadRepos=function(name,user,repos){
     //downloadFile(name,url)
     window.open(url)
 }
-downloadBlob(value, type, name) {
+downloadBlob=function(value, type, name) {
     var blob;
     if(typeof window.Blob == "function") {
         blob = new Blob([value], {type: type});
@@ -53,7 +53,7 @@ downloadBlob(value, type, name) {
     }
 }
 function Save() {
-    downloadGithubFile("hello.txt","docfeng","page","git.txt");
+    downloadGithubFile("hello.txt","docfeng","page","11.svg");
     //downloadRepos("h.zip","docfeng","page");
     //downloadBlob("fgggh", "text/csv,charset=UTF-8", "hello.txt");
 }
