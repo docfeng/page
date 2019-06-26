@@ -53,7 +53,7 @@ downloadBlob=function(value, type, name) {
     }
 }
 function Save() {
-    downloadGithubFile("hello.txt","docfeng","page","11.svg");
+    downloadGithubFile("hello.txt","docfeng","page","1.mp3");
     //downloadRepos("h.zip","docfeng","page");
     //downloadBlob("fgggh", "text/csv,charset=UTF-8", "hello.txt");
 }
