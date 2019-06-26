@@ -16,7 +16,8 @@
 <script src="//git.docfeng.top/script/db.js"></script>
 <script src="//git.docfeng.top/script/store.js"></script>
 <body>
-文件:<input type="file" id="file1" multiple="multiple">
+文件:<input type="file" id="file1" multiple="multiple" onchange="getName()"><br/>
+重命名<input type="text" id="filename" /><br/>
 <input type="button" value="上传" onclick="preview()">
 <img id="img1" src="" height="200" alt="Image preview...">
 <span id=ss>gggg</span>
@@ -30,16 +31,45 @@
 <textarea id="eval1" style="width:100%;height:500px;"></textarea>
 <script>
 git=new gitapi("docfeng");
+getName=function(){
+    var name=file1.files[0].name;
+    filename.value=name;
+    var index=name.lastIndexOf(".");
+    var str=name.slice(index+1,name.length);
+    //alert(str)
+    var IMG="BMP、JPG、JPEG、PNG、GIF、SVG";
+    var TXT="TXT,PHP,ASP,HTML,CSS,JS";
+    var reg=new RegExp(str,"i");
+    if(IMG.search(reg)>=0){
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+            var dataURL = reader.result;
+            //var img = new Image();
+            window.img1.src = dataURL;
+        };
+        reader.readAsDataURL(file1.files[0]); // 读出 base64
+    }
+    if(TXT.search(reg)>=0){
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+            var str = reader.result;
+            //var img = new Image();
+            //alert(str)
+            eval1.value=str;
+        };
+        reader.readAsText(file1.files[0]); // 读出 base64
+    }
+}
 function preview(e) {
     var name=file1.files[0].name;
     var reader = new FileReader();
     reader.onloadend = function () {
         // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
-        var dataURL = reader.result;
-        //var img = new Image();
-        window.img1.src = dataURL;
-        alert(name)
+        var dataURL = reader.result
         var str=dataURL.split("base64,");
+        var name= filename.value||name;
         git.write({"owner":"docfeng",repos:"page","name":name,"txt":str[1]});
         prompt("","")
     };
