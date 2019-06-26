@@ -215,10 +215,42 @@ htmlFSO={
             await git.createFile({"owner":user,repos:repos,"name":name,"txt":txt});
         },
         async downloadFile(name){
-            var re=await http.post("","order=downloadFile&name="+name);
-            alert(re);
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            if(!user||!repos){
+                alert("没有user或repos");
+                return false;
+            }
+            downloadGithubFile(name,user,repos,name);
         }
     }
+    
+    var downloadFile=function(name,url) {
+    var anchor = document.createElement("a");
+    if('download' in anchor) {
+        anchor.style.visibility = "hidden";
+        anchor.href = url;
+        anchor.download = name;
+        document.body.appendChild(anchor);
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent("click", true, true);
+        anchor.dispatchEvent(evt);
+        document.body.removeChild(anchor);
+    }else {
+       window.open(url);
+    }
+}
+downloadGithubFile=function(name,user,repos,file){
+    var url=`https://raw.githubusercontent.com/${user}/${repos}/master/${file}`
+    downloadFile(name,url);
+}
+downloadRepos=function(name,user,repos){
+    //var url=`https://codeload.github.com/${user}/${repos}/legacy.zip/master`;
+    var url=`https://codeload.github.com/${user}/${repos}/zip/master`;
+    //downloadFile(name,url)
+    window.open(url)
+}
     msg={
         dir(name){
             //dialog_dir.showModal();
@@ -236,7 +268,7 @@ htmlFSO={
                     _hash+=";path="+name;
                 }
             }
-            alert(_hash)
+            //alert(_hash)
             location.hash=_hash;
         },
         file(name){
