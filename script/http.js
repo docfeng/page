@@ -60,8 +60,10 @@ http={
         }
         var xml=json.xml||false;
         var xmlHttp=this.xmlhttp();
-        xmlHttp.timeout=20000;
-        return new Promise(function(resolve){
+		if(json.timeout){
+			xmlHttp.timeout=json.timeout;
+		}
+        return new Promise(function(resolve,reject){
             xmlHttp.onreadystatechange=function(){
                 if(xmlHttp.readyState==4) { 
                     var re="";
@@ -79,11 +81,11 @@ http={
                 }
              }
             xmlHttp.ontimeout = function(e) {
-                prompt(url,url);
-                var err=new Error()
+                //prompt(url,url);
+                //var err=new Error()
                 xmlHttp.abort();
-                resolve("");
-                throw setError("ajax超时20s","url:"+url);
+                reject("timeout"+url);
+                //throw setError("ajax超时20s","url:"+url);
             };
             xmlHttp.open(method,url,true); 
             if(json.head){
