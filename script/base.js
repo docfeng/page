@@ -832,12 +832,12 @@ if(typeof state=="string"){
   window.history.replaceState('onback', null, '');
   window.history.pushState('forward', null, ''); 
 }
-
+/*
 evt.onback=function(a){
      window.history.pushState('forward', null, '');
      alert("onback")
      //window.removeEventListener("back",evt,false);
-}
+}*/
 
 fullScreen=function(obj){
     var el = obj||document.documentElement;
