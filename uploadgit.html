@@ -21,13 +21,21 @@
 <input type="button" value="上传" onclick="preview()">
 <br/>
 <img id="img1" src="" height="200" alt="Image preview...">
-<span id=ss>gggg</span>
+<br />
+<span id=ss>gggg</span><br/>
+<!--
 <video src="https://github.com/docfeng/source/raw/master/Redcon_201712310610155785434128.mp4" width="100%" height="480" controls="controls"></video>
 <audio autoplay="autoplay" id="audio_play" loop="loop" src="1.mp3">
 <source src="1.mp3"  type="audio/mp3">
 </audio>
+-->
+user:<input type="text" id="user" /><br/>
+repos:<input type="text" id="repos" /><br/>
+file:<input type="text" id="file" /><br/>
+<input type="button" value="下载文件" onclick="downloadFile()" />
+<input type="button" value="下载仓库"  onclick="downloadRepos()" />
 <input type="text" id="sample" />
-<input type="button" id="sample" onclick="eval(eval1.value)" />
+<input type="button" value="eval" id="sample" onclick="eval(eval1.value)" />
 <textarea id="eval1" style="width:100%;height:500px;"></textarea>
 <script>
 git=new gitapi("docfeng");
@@ -169,7 +177,21 @@ git.write=async function(para){
         }
         return re;
     }
-    
+    downloadFile=function(){
+        var user=window.user.value;
+        alert(user)
+        var repos=window.repos.value;
+        alert(repos)
+        var file=window.file.value;
+        alert(file) 
+        git.downloadFile(file,user,repos,file);
+    }
+    downloadRepos=function(){
+        var user=window.user.value;
+        var repos=window.repos.value;
+        var file=window.file.value;
+        git.downloadRepos(file,user,repos);
+    }
   // git.createFile({"owner":"docfeng",repos:"page","name":"test123.txt","txt":str});
 </script>
 </body>
