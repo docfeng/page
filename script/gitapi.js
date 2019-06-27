@@ -353,6 +353,60 @@ gitapi=class gitapi{
                 xml.getResponseHeader("X-RateLimit-Reset")
             ];
     }
+    download(name,url) {
+        var anchor = document.createElement("a");
+        if('download' in anchor) {
+        anchor.style.visibility = "hidden";
+        anchor.href = url;
+        anchor.download = name;
+        document.body.appendChild(anchor);
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent("click", true, true);
+        anchor.dispatchEvent(evt);
+        document.body.removeChild(anchor);
+        }else {
+       window.open(url);
+        }
+    }
+    downloadFile(name,user,repos,file){
+        var url=`https://raw.githubusercontent.com/${user}/${repos}/master/${file}`
+        download(name,url);
+    }
+    downloadRepos(name,user,repos){
+        //var url=`https://codeload.github.com/${user}/${repos}/legacy.zip/master`;
+        var url=`https://codeload.github.com/${user}/${repos}/zip/master`;
+        //downloadFile(name,url)
+        window.open(url)
+    }
+    downloadBlob(value, type, name) {
+        var blob;
+        if(typeof window.Blob == "function") {
+            blob = new Blob([value], {type: type});
+        } else {
+            var BlobBuilder = window.BlobBuilder || window.MozBlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder;
+            var bb = new BlobBuilder();
+            bb.append(value);
+            blob = bb.getBlob(type);
+        }
+        var URL = window.URL || window.webkitURL;
+        var bloburl = URL.createObjectURL(blob);
+    
+        var anchor = document.createElement("a");
+        if('download' in anchor) {
+        anchor.style.visibility = "hidden";
+        anchor.href = bloburl;
+        anchor.download = name;
+        document.body.appendChild(anchor);
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent("click", true, true);
+        anchor.dispatchEvent(evt);
+        document.body.removeChild(anchor);
+        } else if(navigator.msSaveBlob) {
+            navigator.msSaveBlob(blob, name);
+        } else {
+            location.href = bloburl;
+        }
+    }
 }
 /*
 (async function(a){
@@ -365,6 +419,11 @@ alert(await git.getFile("page","git.html"));
   alert(await git.deleteFile({"owner":"docfeng",repos:"page","name":name,txt:"reghhhst"}))
 //alert(await gitapi.getFiles("page"));
 })()
+
+    //downloadFile("hello.txt","docfeng","page","1.mp3");
+    //downloadRepos("h.zip","docfeng","reader");
+    //downloadBlob("fgggh", "text/csv,charset=UTF-8", "hello.txt");
+}
 
 */
 //git=new gitapi("docfeng")
