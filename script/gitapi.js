@@ -370,7 +370,7 @@ gitapi=class gitapi{
     }
     downloadFile(name,user,repos,file){
         var url=`https://raw.githubusercontent.com/${user}/${repos}/master/${file}`
-        download(name,url);
+        this.download(name,url);
     }
     downloadRepos(name,user,repos){
         //var url=`https://codeload.github.com/${user}/${repos}/legacy.zip/master`;
