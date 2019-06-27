@@ -9,7 +9,7 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <META HTTP-EQUIV="expires" CONTENT="0">
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>文件上传</title>
+<title>文件上传下载</title>
 <meta name="description" content="版本号1.0" />
 <script src="//git.docfeng.top/script/http.js"></script>
 <script src="//git.docfeng.top/script/gitapi.js"></script>
@@ -17,23 +17,23 @@
 <script src="//git.docfeng.top/script/store.js"></script>
 <body>
 文件:<input type="file" id="file1" multiple="multiple" onchange="getName()"><br/>
-重命名<input type="text" id="filename" /><br/>
-<input type="button" value="上传" onclick="preview()">
-<br/>
+user:<input type="text" id="username" value="docfeng"/><br/>
+repos:<input type="text" id="reposname" value="page"  /><br/>
+file:<input type="text" id="filename" /><br/>
+<input type="button" value="上传" onclick="upload()"><br/>
+<span id=ss>下载</span><br/>
+<input type="button" value="下载文件" onclick="downloadFile()" />
+<input type="button" value="下载仓库"  onclick="downloadRepos()" /><br/>
 <img id="img1" src="" height="200" alt="Image preview...">
 <br />
-<span id=ss>gggg</span><br/>
 <!--
 <video src="https://github.com/docfeng/source/raw/master/Redcon_201712310610155785434128.mp4" width="100%" height="480" controls="controls"></video>
 <audio autoplay="autoplay" id="audio_play" loop="loop" src="1.mp3">
 <source src="1.mp3"  type="audio/mp3">
 </audio>
 -->
-user:<input type="text" id="user" /><br/>
-repos:<input type="text" id="repos" /><br/>
-file:<input type="text" id="file" /><br/>
-<input type="button" value="下载文件" onclick="downloadFile()" />
-<input type="button" value="下载仓库"  onclick="downloadRepos()" />
+<span id=ss>下载.....</span><br/>
+
 <input type="text" id="sample" />
 <input type="button" value="eval" id="sample" onclick="eval(eval1.value)" />
 <textarea id="eval1" style="width:100%;height:500px;"></textarea>
@@ -87,18 +87,33 @@ getName=function(){
         reader.readAsText(file1.files[0]); // 读出 base64
     }
 }
-function preview(e) {
+function upload() {
     var name=file1.files[0].name;
     var reader = new FileReader();
     reader.onloadend = function () {
-        // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
         var dataURL = reader.result
         var str=dataURL.split("base64,");
-        var name= filename.value||name;
-        git.write({"owner":"docfeng",repos:"page","name":name,"txt":str[1]});
+        var user=username.value;
+        var repos=reposname.value;
+        var name=filename.value||name;
+        git.write({"owner":user,repos:repos,"name":name,"txt":str[1]});
     };
     reader.readAsDataURL(file1.files[0]); // 读出 base64
 }
+
+  downloadFile=function(){
+        var user=username.value;
+        var repos=reposname.value;
+        var name=filename.value;
+        git.downloadFile(name,user,repos,name);
+    }
+    downloadRepos=function(){
+        var user=username.value;
+        var repos=reposname.value;
+        var name=filename.value;
+        git.downloadRepos(name,user,repos);
+    }
+    
 var node = document.querySelector('#sample');
 //alert(node)
 var inputLock = false;
@@ -177,21 +192,7 @@ git.write=async function(para){
         }
         return re;
     }
-    downloadFile=function(){
-        var user=window.user.value;
-        alert(user)
-        var repos=window.repos.value;
-        alert(repos)
-        var file=window.file.value;
-        alert(file) 
-        git.downloadFile(file,user,repos,file);
-    }
-    downloadRepos=function(){
-        var user=window.user.value;
-        var repos=window.repos.value;
-        var file=window.file.value;
-        git.downloadRepos(file,user,repos);
-    }
+    
   // git.createFile({"owner":"docfeng",repos:"page","name":"test123.txt","txt":str});
 </script>
 </body>
