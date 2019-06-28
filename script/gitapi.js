@@ -49,6 +49,16 @@ gitapi=class gitapi{
         var re=await http.ajax(json);
         return re;
     }
+    async getMyRepos(){
+        var user=await this.getUser();
+        if(!user){return false;}
+        var json={
+            url:`https://api.github.com/user/repos`,
+            head:{Authorization:user.author}
+        }
+        var re=await http.ajax(json);
+        return re;
+    }
     async getFiles(repos,name=""){
         var user=await this.getUser();
         var json={
@@ -428,4 +438,8 @@ alert(await git.getFile("page","git.html"));
 */
 //git=new gitapi("docfeng")
 //alert()
+/*
+
+https://developer.github.com/v3/repos/#list-your-repositories
+*/
 
