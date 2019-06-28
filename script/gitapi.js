@@ -65,7 +65,7 @@ gitapi=class gitapi{
             url:`https://api.github.com/repos/${user.name}/${repos}/contents/${name}`,
             head:{Authorization:user.author}
         }
-        var text=await http.get(json.url);
+        var text=await http.ajax(json);
         var re=JSON.parse(text);
         var shas={};
         for(var i=0;i<re.length;i++){
@@ -91,7 +91,7 @@ gitapi=class gitapi{
        if(users[user]) {
            var git=new gitapi(user);
            if(!repos){
-               var repo=await git.getRepos();
+               var repo=await git.getMyRepos();
                repo=JSON.parse(repo);
                var dir=[];
                for(var i=0;i<repo.length;i++){
