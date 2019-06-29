@@ -27,3 +27,22 @@ docfeng fjmfkj..
 https://www.gloaug.com/client/
 gx.docfeng.top
 2809808818@qq.com mm
+
+卓云
+https://linkmyworld.cn
+docfeng  MFKJ00
+2809808818@qq.com
+到期事件2020-06-30
+100M 100M 20G
+http://zy.docfeng.top/
+FTP链接信息
+FTP地址：194.33.38.11
+FTP端口：21
+FTP用户名：s1826620
+FTP密码：
+数据库链接信息 phpMyAdmin
+数据库地址：localhost
+数据库端口：3306
+数据库名：s1826620
+数据库用户名：s1826620
+数据库密码：
