@@ -277,6 +277,48 @@ downloadRepos=function(name,user,repos){
             htmlFSO.getFile(name);
         }
     }
+    
+    
+document.oninput=function(e){
+  var obj=e.srcElement;//this.getSelection().focusNode.txt;
+  var str1="";
+    if(obj.len>obj.value.length){
+        str1="删除";
+    }else if(obj.value.length-obj.len>1){
+        str1="粘贴";
+    }else{
+        var i1=obj.selectionStart
+        str1=obj.value.substring(i1-1, i1);
+        switch(str1){
+            case "\n":
+                str1="回车"
+                var str=obj.value.substring(0, i1-1).match(/(\u0020*)[^\n]*$/);
+                str=str[1];
+                var len=str.length;
+                if (obj.setSelectionRange){ 
+                    var rangeStart = obj.selectionStart; 
+                    var rangeEnd = obj.selectionEnd; 
+                    var tempStr1 = obj.value.substring(0, rangeStart);
+                    var tempStr2 = obj.value.substring(rangeEnd); 
+                    obj.value = tempStr1 + str + tempStr2;
+                    len=rangeStart+len;
+                    obj.setSelectionRange(len,len);
+                } 
+                obj.focus();
+                break;
+            case " ":
+                str1="空格";
+                //ins("  ");
+                break;
+        }
+    }
+}
+
+window.onkeydown=function(e){
+    var obj=e.srcElement;//this.getSelection().focusNode.txt;
+    obj.len=obj.value.length;
+}
+
 //监听回退按钮
 if (window.history && window.history.pushState) { 
   window.addEventListener('popstate',function() { 
