@@ -1,0 +1,37 @@
+var url="https://www.lvsetxt.com/ebook/29562.html"
+var getlist=async function(url){
+    var html=await http.get(url);
+    alert(html)
+    var ele=document.createElement("html");
+    ele.innerHTML=html;
+    var b=document.createElement("base");
+    b.href=url.getBaseUrl();
+    //"http://www.baidu.com"
+    //alert(b.href)
+    //alert(document.head)
+    document.head.appendChild(b);
+    var a=[];
+    //alert(document.head.innerHTML)
+    var ul=ele.querySelectorAll("ul");
+    for(var i=0;i<ul.length;i++){
+        var _a=ul[i].querySelectorAll("a");
+        if(_a.length>a.length){
+          a=_a;
+        }
+    }
+    var ul=ele.querySelectorAll("dl");
+    for(var i=0;i<ul.length;i++){
+        var _a=ul[i].querySelectorAll("a");
+        if(_a.length>a.length){
+          a=_a;
+        }
+    }
+    //alert(a)
+    var re=[];
+    for(var i1=0;i1<a.length;i1++){
+        re.push(a[i1].href,a[i1].innerHTML)
+    }
+    alert(re)
+    document.head.removeChild(b);
+}
+getlist(url);
