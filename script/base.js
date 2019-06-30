@@ -249,8 +249,8 @@ Minimum=function(a,b,c){
 }
 
 //获取自定义时间格式
-getDate=function(){
-  var date=new Date()
+getDate=function(d){
+  var date=d||new Date()
   var _date=date.toLocaleDateString();
   var hours=date.getHours();
   var minute=date.getMinutes();
