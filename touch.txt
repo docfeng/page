@@ -1,0 +1,6 @@
+document.addEventListener("touchstart",function(e){
+    //e.preventDefault();
+    if(e.targetTouches.length>1){
+        
+    }
+});
