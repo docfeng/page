@@ -6,3 +6,6 @@ liu 18960986955
 AP+AP
 wan
 1 auto
+
+useradmin 1v6kd
+user fhjcp
