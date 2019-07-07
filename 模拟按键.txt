@@ -270,7 +270,7 @@ KEYCODE_MUTE=91;
 
 4.Android 无障碍辅助功能AccessibilityService
 
-<service android:name=".MyAccessibilityService" 
+<service android:name=".AutoClickAccessibilityService" 
 android:label="@string/accessibility_service_label"> 
 <intent-filter> 
 <action android:name="android.accessibilityservice.AccessibilityService" /> 
