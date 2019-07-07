@@ -240,3 +240,29 @@ KEYCODE_MEDIA_FAST_FORWARD=90;
 KEYCODE_MUTE=91;
 
 
+
+
+
+
+3./**
+ * 传入需要的键值即可
+ * @param keyCode
+ */
+ private void sendKeyCode(final int keyCode){
+ new Thread () {
+ public void run() {
+ try {
+ Instrumentation inst = new  Instrumentation();
+ inst.sendKeyDownUpSync(keyCode);
+ } catch (Exception e) {
+ Log.e("Exception when sendPointerSync", e.toString());
+ }
+ }
+ }.start();
+ }
+　}
+　
+加入权限：
+<uses-permission android:name="android.permission.INJECT_EVENTS" />
+
+
