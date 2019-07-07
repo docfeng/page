@@ -266,3 +266,95 @@ KEYCODE_MUTE=91;
 <uses-permission android:name="android.permission.INJECT_EVENTS" />
 
 
+
+
+4.Android 无障碍辅助功能AccessibilityService
+
+<service android:name=".MyAccessibilityService" 
+android:label="@string/accessibility_service_label"> 
+<intent-filter> 
+<action android:name="android.accessibilityservice.AccessibilityService" /> 
+</intent-filter> 
+</service> 
+<uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+
+
+获取UI元素
+
+在onAccessibilityEvent中，使用参数event的getSource方法获取到的AccessibilityNodeInfo实例，即为触发这次事件的UI节点。获取到当前界面UITree的根节点可以使用findAccessibilityNodeInfosByText或者findAccessibilityNodeInfosByViewId方法。需要注意findAccessibilityNodeInfosByText在获取UI元素时的判断逻辑是包含而非等于。
+示例代码如：
+Listnodes = event.getSource().findAccessibilityNodeInfosByText("立即安装");
+Listnodes = event.getSource().findAccessibilityNodeInfosByViewId("txt_1");
+模拟用户操作
+
+模拟点击
+
+获取界面上UI元素之后，可根据元素是否可响应操作进行相应的处理。例如，如果UI元素是一个有效的按钮，则可以使用下面的代码来进行模拟点击：
+nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+同理，如果UI元素是一个有效的列表，则可以使用下面的代码进行模拟滑动：
+nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+如模拟按下返回键的代码是：
+AccessibilityService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
+模拟打开消息通知栏
+
+在上面介绍accessibilityEventTypes中提到有一个事件: typeNotificationStateChanged，它便是消息通知栏状态发生改变变触发。一些红包外挂工具里头，一有红包就提醒的原理便是在onAccessibilityEvent中监听该事件，然后判断关键字并打开通知，示例关键代码如：
+if(event.getEventType() != AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED){
+return;
+}
+Listtexts = event.getText();
+if(texts.size() <= 0 || !mAutoTrack) {
+return;
+}
+for(CharSequence text : texts) {
+String content = text.toString();
+if(!content.contains("[微信红包]")){
+continue;
+}
+if(event.getParcelableData() == null || !(event.getParcelableData() instanceofNotification)) {
+continue;
+}
+Notification notification = (Notification)event.getParcelableData();
+PendingIntent pendingIntent =notification.contentIntent;
+try{
+pendingIntent.send();
+}catch (PendingIntent.CanceledException e) {
+e.printStackTrace();
+}
+}
+语音播放
+
+首先，定义一个TextToSpeech对象，并在服务连上后进行初始化，示例代码如：
+private TextToSpeech mTts;
+……
+mTts = newTextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+@Override
+public void onInit(int status) {
+if (status == TextToSpeech.SUCCESS) {
+mTts.setLanguage(Locale.US);
+}
+}
+});
+执行语音播放代码：
+mTts.speak("hello",TextToSpeech.QUEUE_FLUSH, null);
+最后别忘记释放资源：
+mTts.shutdown();
+建议：
+在开发APP想支持语音播功能时，建议在用户界面控件中，通过使用android:contentDescription属性来描控件特性。
+对于EditText控件，提供了一个android:hint属性代替了contentDescription属性
+判断是否开启辅助功能
+
+intaccessibilityEnabled =Settings.Secure.getInt(context.getApplicationContext().getContentResolver(),android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+if(accessibilityEnabled == 1) {
+String settingValue =Settings.Secure.getString(context.getApplicationContext().getContentResolver(),Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+}
+如果手机中开启了一些APP的辅助功能，settingValue的值为：APP1包名/APP1继承AccessibilityService类全名: APP2包名/APP2继承AccessibilityService类全名
+使用Dump View Hierarchy for UI Automator解析UI界面视图帮助查找节点对象
+
+
+
+
+
+
+
+
+
