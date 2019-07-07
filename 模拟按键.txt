@@ -37,3 +37,22 @@ public class RootShellCmd {
 		exec("input keyevent " + keyCode + "\n");
 	}
 }
+
+
+
+
+2.通过Runtime实现，不需要root权限,但其他app获取不到按键
+
+try  
+{  
+    String keyCommand = "input keyevent " + KeyEvent.KEYCODE_MENU;  
+    Runtime runtime = Runtime.getRuntime();  
+    Process proc = runtime.exec(keyCommand);  
+}  
+catch (IOException e)  
+{  
+    // TODO Auto-generated catch block  
+    e.printStackTrace();  
+}
+
+
