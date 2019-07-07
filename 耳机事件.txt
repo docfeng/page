@@ -1,0 +1,100 @@
+handler = new Handler(){ 
+			@Override  
+			public void handleMessage(Message msg)
+			{  
+				int what = msg.what;  
+				alert(2);
+				//webView = webView.getView();
+				//webView.loadUrl("javascript:keyCode(" + 1 + ");");
+				switch (what)
+				{  
+					case 100:  
+						Bundle data = msg.getData();  
+						//按键值  
+						int keyCode = data.getInt("key_code");  
+						//按键时长  
+						/*
+						 long eventTime = data.getLong("event_time");  
+						 //设置超过1000毫秒，就触发长按事件  //谷歌把超过1000s定义为长按。 
+						 boolean isLongPress = (eventTime>1000);  
+						 */
+						switch (keyCode)
+						{  
+							case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE://播放或暂停  
+								//playOrPause();  
+								webView = webView.getView();
+								webView.loadUrl("javascript:keyCode(" + keyCode + ");");
+								break;  
+								//短按=播放下一首音乐，长按=音量加  
+							case KeyEvent.KEYCODE_MEDIA_NEXT:  
+								/*if(isLongPress){  
+								 //adjustVolume(true);//自定义  
+								 }else{  
+								 //playNext();//自定义  
+								 }*/
+								break;  
+								//短按=播放上一首音乐，长按=音量减    
+							case KeyEvent.KEYCODE_MEDIA_PREVIOUS:  
+								/*if(isLongPress){  
+								 //adjustVolume(false);//自定义  
+								 }else{  
+								 //playPrevious();//自定义  
+								 }*/
+								break;  
+						}  
+						break;  
+					default://其他消息-则扔回上层处理  
+						super.handleMessage(msg);  
+				}  
+			}  
+		};
+		alert(7);
+	    mediaButtonReceiver = new BroadcastReceiver() {
+			@Override 
+			public void onReceive(Context context, Intent intent)
+			{ 
+			alert(4);
+				//webView = webView.getView();
+				//webView.loadUrl("javascript:keyCode(" + 1 + ");");
+				boolean isActionMediaButton = Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction());  //判断是不是耳机按键事件 
+				if (!isActionMediaButton) return;  
+				KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);  //判断有没有耳机按键事件 
+				if (event == null) return;  
+				//过滤按下事件 
+				boolean isActionUp = (event.getAction() == KeyEvent.ACTION_UP);  
+				if (!isActionUp) return;  
+				//避免在Receiver里做长时间的处理，使得程序在CPU使用率过高的情况下出错，把信息发给handlera处理。 
+				int keyCode = event.getKeyCode();  
+				long eventTime = event.getEventTime() - event.getDownTime();//按键按下到松开的时长  
+				
+				Message msg = Message.obtain();  
+				msg.what = 100;  
+				Bundle data = new Bundle();  
+				data.putInt("key_code", keyCode);  
+				data.putLong("event_time", eventTime);  
+				msg.setData(data);  
+				handler.sendMessage(msg); 
+				//终止广播(不让别的程序收到此广播，免受干扰)  
+				abortBroadcast(); 
+			} 
+		};
+		alert(6);
+		mediafilter = new IntentFilter();
+		//拦截按键KeyEvent.KEYCODE_MEDIA_NEXT、KeyEvent.KEYCODE_MEDIA_PREVIOUS、KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE 
+		mediafilter.addAction(Intent.ACTION_MEDIA_BUTTON); 
+		mediafilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+		mediafilter.addAction(Intent.ACTION_HEADSET_PLUG);
+		mediafilter.setPriority(1000);//设置优先级，优先级太低可能被拦截，收不到信息。一般默认优先级为0，通话优先级为1，该优先级的值域是-1000到1000。 
+		registerReceiver(mediaButtonReceiver, mediafilter);
+		alert(5);
+
+
+
+
+
+try
+		{
+		    unregisterReceiver(mediaButtonReceiver);
+		}
+		catch (IllegalArgumentException e)
+		{}
