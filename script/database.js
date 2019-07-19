@@ -42,12 +42,12 @@ var database={
           });
       });
   },
-  update:function(a){
+  update:function(name,str1,str2){
       var t=this;
       return new Promise(function(resolve,reject){
           t.db.transaction(function (tx) {  
               //tx.executeSql("CREATE TABLE IF NOT EXISTS "+name+" ("+arr.join(",")+")");
-              tx.executeSql('UPDATE LOGS SET log=\'www.w3cschool.cc\' WHERE id=2');
+              tx.executeSql('UPDATE '+name+' SET '+str1+' WHERE '+str2);
               resolve(true);
           });
       });
@@ -64,3 +64,17 @@ var database={
   }
 }
 alert(database)
+
+database.createTable("store",["id unique","log"])
+.then(function(a){
+    database.insert("store",{"id":0,"log":"test}"});
+    return true;
+}).then(function(a){
+    database.select("store")
+}).then(function(a){
+    database.update("store","log=\"test2\"","id=0")
+}).then(function(a){
+    database.delete("store","id=0")
+}).catch(function(a){
+    alert("err:\n"+a)
+})
