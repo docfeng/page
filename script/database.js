@@ -3,9 +3,9 @@ var database={
   createTable:function(name,arr){
       var t=this;
       return new Promise(function(resolve,reject){
-          t.db.transaction(function (tx) {  
+          t.db.transaction(function (tx) {
               tx.executeSql("CREATE TABLE IF NOT EXISTS "+name+" ("+arr.join(",")+")");
-              resolve(true);
+              resolve(1);
           });
       });
   },
@@ -17,9 +17,11 @@ var database={
          keys.push(key);
          values.push(json[key]);
       }
+      //alert(keys)
+      //alert(values)
       return new Promise(function(resolve,reject){
           t.db.transaction(function (tx) {  
-              tx.executeSql("CREATE TABLE IF NOT EXISTS "+name+" ("+arr.join(",")+")");
+              //tx.executeSql("CREATE TABLE IF NOT EXISTS "+name+" ("+arr.join(",")+")");
               tx.executeSql('INSERT INTO '+name+' ('+keys.join(",")+') VALUES (?, ?)', values);
               resolve(true);
           });
@@ -32,13 +34,14 @@ var database={
               //tx.executeSql("CREATE TABLE IF NOT EXISTS "+name+" ("+arr.join(",")+")");
               tx.executeSql('SELECT * FROM '+name, [], function (tx, results) {
                   var len = results.rows.length, i;
-                  var msg = "<p>查询记录条数: " + len + "</p>";
+                  //var msg = "<p>查询记录条数: " + len + "</p>";
+                  var re=[];
                    for (i = 0; i < len; i++){
-                        msg+= "<p><b>" + results.rows.item(i).log + "</b></p>";
+                       re.push(results.rows.item(i));
+                        //msg+= "<p><b>" + results.rows.item(i).log + "</b></p>";
                    }
-                   alert(msg)
+                   resolve(re);
               }, null);
-              resolve(true);
           });
       });
   },
@@ -63,18 +66,31 @@ var database={
       });
   }
 }
-alert(database)
+
 
 database.createTable("store",["id unique","log"])
 .then(function(a){
-    database.insert("store",{"id":0,"log":"test}"});
-    return true;
+    return database.select("store")
+})
+.then(function(a){
+    alert(JSON.stringify(a))
+    return database.insert("store",{"id":0,"log":"test"});
 }).then(function(a){
-    database.select("store")
+    return database.select("store")
 }).then(function(a){
-    database.update("store","log=\"test2\"","id=0")
+    alert(JSON.stringify(a,null,4))
+    return database.update("store","log=\"test2\"","id=0");
 }).then(function(a){
-    database.delete("store","id=0")
-}).catch(function(a){
+    return database.select("store")
+}).then(function(a){
+    alert(JSON.stringify(a))
+    return database.delete("store","id=0")
+}).then(function(a){
+    return database.select("store")
+}).then(function(a){
+    alert(JSON.stringify(a))
+    return true
+})
+.catch(function(a){
     alert("err:\n"+a)
 })
