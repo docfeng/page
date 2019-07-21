@@ -29,8 +29,8 @@ list.get=function(url){
                 return list.format(html,url);
                 break;
             default:
-                return list.format(html,url);
-                //return Promise.reject("error charset:"+charset);
+                //return list.format(html,url);
+                return Promise.reject("error charset:"+charset);
         }
     });
 }
