@@ -1,28 +1,39 @@
-var url="https://www.lvsetxt.com/ebook/29562.html"
+var url="https://www.lvsetxt.com/ebook/29562.html"//gbk
+url="https://www.booktxt.com/19_19912/";//gbk
+url="https://www.biquke.com/bq/69/69082/";//true
+url="https://www.biquge11.com/11_11050/";//gbk
+url="https://www.biqiuge.com/book/25182/";//gbk;
+url="https://www.biquge.info/61_61442/"//true;
+url="http://www.biquge.tw/456_456706/"//true
+url="https://www.biquguan.com/bqg252273/"//no html
+url="https://www.23us.la/html/457/457149/"//true
+url="http://www.biquge.se/11082/"//true;
+
 var list={};
 list.get=function(url){
     http.corsUrl="https://bird.ioliu.cn/v2/";
     return http.cors(url).then(function(html){
         //var html=eval(html);
+        if(!html)return Promise.reject("error no html")
         var charset=html.match(/charset=([^"]+)"/);
-        charset=charset&&charset[1];
-        charset=charset.toLowerCase()
+        charset=charset&&charset[1].toLowerCase();
         switch(charset){
             case "gbk":
             case "gb2312":
-            alert(charset);
-            break;
+                //alert(charset);
+                return Promise.reject("error charset:"+charset)
+                break;
             case "utf-8":
-            alert(true);
-            break;
+                alert(true);
+                return list.format(html,url);
+                break;
             default:
-            alert("default");
+                return list.format(html,url);
+                //return Promise.reject("error charset:"+charset);
         }
-        return list.format(html,url);
     });
 }
 list.format=async function(html,url){
-    var html=gb2utf8(html);
     var ele=document.createElement("html");
     ele.innerHTML=html;
     var b=document.createElement("base");
@@ -52,25 +63,7 @@ list.format=async function(html,url){
 }
 list.get(url).then(function(arr){
     alert(JSON.stringify(arr))
+}).catch(function(e){
+    alert(e)
 });
 
-function gb2utf8(data){ 
-      var glbEncode = []; 
-      gb2utf8_data = data; 
-      execScript("gb2utf8_data = MidB(gb2utf8_data, 1)", "VBScript"); 
-      var t=escape(gb2utf8_data).replace(/%u/g,"").replace(/(.{2})(.{2})/g,"%$2%$1").replace(/%([A-Z].)%(.{2})/g,"@$1$2"); 
-      t=t.split("@"); 
-      var i=0,j=t.length,k; 
-      while(++i<j) { 
-         k=t[i].substring(0,4); 
-         if(!glbEncode[k])  
-         { 
-            gb2utf8_char = eval("0x"+k); 
-            execScript("gb2utf8_char = Chr(gb2utf8_char)", "VBScript"); 
-            glbEncode[k]=escape(gb2utf8_char).substring(1,6); 
-         } 
-         t[i]=glbEncode[k]+t[i].substring(4); 
-      } 
-      gb2utf8_data = gb2utf8_char = null; 
-      return unescape(t.join("%")); 
- }
