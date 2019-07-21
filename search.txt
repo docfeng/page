@@ -1,0 +1,26 @@
+search={};
+search.get=function(name){
+    var url="https://www.baidu.com/s?q1="+name+"&rn=50";
+    http.corsUrl="https://bird.ioliu.cn/v1/";
+    return http.cors(url).then(function(html){
+        return eval(html);
+    });
+}
+
+search.format=function(html){
+    var h=document.createElement("html");
+    h.innerHTML=html;
+    var d=h.getElementsByTagName("div");
+    var re=""
+    for(var i=0;i<d.length;i++){
+    if(d[i].id>=1){
+     re+=d[i].id+"\n";
+    }
+    }
+    return re
+}
+
+search.get("秦吏").then(function(html){
+   var re=search.format(html);
+   alert(re)
+});
