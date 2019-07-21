@@ -1,6 +1,6 @@
 search={};
 search.get=function(name){
-    var url="https://www.baidu.com/s?q1="+name+"&rn=50";
+    var url="https://www.baidu.com/s?q1="+name+"&rn=10";
     http.corsUrl="https://bird.ioliu.cn/v1/";
     return http.cors(url).then(function(html){
         var html=eval(html);
@@ -21,25 +21,58 @@ search.format=function(html){
             p.push(search.checkCharset(a.href));
         }
     }
-    Promise.all(p).then(function(a){
-        alert(a)
+    return Promise.all(p).then(function(a){
+        var r=[re,a];
+        //alert(a.length)
+        //alert(a[0])
+        return r;
     }).catch(function(a){
         alert(a)
-    })
-    return re
+        return a;
+    });
 }
 search.checkCharset=function(url){
     return window.list.get(url).then(function(a){
-        return a;
+        if(a){
+            //alert(a);
+            return true;
+        }else{
+            return false;
+        }
     }).catch(function(a){
         return false;
     });
 }
-search.get("唐残").then(function(re){
-   
-   return window.list.get(re[1][0]);
+search.getRealPath=function(url){
+    return http.get(url,{cors:true,
+               corsUrl:"http://gear.docfeng.top/get2.php",
+               xml:true}).then(function(json){
+                   var url=json.xml.getResponseHeader("url");
+                   return url;
+               }).catch(function(a){
+                   return a;
+               });
+               
+}
+search.get("唐残").then(function(arr){
+   var re=arr[1];
+   //alert(re)
+   var arr2=arr[0];
+   var re1=[];
+   for(var i=0;i<re.length;i++){
+       if(re[i]){
+           var b=arr2[i];
+           b.push(re[i]);
+           re1.push(b)
+       }
+   }
+   alert(JSON.stringify(re1,null,4))
+   return re1
 }).then(function(a){
-    alert(a)
+    var url=a[0][0];
+    search.getRealPath(url).then(function(a){
+        alert(a)
+    })
 }).catch(function(a){
     alert(a)
 });
