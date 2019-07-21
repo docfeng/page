@@ -34,7 +34,7 @@ list.get=function(url){
         }
     });
 }
-list.format=async function(html,url){
+list.format=function(html,url){
     var ele=document.createElement("html");
     ele.innerHTML=html;
     var b=document.createElement("base");
@@ -60,7 +60,11 @@ list.format=async function(html,url){
         re.push(a[i1].href,a[i1].innerHTML)
     }
     document.head.removeChild(b);
+    if(re.length>0){
     return re;
+    }else{
+        return Promise.reject("err list.format: no re");
+    }
 }
 list.get(url).then(function(arr){
     alert(JSON.stringify(arr))
