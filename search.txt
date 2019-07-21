@@ -3,7 +3,8 @@ search.get=function(name){
     var url="https://www.baidu.com/s?q1="+name+"&rn=50";
     http.corsUrl="https://bird.ioliu.cn/v1/";
     return http.cors(url).then(function(html){
-        return eval(html);
+        var html=eval(html);
+        return search.format(html);
     });
 }
 
@@ -20,7 +21,6 @@ search.format=function(html){
     return re
 }
 
-search.get("秦吏").then(function(html){
-   var re=search.format(html);
+search.get("唐残").then(function(re){
    alert(re)
 });
