@@ -1,0 +1,76 @@
+var url="https://www.lvsetxt.com/ebook/29562.html"
+var list={};
+list.get=function(url){
+    http.corsUrl="https://bird.ioliu.cn/v2/";
+    return http.cors(url).then(function(html){
+        //var html=eval(html);
+        var charset=html.match(/charset=([^"]+)"/);
+        charset=charset&&charset[1];
+        charset=charset.toLowerCase()
+        switch(charset){
+            case "gbk":
+            case "gb2312":
+            alert(charset);
+            break;
+            case "utf-8":
+            alert(true);
+            break;
+            default:
+            alert("default");
+        }
+        return list.format(html,url);
+    });
+}
+list.format=async function(html,url){
+    var html=gb2utf8(html);
+    var ele=document.createElement("html");
+    ele.innerHTML=html;
+    var b=document.createElement("base");
+    b.href=url.getBaseUrl();
+    document.head.appendChild(b);
+    var a=[];
+    var ul=ele.querySelectorAll("ul");
+    for(var i=0;i<ul.length;i++){
+        var _a=ul[i].querySelectorAll("a");
+        if(_a.length>a.length){
+          a=_a;
+        }
+    }
+    var ul=ele.querySelectorAll("dl");
+    for(var i=0;i<ul.length;i++){
+        var _a=ul[i].querySelectorAll("a");
+        if(_a.length>a.length){
+          a=_a;
+        }
+    }
+    var re=[];
+    for(var i1=0;i1<a.length;i1++){
+        re.push(a[i1].href,a[i1].innerHTML)
+    }
+    document.head.removeChild(b);
+    return re;
+}
+list.get(url).then(function(arr){
+    alert(JSON.stringify(arr))
+});
+
+function gb2utf8(data){ 
+      var glbEncode = []; 
+      gb2utf8_data = data; 
+      execScript("gb2utf8_data = MidB(gb2utf8_data, 1)", "VBScript"); 
+      var t=escape(gb2utf8_data).replace(/%u/g,"").replace(/(.{2})(.{2})/g,"%$2%$1").replace(/%([A-Z].)%(.{2})/g,"@$1$2"); 
+      t=t.split("@"); 
+      var i=0,j=t.length,k; 
+      while(++i<j) { 
+         k=t[i].substring(0,4); 
+         if(!glbEncode[k])  
+         { 
+            gb2utf8_char = eval("0x"+k); 
+            execScript("gb2utf8_char = Chr(gb2utf8_char)", "VBScript"); 
+            glbEncode[k]=escape(gb2utf8_char).substring(1,6); 
+         } 
+         t[i]=glbEncode[k]+t[i].substring(4); 
+      } 
+      gb2utf8_data = gb2utf8_char = null; 
+      return unescape(t.join("%")); 
+ }
