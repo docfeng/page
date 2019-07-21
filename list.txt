@@ -9,7 +9,8 @@ url="https://www.biquguan.com/bqg252273/"//no html
 url="https://www.23us.la/html/457/457149/"//true
 url="http://www.biquge.se/11082/"//true;
 
-var list={};
+ var list={};
+ window.list=list
 list.get=function(url){
     http.corsUrl="https://bird.ioliu.cn/v2/";
     return http.cors(url).then(function(html){
@@ -24,7 +25,7 @@ list.get=function(url){
                 return Promise.reject("error charset:"+charset)
                 break;
             case "utf-8":
-                alert(true);
+                //alert(true);
                 return list.format(html,url);
                 break;
             default:
