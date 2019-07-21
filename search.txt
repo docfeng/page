@@ -12,15 +12,34 @@ search.format=function(html){
     var h=document.createElement("html");
     h.innerHTML=html;
     var d=h.getElementsByTagName("div");
-    var re=""
+    var re=[];
+    var p=[];
     for(var i=0;i<d.length;i++){
-    if(d[i].id>=1){
-     re+=d[i].id+"\n";
+        if(d[i].id>=1){
+            var a=d[i].querySelector("a");
+            re.push([a.href,a.innerHTML])
+            p.push(search.checkCharset(a.href));
+        }
     }
-    }
+    Promise.all(p).then(function(a){
+        alert(a)
+    }).catch(function(a){
+        alert(a)
+    })
     return re
 }
-
+search.checkCharset=function(url){
+    return window.list.get(url).then(function(a){
+        return a;
+    }).catch(function(a){
+        return false;
+    });
+}
 search.get("唐残").then(function(re){
-   alert(re)
+   
+   return window.list.get(re[1][0]);
+}).then(function(a){
+    alert(a)
+}).catch(function(a){
+    alert(a)
 });
