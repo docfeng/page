@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-web-app-title" content="github文件读写" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache" /> 
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<!--<script src="//git.docfeng.top/js/_ini.js"></script>
+<script src="//git.docfeng.top/script/http.js"></script>
+<script src="//git.docfeng.top/script/git.js"></script>
+<script src="//git.docfeng.top/script/db.js"></script>
+<script src="//git.docfeng.top/script/store.js"></script>
+-->
+<script src="script/base.js"></script>
+<script src="script/http.js"></script>
+<script src="es5/db5.js"></script>
+<script src="es5/store5.js"></script>
+<script src="es5/gitapi5.js"></script>
+<script src="script/gitapi.js"></script>
+<script src="es5/fj.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="css5/fj.css"/>
+<script src="script/db.js"></script>
+<script src="script/store.js"></script>
+<script>var ttt="";</script>
+<style type="text/css">
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+/*body::-webkit-scrollbar {
+        display: none;
+    }
+    textarea::-webkit-scrollbar {
+        display: none;
+    }
+    */
+div::-webkit-scrollbar {
+        display: none;
+    }
+
+body{ 
+  margin: 0px;
+  padding: 0px;
+  //font-size:14px; 
+  //line-height:24px;
+}
+textarea{
+  width:100%;
+  height:90%;
+  font: 0.7em Arial, Helvetica, sans-serif;
+  //white-space:nowrap;
+}
+body:focus input
+{
+background-color:yellow;
+}
+*{margin:0px;padding:0px;}
+input[onclick^="ins"] {
+  margin:0px;
+  padding:0px;
+  width:25px;
+  height:25px;
+}
+input[onclick^="shift"] {
+  margin:0px;
+  padding:0px;
+  width:60px;
+}
+input[value^="page"] {
+  margin:0px;
+  padding:0px;
+  width:40px;
+}
+.ins_box{
+  width:100%;
+  overflow-x:scroll;
+  white-space:nowrap;
+  position:fixed;
+  bottom:0px;
+  display:none;
+}
+.control_box{
+  width:100%;
+  overflow-x:scroll;
+white-space:nowrap;
+  //position:fixed;
+  //top:0px;
+}
+.page_box{
+  width:100%;
+  //height:23px;
+  //position:fixed;//absolute;
+  //top:20px;
+  //margin-top:20px;
+  	//Word-break: break-all;
+  	overflow-x: scroll;
+  	white-space:nowrap;
+}
+.edit_box{
+  width:100%;
+  //margin-top:50px;
+}
+/**
+所有 iPad Media Queries
+**/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+//body{background-color:orange;}
+  .ins{display:none;}
+  body{
+    font-size: 2em;
+  }
+  textarea{
+    //font-size: 2em;
+  }
+  input{
+    font-size:1em;
+  }
+  input[onclick^="shift"] {
+    width:260px;
+  }
+}
+/**
+iPad 横屏
+**/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+}
+/**
+**  iPad 竖屏
+**/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+}
+/* 手机 */
+@media all and (max-width: 768px) {
+  textarea{
+    font: 0.8em Arial, Helvetica, sans-serif;
+    white-space:nowrap;
+   }
+}
+@media (max-height: 700px) {
+  //body{background-color:orange;}
+  .ins{display:none;}
+}
+@media (max-height: 400px) {
+  //body{background-color:OrangeRed;}
+  .edit_box{
+    margin-bottom:30px;
+  }
+  .ins_box{display:block;}
+}
+
+
+/**
+笔记本
+**/
+@media only screen
+and (min-device-width : 1024px)
+and (max-device-width : 1366px)
+and (orientation : landscape) {
+  .ins{display:none;}
+  body{
+    font-size: 2em;
+  }
+  textarea{
+    //font-size: 2em;
+  }
+  input{
+    font-size:1em;
+  }
+  input[onclick^="shift"] {
+    width:180px;
+  }
+
+}
+</style>
+<style type="text/css">
+	.setting_m_box{
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  //background-color:OrangeRed;
+  z-index:113;
+  display:none;
+}
+.setting_box{
+  position:fixed;
+  width:100%;
+  min-height:50%;
+  bottom:0px;
+  background-color:Orange;
+}
+tr{
+  width:100%;
+  background-color:OrangeRed;
+}
+
+td input{
+  width:100%;
+  word-break : keep-all; 
+  overflow: scroll;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+}
+td:n-child(2){
+  width:100%;
+}
+#bottom_box{
+  position:fixed;
+  bottom:0px;
+  column-count:3;
+  width:100%;
+  height:30px;
+}
+#bottom_box div{
+  text-align:center;
+  background-color:red;
+  height:100%;
+}
+.center_box{
+height:100%;
+width:100%;
+//padding-top:30px;
+//padding-bottom:30px;
+overflow-y:hidden;
+}
+</style>
+</head>
+<body>
+<div class="top_box1" id="top_box">
+    <div class="control_box" id="control_box">
+        <input type="button" value='eval' onclick="eval(page.txt.value)" />
+        <input type="button" value='reload' onclick='location.reload()'/>
+		<input type="button" value='setting' onclick='setting.show()'/>
+        <input type="button" value='copy' onclick='copy()'/>
+        <input type="button" value="write" onclick="htmlFSO.write()"/>
+        <input type="button" value="read" onclick="htmlFSO.read()"/>
+        <input type="button" value="add" onclick="htmlFSO.add()"/>
+        <input type="button" value="del" onclick="htmlFSO.delete();"/>
+        <input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();'/>
+        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+    </div>
+		
+		<div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
+				<input id="button1" type="button" value="page1" 	style="color:red;"		onclick="shift(1)">
+				<input id="button2" type="button" value="page2" onclick="shift(2);">
+				<input id="button3" type="button" value="page3" onclick="shift(3);">
+				<input id="button4" type="button" value="page4" onclick="shift(4);">
+				<input id="button5" type="button" value="page5" onclick="shift(5);">
+				<input id="button6" type="button" value="page6" onclick="shift(6);">
+		</div>
+</div>
+<div class="ins_box" id="ins_box" >
+		<input type="button" value='.' onclick="ins('.')" />
+		<input type="button" value="go" onclick="goto()"/>
+		<input type="button" value='""' onclick="ins('&quot;&quot;')"/>
+		<input type="button" value='=' onclick="ins('=')" />
+		<input type="button" value='f' onclick="ins('function(){}')" />
+		<input type="button" value='[]' onclick="ins('[]')" />
+		<input type="button" value='{}' onclick="ins('{}')" />
+		<input type="button" value='{' onclick="ins('{')" />
+		<input type="button" value='}' onclick="ins('}')" />
+		<input type="button" value='\' onclick="ins('\\')" />
+		<input type="button" value='+' onclick="ins('+')" />
+		<input type="button" value='<<<' onclick="del()" />
+</div>
+
+<div class="edit_box" id="edit_box">
+ <form id="page0" style="height:100%;width:100%">
+	Name: <input type="text" name="name" size=20 />
+	<br>
+	<textarea name="txt" ></textarea>
+	<!--onfocus="show_ins()" onblur="hide_ins()"-->
+	</form>
+</div>
+
+<div class="setting_m_box" id="setting_m_box" onclick="setting_m_box.style.display='none';">
+  <div class="setting_box" id="setting_box" onclick="event.stopPropagation();">
+    <div class="setting_head_box" id="setting_head_box">
+    </div>
+    <div class="setting_body_box" id="setting_body_box">
+    <table style="width:100%">
+     <tr><td>name:</td><td><input type="text" id="config_name"/></td></tr>
+     <tr><td>psw:</td><td><input type="text" id="config_psw" onchange='config_author.value="Basic "+btoa(config_name.value+":"+config_psw.value)' /></td></tr>
+     <tr><td>author:</td><td><input type="text" id="config_author" disabled/></td></tr>
+     <tr><td>repos:</td><td><input type="text"/></td></tr>
+     <tr><td>files:</td><td><input type="text"/></td></tr>
+    </table>
+	
+	user:<span id="config_user" onclick="setting.selectUser()"></span>
+	<input type="button" value="get_user" onclick="setting.getUser()" /><br/>
+	
+    repos:<span id="config_repos" onclick="setting.selectRepos()"></span>
+    <input type="button" value="get_repos" onclick="setting.getRepos()" /><br/>
+	
+	Dir:<span id="config_Dir" ></span>
+	<input type="button" value="get_Dir" onclick="setting.getDir()" /><br/>
+	
+    files:<span id="config_files" onclick="setting.selectFile()""></span>
+    <input type="button" value="get_files" onclick="setting.getFiles()" /><br/>
+	
+    <input type="button" value="取消" onclick="setting_m_box.style.display='none'" />
+    <input type="button" value="确认" onclick="setting_m_box.style.display='none';htmlFSO.read()" />
+
+    </div>
+  </div>
+</div>
+<script>
+	var setting={
+		config:{},
+		ini:function(){
+			var t=this;
+			if(!this.config.user){
+				store.getItem("config").then(function(re){
+					t.config=JSON.parse(re);
+					config_user.innerHTML=setting.config.user;
+					config_repos.innerHTML=setting.config.repos;
+					config_files.innerHTML=setting.config.file;
+					//page.name.value=setting.config.file;
+				})
+			}
+		},
+		show:function(){
+			this.ini();
+			setting_m_box.style.display="block";
+		},
+		getUser:function(){
+			var t=this;
+			Git.User.ini().then(function(users){
+				var arr=Object.keys(users);
+				t.config.userArr=arr;
+				t.selectUser()
+			}).catch(function(e) {
+				alert(e)
+			});
+		},
+		selectUser:function(){
+			var userArr=this.config.userArr;
+			fj.select("userArr",userArr).then(function(name){
+				setting.config.user=name;
+				config_user.innerHTML=name;
+				setting.getRepos(name);
+			}).catch(function(re){
+				alert(re);
+			})
+		},
+		getRepos:function(reposName){
+			var t=this;
+			var reposName =reposName || "docfeng";
+			Git.Repos.getAll(reposName).then(function(html) {
+				var arr=JSON.parse(html);
+				var reposArr=[]
+				for (var i = 0; i < arr.length; i++) {
+					reposArr.push(arr[i].name);
+				}
+				t.config.reposArr=reposArr;
+				t.selectRepos();
+				store.setItem("config",JSON.stringify(t.config),function(a){alert(a)});
+			}).catch(function(e) {
+				alert(e)
+			});
+		},
+		selectRepos:function(){
+			var reposArr=this.config.reposArr;
+			fj.select("reposArr",reposArr).then(function(name){
+				setting.config.repos=name;
+				config_repos.innerHTML=name;
+				setting.getFiles();
+			}).catch(function(re){
+				alert(re);
+			})
+		},
+		setRepos:function(name){
+			setting.config.repos=name;
+			setting.getFiles()
+		},
+		getFiles:function(){
+			var repos=this.config.repos;
+			var t=this;
+			if(!repos){
+				alert("no repos")
+				return false
+			}
+			Git.File.getList("docfeng", repos, "").then(function(arr) {
+				config_files.innerHTML="";
+				var fileArr=[];
+				for (var i = 0; i < arr.length; i++) {
+					fileArr.push(arr[i].name);
+				}
+				t.config.fileArr=fileArr;
+				t.selectFile();
+				store.setItem("config",JSON.stringify(t.config),function(a){alert(a)});
+			});
+		},
+		selectFile:function(){
+			var t=this;
+			var fileArr=this.config.fileArr;
+			fj.select("fileArr",fileArr).then(function(name){
+				if(name){
+					setting.config.file=name;
+					config_files.innerHTML=name;
+					page.name.value=name;
+					store.setItem("config",JSON.stringify(t.config),function(a){alert(a)});
+				}
+			}).catch(function(re){
+				alert(re);
+			})
+		},
+		setFile:function(name){
+		  page.name.value=name;//config_files.options[config_files.selectedIndex].value;
+		  setting.config.filename=name;
+		}
+	}
+	
+var page;
+var index=1;
+var button=button1;
+var name_=Array()
+var txt_=Array()
+shift=function(i){
+  eval("button" + index).style.color="black";
+  if(page.name.value!=""){
+     eval("button" + index).value=page.name.value;
+     set_sto("name"+index,page.name.value);
+     if(page.txt.value!=""){
+     	set_sto("txt"+index,page.txt.value);
+      }
+  }
+  page.style.display="none";
+  page=eval("page"+i);
+  page.style.display="block";
+  index=i;
+  eval("button" + index).style.color="red";
+  page.name.value=get_sto("name"+index)||"";
+  page.txt.value=get_sto("txt"+index)||"";
+}  
+
+htmlFSO={
+    read:function(){
+        var pageTXT=page.txt;
+        var name=page.name.value;
+		var user=setting.config.user;
+		var repos=setting.config.repos;
+		if(!user||!repos){
+			alert("err");
+			return false;
+		}
+		Git.File.get(user, repos, name).then(function(txt) {
+			page.txt.value=txt
+		});        
+    },
+    write:function(){
+        var name=page.name.value;
+        var txt=page.txt.value;
+		var user=setting.config.user;
+		var repos=setting.config.repos;
+		if(!user||!repos){
+			alert("err");
+			return false;
+		}
+		Git.File.get(user, repos, name, txt).then(function(txt) {
+			alert("put true")
+		});
+    },
+    add:function(){
+        var name=page.name.value;
+        var txt=page.txt.value;
+		var user=setting.config.user;
+		var repos=setting.config.repos;
+		if(!user||!repos){
+			alert("err");
+			return false;
+		}
+		Git.File.create(user, repos, name, txt).then(function(author) {
+			alert("create true")
+		});
+    },
+    delete:function(){
+        var name=page.name.value;
+		var user=setting.config.user;
+		var repos=setting.config.repos;
+		if(!user||!repos){
+			alert("err");
+			return false;
+		}
+		Git.File.del(user, repos, name).then(function(author) {
+			alert("delecte true")
+		})
+    }
+}
+
+del=function() {
+ var textObj=page.txt;
+ if (textObj.setSelectionRange) { 
+  var rangeStart = textObj.selectionStart; 
+  var rangeEnd = textObj.selectionEnd; 
+  var tempStr1 = textObj.value.substring(0, rangeStart-1); 
+  var tempStr2 = textObj.value.substring(rangeEnd); 
+  textObj.value = tempStr1+tempStr2; 
+  var length=rangeStart-1;
+  textObj.setSelectionRange(length,length);
+  //textObj.focus();
+ } 
+ textObj.focus();
+}
+copy=(function(){
+    var tag;
+    window.onselect=function(e){
+        var tagName=e.srcElement.tagName;
+        if(tagName=="TEXTAREA"||tagName=="INPUT"){
+            tag=e.srcElement;
+            //alert(window.getSelection())
+        }
+    }
+    return function(index,length){
+        if(!tag)return 0;
+        var obj=tag;
+        //obj.select();
+        var start = obj.selectionStart; 
+        var end = 0//obj.selectionEnd;
+        obj.focus();
+        //obj.setSelectionRange(start,end); 
+        var re=document.execCommand("copy");
+        obj=tag=null;
+        return re;
+    }
+})()
+
+
+
+ins=function(string) {
+ var textObj=page.txt;
+ if (textObj.setSelectionRange) { 
+  var rangeStart = textObj.selectionStart; 
+  var rangeEnd = textObj.selectionEnd; 
+  var tempStr1 = textObj.value.substring(0, rangeStart); 
+  //textObj.focus();
+  var tempStr2 = textObj.value.substring(rangeEnd); 
+  textObj.value = tempStr1 + string;
+  //textObj.blur();
+  textObj.value+= tempStr2;
+ // textObj.focus();
+  var s_len=string.length;
+  if(s_len>1){
+     s_len=s_len-1;
+  }
+  var length=rangeStart+s_len;
+  textObj.setSelectionRange(length,length);
+ } 
+ textObj.focus();
+} 
+
+document.oninput=function(e){
+  var obj=e.srcElement;//this.getSelection().focusNode.txt;
+  var str1="";
+    if(obj.len>obj.value.length){
+        str1="删除";
+    }else if(obj.value.length-obj.len>1){
+        str1="粘贴";
+    }else{
+        var i1=obj.selectionStart
+        str1=obj.value.substring(i1-1, i1);
+        switch(str1){
+            case "\n":
+                str1="回车"
+                var str=obj.value.substring(0, i1-1).match(/(\u0020*)[^\n]*$/);
+                str=str[1];
+                var len=str.length;
+                if (obj.setSelectionRange){ 
+                    var rangeStart = obj.selectionStart; 
+                    var rangeEnd = obj.selectionEnd; 
+                    var tempStr1 = obj.value.substring(0, rangeStart);
+                    var tempStr2 = obj.value.substring(rangeEnd); 
+                    obj.value = tempStr1 + str + tempStr2;
+                    len=rangeStart+len;
+                    obj.setSelectionRange(len,len);
+                } 
+                obj.focus();
+                break;
+            case " ":
+                str1="空格";
+                //ins("  ");
+                break;
+        }
+    }
+}
+
+window.onkeydown=function(e){
+    var obj=e.srcElement;//this.getSelection().focusNode.txt;
+    obj.len=obj.value.length;
+}
+
+window.onload=function(){
+  //eval(get_sto("js"));
+  setting.ini();
+  page=page0;
+  addForm(1);addForm(2);
+  addForm(3);addForm(4);
+  addForm(5);addForm(6);
+  shift(1);
+  window.onresize();
+}
+window.onresize=function(){
+  //window.innerHeight<400?show_ins():hide_ins();
+  var wh=window.innerHeight;
+  var ctr_h=parseInt(window.getComputedStyle(control_box).height);
+  var page_h=parseInt(window.getComputedStyle(page_box).height);
+  var ins_h=parseInt(window.getComputedStyle(ins_box).height)||0;
+  //var edit_h=parseInt(window.getComputedStyle(edit_box).height);
+  //alert(window.getComputedStyle(ins_box).height);
+  
+  edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
+  var style = document.createElement('style');             
+  style.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-26)+"px;}";
+  document.head.appendChild(style);
+ 
+  /*//动态添加外置样式表    
+  var  link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.setAttribute('type', 'text/css');
+  link.setAttribute('href', 'index.css');  //已经存在这个index.css文件
+  document.head.appendChild(link);
+  */
+  //edit_box.style.marginBottom=ctr_h+"px;
+  //page.txt.value=window.innerHeight+"\n"+ctr_h+"\n"+page_h+"\n"+ins_h
+  
+}
+
+window.onerror = function(sMessage, sUrl, sLine) {
+     alert("发生错误！\n" + sMessage + "\nURL:" + sUrl + "\nLine Number:" + sLine);
+     return true;
+}
+addForm=function(i){
+  var clonedNode = page0.cloneNode(true);
+  clonedNode.setAttribute("id", "page" + i); 
+  page0.parentNode.appendChild(clonedNode);
+  eval("page"+i).style.display="none";
+}
+	
+set_sto=function(a,b){
+     localStorage.setItem(a,b);
+}
+get_sto=function(a){
+     return localStorage.getItem(a)
+}
+
+show_ins=function(){
+  ins_box.style.display="block";
+}
+hide_ins=function(){
+  ins_box.style.display="none";
+}
+window.addEventListener('load',function(){
+    git=new gitapi("docfeng");
+}, false);
+
+goto=function(index){
+    var index=index||prompt("跳转行")||1;
+    var obj=page.txt;
+    var str=obj.value;
+    var x=0;
+    for(var i=1;i<index;i++){
+        x=str.indexOf("\n",x+1);
+        x=x+1
+    }
+    obj.focus();
+    obj.setSelectionRange(x,x);
+    obj.focus()
+}
+
+
+</script>
+</body>
+</html>
