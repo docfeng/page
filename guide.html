@@ -195,7 +195,7 @@ and (orientation : landscape) {
         <input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();'/>
         <input type="button" value="打开" onclick='window.open(page.name.value);'/>
     </div>
-    <div>
+    <div id="guide">
         <a href="git.html">git</a>
     </div>
 		
@@ -229,7 +229,9 @@ htmlFSO={
 
 
 window.onload=function(){
-  
+    git.getFile("page","guide.json").then(function(json){
+        alert(json)
+    });
 }
 
 
