@@ -6,5 +6,9 @@
     {
         "name": "main.html",
         "href": "main.html"
+    },
+    {
+        "name": "gear",
+        "href": "http://gear.docfeng.top/main.php"
     }
 ]
