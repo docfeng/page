@@ -233,6 +233,15 @@ window.onload=function(){
     git.getFile("page","guide.json").then(function(json){
         alert(json);
         var json=JSON.parse(json);
+        if(json.length==0){
+            alert("length==0");
+        }else{
+            var list="";
+            for(var i=0;i<json.length;i++){
+                list+="<a href=\""+json[i].href+"\">"+json[i].name+"</a>\n<br />";
+            }
+            alert(list);
+        }
     });
 }
 
