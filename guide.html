@@ -189,11 +189,11 @@ and (orientation : landscape) {
         <input type="button" value='reload' onclick='location.reload()'/>
         <input type="button" value='copy' onclick='copy()'/>
         <input type="button" value="write" onclick="htmlFSO.write()"/>
-        <input type="button" value="read" onclick="htmlFSO.read()"/>
-        <input type="button" value="add" onclick="htmlFSO.add()"/>
+        <input type="button" value="read" onclick="getGuide()"/>
+        <input type="button" value="add" onclick="addGuide()"/>
         <input type="button" value="del" onclick="htmlFSO.delete();"/>
-        <input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();'/>
-        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+        <input type="button" value="open" onclick=';'/>
+        <input type="button" value="getGuide" onclick='getGuide();'/>
     </div>
     <div id="guide">
         <a href="git.html">git</a>
@@ -230,6 +230,10 @@ htmlFSO={
 
 window.onload=function(){
     git=new gitapi("docfeng");
+    getGuide();
+}
+
+getGuide=function(){
     git.getFile("page","guide.json").then(function(json){
         alert(json);
         var json=JSON.parse(json);
@@ -241,10 +245,33 @@ window.onload=function(){
                 list+="<a href=\""+json[i].href+"\">"+json[i].name+"</a>\n<br />";
             }
             alert(list);
+            guide.innerHTML=list;
         }
     });
 }
 
+putGuide=function(name,href){
+    var o={"name":name,"href":href};
+    git.getFile("page","guide.json").then(function(json){
+        alert(json);
+        var json=JSON.parse(json);
+        json.push(o);
+        var txt=JSON.stringify(json,null,4);
+        return txt;
+    }).then(function(txt){
+        return git.createFile({"owner":"docfeng",repos:"page","name":"guide.json","txt":txt});
+    }).then(function(a){
+        alert(a)
+    });
+}
+
+addGuide=function(){
+    var name=prompt("name");
+    var href=prompt("href");
+    if(name&&href){
+        putGuide(name,href);
+    }
+}
 
 window.onerror = function(sMessage, sUrl, sLine) {
      alert("发生错误！\n" + sMessage + "\nURL:" + sUrl + "\nLine Number:" + sLine);
