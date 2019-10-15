@@ -231,7 +231,8 @@ htmlFSO={
 window.onload=function(){
     git=new gitapi("docfeng");
     git.getFile("page","guide.json").then(function(json){
-        alert(json)
+        alert(json);
+        var json=JSON.parse(json);
     });
 }
 
