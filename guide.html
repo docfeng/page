@@ -229,6 +229,7 @@ htmlFSO={
 
 
 window.onload=function(){
+    git=new gitapi("docfeng");
     git.getFile("page","guide.json").then(function(json){
         alert(json)
     });
@@ -239,10 +240,11 @@ window.onerror = function(sMessage, sUrl, sLine) {
      alert("发生错误！\n" + sMessage + "\nURL:" + sUrl + "\nLine Number:" + sLine);
      return true;
 }
-
+/*
 window.addEventListener('load',function(){
     git=new gitapi("docfeng");
 }, false);
+*/
 </script>
 </body>
 </html>
