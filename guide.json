@@ -10,5 +10,9 @@
     {
         "name": "gear",
         "href": "http://gear.docfeng.top/main.php"
+    },
+    {
+        "name": "myapp001",
+        "href": "https://github.com/docfeng/page/releases/download/1.0/MyApp001.apk"
     }
 ]
