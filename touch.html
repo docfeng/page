@@ -1,46 +1,53 @@
-< !DOCTYPE html> 
-<html> 
-<head> 
-<title>
-</title>
- <script> 
- var delay = 200;
-  var haltEvent = function(event) {
-   event.preventDefault(); 
-   event.stopPropagation(); 
-   };
-    var pause = function() { 
-    var startTime = new Date().getTime(); 
-    while (new Date().getTime() < startTime + delay); 
-    }; 
-    window.addEventListener('load', function() {
-     var target = document.querySelector('#target'); 
-     var status = document.querySelector('#status'); 
-     target.addEventListener('touchstart', function(event) { 
-     haltEvent(event);
-      status.innerHTML = '[touchstart]';
-       }, true); 
-       target.addEventListener('touchmove', function(event) {
-        pause();
-         haltEvent(event); 
-         status.innerHTML = '[touchmove]'; 
-         }, true); 
-         target.addEventListener('touchend', 
-         function(event) { 
-         status.innerHTML = '[touchend]'; 
-         }, true); 
-         target.addEventListener('touchcancel', 
-         function(event) { 
-         status.innerHTML = '[touchcancel]'; 
-         }, true); }); 
-         </script> 
-         <style> 
-         #target { background-color: green; height: 300px; } 
-         #status { text-align: center; } 
-         </style>
-          </head>
-           <body> 
-           <div id="target"></div> 
-           <p id="status">[]</p>
-            </body> 
-            </html>
+< !DOCTYPE html>
+	<html>
+		<head>
+			<title>
+			</title>
+			<script>
+				var delay = 200;
+				var haltEvent = function(event) {
+					event.preventDefault();
+					event.stopPropagation();
+				};
+				var pause = function() {
+					var startTime = new Date().getTime();
+					while (new Date().getTime() < startTime + delay);
+				};
+				window.addEventListener('load', function() {
+					var target = document.querySelector('#target');
+					var status = document.querySelector('#status');
+					target.addEventListener('touchstart', function(event) {
+						haltEvent(event);
+						status.innerHTML = '[touchstart]';
+					}, true);
+					target.addEventListener('touchmove', function(event) {
+						pause();
+						haltEvent(event);
+						status.innerHTML = '[touchmove]';
+					}, true);
+					target.addEventListener('touchend',
+						function(event) {
+							status.innerHTML = '[touchend]';
+						}, true);
+					target.addEventListener('touchcancel',
+						function(event) {
+							status.innerHTML = '[touchcancel]';
+						}, true);
+				});
+			</script>
+			<style>
+				#target {
+					background-color: green;
+					height: 300px;
+				}
+
+				#status {
+					text-align: center;
+				}
+			</style>
+		</head>
+		<body>
+			<div id="target"></div>
+			<p id="status">[]</p>
+		</body>
+	</html>
