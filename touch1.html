@@ -1,0 +1,87 @@
+< !DOCTYPE html>
+	<html>
+		<head>
+			<title>
+			</title>
+			<script>
+				var delay = 200;
+                                var newEvent=function(obj,e){
+                                    obj.dispatchEvent(new Event(e));
+                                }
+				var haltEvent = function(event) {
+					event.preventDefault();
+					event.stopPropagation();
+				};
+				var pause = function() {
+					var startTime = new Date().getTime();
+					while (new Date().getTime() < startTime + delay);
+				};
+				window.addEventListener('load', function() {
+                                        var time;
+                                        var t;
+                                        var i=0;
+					var target = document.querySelector('#target');
+					var status = document.querySelector('#status');
+					target.addEventListener('touchstart', function(event) {
+						
+                                            if(!time){
+                                                time=true
+                                                haltEvent(event);
+                                                t=setTimeout(function(a){
+                                                    status.innerHTML = '[touchstart]'+time;
+                                                    time=false;
+                                                },300);
+                                            }else{
+                                                status.innerHTML = '[touchstart]'+time;
+                                            }
+					}, true);
+					target.addEventListener('touchmove', function(event) {
+						//pause();
+						//haltEvent(event);
+                                                if(time){
+                                                    clearTimeout(t);
+                                                    //newEvent(target,"touchstart")
+                                                    newEvent(target,"focus")
+                                                    time=false;
+                                                    status.innerHTML = '[touchmove2]';
+                                                }else{
+						status.innerHTML = '[touchmove1]'+time;
+                                                }
+					}, true);
+					target.addEventListener('touchend',function(event) {
+					    status.innerHTML = '[touchend]';
+                                                 if(time){
+                                                    clearTimeout(t);
+                                                    newEvent(target,"touchstart");
+                                                    time=false;
+                                                }
+						}, true);
+					target.addEventListener('touchcancel',function(event) {
+							status.innerHTML = '[touchcancel]';
+clearTimeout(t);
+						}, true);
+					target.addEventListener('click',
+						function(event) {
+document.title=666
+							status.innerHTML = '[touchcancel]';
+clearTimeout(t);
+						}, true);
+				});
+			</script>
+			<style>
+				#target {
+					background-color: green;
+					height: 300px;
+				}
+
+				#status {
+					text-align: center;
+				}
+			</style>
+		</head>
+		<body>
+			<div id="target1">6</div>
+<input type="text" id="target" />
+			<p id="status">[]</p>
+		</body>
+	</html>
