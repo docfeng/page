@@ -25,6 +25,7 @@
 					var status = document.querySelector('#status');
 					var touchstart1=function(event) {
 						str+="start\n";
+						target1.innerHTML=str;
 						if(!b1){
 							b1=true;
 							b2=true;
@@ -38,16 +39,18 @@
 						} 
 					}
 					var touchmove1=function(event) {
+							str+="move1\n";
+							target1.innerHTML=str;
 							if(b1&&b2){
 								b2=false;
 								clearTimeout(t);
 								newEvent(target,"touchstart")
 							}
-							str+="move1\n";
 							status.innerHTML = '[touchmove1]';
 					}
 					var touchend1=function(event) {
 						str+="touchend\n";
+						target1.innerHTML=str;
 						if(b2){
 							b2=false
 							newEvent(target,"touchstart")
@@ -63,6 +66,7 @@
 					
 					var touchcancel1=function(event) {
 						str+="touchcancel\n";
+						target1.innerHTML=str;
 						if(b2){
 							b2=false
 							newEvent(target,"touchstart")
