@@ -20,12 +20,15 @@
 					var b1=false,b2=false;
 					var t;
 					var i=0;
+					var str="";
 					var target = document.querySelector('#target');
 					var status = document.querySelector('#status');
 					var touchstart1=function(event) {
+						str+="start\n";
 						if(!b1){
 							b1=true;
 							b2=true;
+							str="";
 							haltEvent(event);
 							//target.removeEventListener('touchstart', touchstart1, !1);
 						    t=setTimeout(function(a){
@@ -40,10 +43,11 @@
 								clearTimeout(t);
 								newEvent(target,"touchstart")
 							}
-							
+							str+="move1\n";
 							status.innerHTML = '[touchmove1]';
 					}
 					var touchend1=function(event) {
+						str+="touchend\n";
 						if(b2){
 							b2=false
 							newEvent(target,"touchstart")
@@ -58,6 +62,7 @@
 					}
 					
 					var touchcancel1=function(event) {
+						str+="touchcancel\n";
 						if(b2){
 							b2=false
 							newEvent(target,"touchstart")
