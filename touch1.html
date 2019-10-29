@@ -39,10 +39,11 @@
 						} 
 					}
 					var touchmove1=function(event) {
-							str+="move1\n";
-							target1.innerHTML=str;
+							
 							if(b1&&b2){
 								b2=false;
+								str+="move1\n";
+								target1.innerHTML=str;
 								clearTimeout(t);
 								newEvent(target,"touchstart")
 							}
