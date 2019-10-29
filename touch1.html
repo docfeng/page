@@ -17,55 +17,75 @@
 					while (new Date().getTime() < startTime + delay);
 				};
 				window.addEventListener('load', function() {
-                                        var time;
-                                        var t;
-                                        var i=0;
+					var b1=false,b2=false;
+					var t;
+					var i=0;
 					var target = document.querySelector('#target');
 					var status = document.querySelector('#status');
-					target.addEventListener('touchstart', function(event) {
-						
-                                            if(!time){
-                                                time=true
-                                                haltEvent(event);
-                                                t=setTimeout(function(a){
-                                                    status.innerHTML = '[touchstart]'+time;
-                                                    time=false;
-                                                },300);
-                                            }else{
-                                                status.innerHTML = '[touchstart]'+time;
-                                            }
-					}, true);
-					target.addEventListener('touchmove', function(event) {
-						//pause();
-						//haltEvent(event);
-                                                if(time){
-                                                    clearTimeout(t);
-                                                    //newEvent(target,"touchstart")
-                                                    newEvent(target,"focus")
-                                                    time=false;
-                                                    status.innerHTML = '[touchmove2]';
-                                                }else{
-						status.innerHTML = '[touchmove1]'+time;
-                                                }
-					}, true);
-					target.addEventListener('touchend',function(event) {
+					var touchstart1=function(event) {
+						if(!b1){
+							b1=true;
+							b2=true;
+							haltEvent(event);
+							//target.removeEventListener('touchstart', touchstart1, !1);
+						    t=setTimeout(function(a){
+						        status.innerHTML = '[touchstart]';
+						    },300);
+							
+						} 
+					}
+					var touchmove1=function(event) {
+							if(b1&&b2){
+								b2=false;
+								clearTimeout(t);
+								newEvent(target,"touchstart")
+							}
+							
+							status.innerHTML = '[touchmove1]';
+					}
+					var touchend1=function(event) {
+						if(b2){
+							b2=false
+							newEvent(target,"touchstart")
+						}
+						if(b1){
+							b1=false;
+							b2=false;
+							clearTimeout(t);
+							newEvent(target,"touchend")
+						}
 					    status.innerHTML = '[touchend]';
-                                                 if(time){
-                                                    clearTimeout(t);
-                                                    newEvent(target,"touchstart");
-                                                    time=false;
-                                                }
-						}, true);
-					target.addEventListener('touchcancel',function(event) {
+					}
+					
+					var touchcancel1=function(event) {
+						if(b2){
+							b2=false
+							newEvent(target,"touchstart")
+						}
+						if(b1){
+							b1=false;
+							b2=false;
+							clearTimeout(t);
+						}
+					    status.innerHTML = '[touchcancel]';
+					}
+					
+					
+					target.addEventListener('touchstart', touchstart1, true);
+					target.addEventListener('touchmove', touchmove1, true);
+					target.addEventListener('touchend',touchend1, true);
+					target.addEventListener('touchend',touchcancel1, true);
+					
+					
+						/* target.removeEventListener("touchmove", touchstart1, !1);
+						target.removeEventListener("touchmove", touchmove1, !1);
+						target.removeEventListener("touchmove", touchend1, !1);
+						target.addEventListener('touchstart', touchstart2, true); */
+					target.addEventListener('click',function(event) {
+							document.title=666
 							status.innerHTML = '[touchcancel]';
-clearTimeout(t);
-						}, true);
-					target.addEventListener('click',
-						function(event) {
-document.title=666
-							status.innerHTML = '[touchcancel]';
-clearTimeout(t);
-						}, true);
+							clearTimeout(t);
+					}, true);
 				});
 			</script>
 			<style>
@@ -81,7 +101,7 @@ clearTimeout(t);
 		</head>
 		<body>
 			<div id="target1">6</div>
-<input type="text" id="target" />
+			<input type="text" id="target" />
 			<p id="status">[]</p>
 		</body>
 	</html>
