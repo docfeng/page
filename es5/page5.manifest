@@ -1,0 +1,32 @@
+CACHE MANIFEST
+#version 1.0
+
+CACHE:
+https://code.jquery.com/jquery-2.1.1.min.js
+https://s.zhulang.com/wap/pub/v2/style/read-3873a62e78.css
+#https://s.zhulang.com/images/zl-logo114.png
+es5/base5.js
+es5/fj.js
+script/flexible.0.3.4.js
+es5/http5.js
+es5/db5.js
+es5/store5.js
+es5/gitapi5.js
+es5/book.js
+es5/reader-book.js
+es5/index.js
+css5/fj.css
+css5/msg5.css
+css5/main5.css
+css/test.css
+fonticon/iconfont.css
+css5/media.css
+script/geth.js
+es5/readpage-0.1.js
+
+NETWORk:
+page.5.html
+http://192.168.123.128/get2.php *
+*
+
+FALLBACK:

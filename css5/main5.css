@@ -1,0 +1,279 @@
+/* html,body{
+  height:100%;
+  width:100%
+  padding:0;
+  margin:0;
+} */
+.main_contain {
+	font-size: 16px;;
+	color: #000000;
+}
+.main_contain .myhead input {
+	height: 24px;
+	background-color: "green";
+}
+
+.main_contain table th,.main_contain table td {
+	border: 1px solid black;
+	//background-color:red;
+}
+
+.main_contain td {
+	/*
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    */
+	word-break: break-all;
+	vertical-align: top;
+	word-wrap: break-word;
+}
+
+.main_contain table {
+	//height:400px;
+	width: 100%;
+}
+
+.main_contain table h1,
+.main_contain table h2,
+.main_contain table h3,
+.main_contain table h4,
+.main_contain table h5,
+.main_contain table h6 {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+
+.main_contain table h1 {
+	font-size: 1.5em;
+	background-color: #778899;
+}
+
+.main_contain table h2 {
+	font-size: 1em;
+	background-color: #A0B4CE;
+}
+
+.main_contain table h3 {
+	font-size: 0.5em;
+	background-color: #B0C4DE;
+}
+
+.main_contain table h4 {
+	font-size: 1em;
+	background-color: #A0B4CE;
+}
+
+.main_contain table h5 {
+	font-size: 0.5em;
+	display: none;
+	//background-color:#B0C4DE;
+}
+
+
+//小说书架
+#shelf_table h1,
+#shelf_table h2,
+#shelf_table h3,
+#shelf_table h4,
+#shelf_table h5,
+#shelf_table h6 {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+
+#shelf_table h1 {
+	font-size: 1em;
+	background-color: #778899;
+}
+
+#shelf_table h2 {
+	font-size: 0.8em;
+	background-color: #A0B4CE;
+}
+
+#shelf_table h3 {
+	font-size: 0.5em;
+	background-color: #B0C4DE;
+}
+
+#shelf_table h4 {
+	font-size: 0.8em;
+	background-color: #A0B4CE;
+}
+
+#shelf_table h5 {
+	font-size: 0.5em;
+	background-color: #B0C4DE;
+}
+
+#shelf_table h6 {
+	font-size: 0.5em;
+	//display:none;
+	background-color: #B0C4DE;
+}
+
+span.highlight {
+	background-color: yellow
+}
+
+/*tr:hover td{
+  word-break:break-all;
+  vertical-align:top;
+  	word-wrap:break-word ;
+}*/
+td:hover {
+	background: #666;
+	position: relative;
+	overflow: visible;
+	font-weight: bold;
+	display: block;
+	opacity: 1;
+}
+
+td:hover h1,
+td:hover h2,
+td:hover h3,
+td:hover h4,
+td:hover h5,
+h6 {
+	//font-size:110%;
+	//background:red;
+	color: white;
+	font-weight: bold;
+	display: block;
+	//overflow:visible;
+	//white-space:wrap;
+	//position:absolute;
+}
+
+
+#list_table {
+	table-layout: fixed;
+}
+
+#list_table td {
+	background-color: #A0B4CE;
+}
+
+.menu {
+	height: calc(100% - 24px);
+	display: block;
+}
+
+.fix>ul {
+	position: fixed;
+}
+
+.fix>div {
+	padding: 24px 0 0 0;
+}
+
+.menu>ul {
+	float: left;
+	width: 100%;
+	height: 24px;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	display: block;
+	background-color: green;
+}
+
+.menu>ul>li {
+	display: inline;
+	width: 25% //font: 0.7em Arial, Helvetica, sans-serif;
+		//height: 20px;
+}
+
+.menu>ul>li.on,
+.menu>ul>li:hover,
+.menu>ul>li:focus {
+	background-color: #fff;
+	border-bottom-color: transparent;
+	box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, .15);
+}
+
+.menu>ul>li.on {
+	border-top: 2px solid #2dc3e8;
+}
+
+.menu>div {
+	height: calc(100% - 50px);
+	display: none;
+
+}
+
+.menu>div.hide {
+	display: none;
+}
+
+.menu>div.show {
+	display: block;
+	//overflow-y:auto;
+}
+
+.menu>ul>li>ul {
+	float: left;
+	width: 100%;
+	height: 24px;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	display: none;
+	background-color: green;
+}
+
+.menu>ul>li>ul>li {
+	display: inline;
+	width: 25% //font: 0.7em Arial, Helvetica, sans-serif;
+		//height: 20px;
+}
+
+.menu>ul>li:hover ul,
+.menu>ul>li.on ul,
+.menu>ul>li:focus ul {
+	background-color: #fff;
+	border-bottom-color: transparent;
+	box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, .15);
+	display: block;
+}
+
+.menu>div>form {
+	height: 100%;
+	//overflow-y:scroll;
+}
+
+textarea {
+	width: 100%;
+	height: calc(100% -24px);
+	//white-space:nowrap; 
+	overflow: scroll;
+	font: 0.9em Arial, Helvetica, sans-serif;
+}
+
+form>textarea {
+	width: 100%;
+	height: calc(100% - 24px);
+	//white-space:nowrap; 
+	overflow: scroll;
+	font: 0.9em Arial, Helvetica, sans-serif;
+}
+
+textarea.e {
+	height: 40px;
+}
+
+/*#novel_view{
+  height:100px;
+  display: none;
+}
+#novel_view.hide{
+  display: none;
+}
+#novel_view.show{
+  display: block;
+}*/
+

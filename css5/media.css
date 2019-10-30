@@ -1,0 +1,100 @@
+/**
+			 * win8寸平板
+			 */
+@media only screen and (min-device-width : 800px) and (max-device-width : 1280px),
+/* 手机 */
+(max-device-width : 400px)
+
+/* and (orientation : landscape) */
+	{
+
+	
+
+	.circle-menu>div:first-child {
+		height: 300px;
+	}
+	
+	/* 
+	.circle-menu .icon-Button{
+		flex: 1 1;
+		border: 1px solid #AAF;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		width: 50px;
+		height: 50px;
+		
+	} */
+}
+
+/**
+		所有 iPad Media Queries
+		**/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {}
+
+/**
+		iPad 横屏
+		**/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {}
+
+/**
+		**  iPad 竖屏
+		**/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {}
+
+/* 手机 */
+@media all and (max-width: 768px) {}
+
+@media (max-height: 700px) {}
+
+@media (max-height: 400px) {}
+
+
+/**
+		笔记本
+		**/
+@media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : landscape) {}
+
+/**
+		 * win8寸平板横屏
+		 */
+@media only screen and (min-device-width : 800px) and (max-device-width : 1280px) and (orientation : landscape) {
+	
+}
+
+/**
+		 * win8寸平板竖屏
+		 */
+@media only screen and (min-device-width : 600px) and (max-device-width : 1380px) {
+	
+}
+
+@media only screen and (min-device-width : 800px) and (max-device-width : 1280px) and (orientation : portrait) {
+	/* .circle-menu {
+				width: 60px;
+				height: auto;
+			} */
+
+	
+}
+
+@media (min-height : 500px){
+	.circle-menu>div:first-child {
+		height: 400px;
+	}
+}
+@media (min-height : 600px){
+	.circle-menu>div:first-child {
+		height: 500px;
+	}
+}
+@media (min-height : 700px){
+	.circle-menu>div:first-child {
+		height: 600px;
+	}
+}
+
+@media (min-height : 800px){
+	.circle-menu>div:first-child {
+		height: 700px;
+	}
+}
