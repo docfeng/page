@@ -1,0 +1,79 @@
+二、XMLHTTP方法：　
+Open（bstrMethod,　bstrUrl,　varAsync,　bstrUser,　bstrPassword　）
+bstrMethod：　　数据传送方式，即GET或POST。　
+bstrUrl：　　　　　服务网页的URL。　
+varAsync：　　　是否同步执行。缺省为True，即同步执行，但只能在DOM中实施同步执行。用中一般将其置为False，即异步执行。　
+bstrUser：　　　　用户名，可省略。　
+bstrPassword：用户口令，可省略。　
+　
+Send（varBody　）
+varBody：指令集。可以是XML格式数据，也可以是字符串，流，或者一个无符号整数数组。也可以省略，让指令通过Open方法的URL参数代入。　
+　
+setRequestHeader（　bstrHeader,　bstrvalue　）
+bstrHeader：HTTP　头(header)　
+bstrvalue：　HTTP　头(header)的值　
+如果Open方法定义为POST，可以定义表单方式上传：　
+xmlhttp.setRequestHeader（　"Content-Type",　"application/x-www-form-urlencoded"）　
+　
+三、XMLHTTP属性：　
+onreadystatechange：在同步执行方式下获得返回结果的事件句柄。只能在DOM中调用。　
+responseBody：　　　结果返回为无符号整数数组。　
+responseStream：　　结果返回为IStream流。　
+responseText：　　　结果返回为字符串。　
+responseXML：　　　结果返回为XML格式数据。
+
+通过responseBody属性获得的内容需要下面这个函数转换为正常字符串，否则是乱码：
+Function bytes2BSTR(arrBytes)
+strReturn = "" 
+arrBytes = CStr(arrBytes) 
+For i = 1 To LenB(arrBytes)
+ThisCharCode = AscB(MidB(arrBytes, i, 1))
+If ThisCharCode < &H80 Then
+strReturn = strReturn & Chr(ThisCharCode)
+Else
+NextCharCode = AscB(MidB(arrBytes, i+1, 1))
+strReturn = strReturn & Chr(CLng(ThisCharCode) * &H100 + CInt(NextCharCode))
+i = i + 1
+End If
+Next
+bytes2BSTR = strReturn
+End Function
+
+
+四、示例：
+以下是代码片段：
+<　script　language="javascript"　>　　
+function　getDatal(url){　　
+　　　　var　xmlhttp　=　new　ActiveXObject("MSXML2.XMLHTTP.4.0");//创建XMLHTTPRequest对象，需MSXML4.0支持　　
+["MSXML2.XMLHTTP.4.0","MSXML2.DOMDocument.4.0"]　
+　　　　xmlhttp.open("GET",url,false,"","");　　　//使用HTTP　GET初始化HTTP请求　　
+　　　　xmlhttp.send("");　　　　　　　　　　　　　　　　　　　//发送HTTP请求并获取HTTP响应　　
+　　　　return　xmlhttp.responseXML;　　　　　　　　　//获取XML文档　　
+}　　
+　
+
+
+常见问题：
+msxml3.dll 错误 '80070005' 拒绝访问。 代码如下：
+PostUrl=http://www.exponow.cn/
+Server.ScriptTimeOut=20
+Set oXMLHttp = createObject("Microsoft.XMLHTTP")
+Call oXMLHttp.Open("get", PostUrl, false)
+Call oXMLHttp.Send("")
+sHtmlStr = oXMLHttp.responseBody 
+Set oXMLHttp = nothing
+
+初步判定可能是打开的页面有跳转的原因，解决办法是用
+MSXML2.ServerXMLHTTP
+替换掉
+Microsoft.XMLHTTP
+即可解决。
+
+另外在CSDN上找到这么一段代码
+PostUrl="http://www.exponow.cn/"
+ServerURL=PostUrl
+Set Mail1 = Server.CreateObject("CDO.Message") 
+Mail1.CreateMHTMLBody ServerURL,31　　 
+AA=Mail1.HTMLBody 
+Set Mail1 = Nothing 
+Response.Write AA
