@@ -204,27 +204,28 @@ and (orientation : landscape) {
 
 <script>  
 htmlFSO={
-    async read(){
+    read:function(){
         var pageTXT=page.txt;
         var name=page.name.value;
-        var text=await git.getFile("page",name);
-        page.txt.value=text
+        git.getFile("page",name).then(function(text){
+            page.txt.value=text
+        });
     },
-    async write(){
+    write:function(){
         var name=page.name.value;
         var txt=page.txt.value;
-        await git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
+        git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
     },
-    async add(){
+    add:function(){
         var name=page.name.value;
         var txt=page.txt.value;
-        await git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
+        git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
     },
-    async delete(){
+    delete:function(){
         var name=page.name.value;
-        var re=await git.deleteFile({"owner":"docfeng",repos:"page","name":name});
-        //alert(re)
-        return true;
+        return git.deleteFile({"owner":"docfeng",repos:"page","name":name}).then(function(re){
+            return re;
+        });
     }
 }
 
