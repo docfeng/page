@@ -14,5 +14,9 @@
     {
         "name": "myapp001",
         "href": "https://github.com/docfeng/page/releases/download/1.0/MyApp001.apk"
+    },
+    {
+        "name": "test",
+        "href": "http://192.168.1.10:8082/main.php"
     }
 ]
