@@ -826,7 +826,7 @@ if(typeof state=="string"){
     //alert(state)
     evt.fireEvent(state);
 }else{
-    alert(JSON.stringify(state))
+    //if(JSON.stringify(state))alert(JSON.stringify(state))
 } 
   },false);
   window.history.replaceState('onback', null, '');
