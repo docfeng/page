@@ -394,9 +394,13 @@ window.onresize=function(){
   //alert(window.getComputedStyle(ins_box).height);
   
   edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
-  var style = document.createElement('style');             
-  style.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-26)+"px;}";
-  document.head.appendChild(style);
+  var st=document.getElementById("st");
+  if(!st){
+      st = document.createElement('style');
+      st.id="st";
+      document.head.appendChild(st);
+  }
+  st.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-ctr_h)+"px;}";
  
   /*//动态添加外置样式表    
   var  link = document.createElement('link');
