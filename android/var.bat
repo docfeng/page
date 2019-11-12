@@ -12,6 +12,13 @@ echo %CLASSPATH%
 echo %PATH%
 
 
+rem javac %1
+"%JAVA_HOME%/bin/javac" %1
+pause
+
+"%JAVA_HOME%/bin/java" %~n1
+pause
+
 
 
 
