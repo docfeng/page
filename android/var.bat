@@ -21,6 +21,15 @@ cd %~d1%~p1
 pause
 
 
+(1)"JAVA_HOME"，变量值是你的电脑JDK的安装路径，我的是"D:\java\tool\java1.8\JDK"
+
+(2)"Path"，在原变量值的最后面加上”;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin”
+
+(3)”CLASSPATH”，变量值”.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar”
+
+特别注意变量值开头是”.;”（点分号），这个地方需要特别注意
+
+
 
 
 xcopy.exe f:\windows\a.txt d:\
