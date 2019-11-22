@@ -22,8 +22,7 @@
 		<script src="script/store.js"></script>
 		<script>var ttt="";</script>
 		<style type="text/css">
-			html,
-			body {
+			html,body {
 				width: 100%;
 				height: 100%;
 				overflow: hidden;
@@ -209,9 +208,9 @@
 		</style>
 	</head>
 	<body>
-		<table style="width:100%;height:100%">
-			<tr style="height:auto;background:red">
-				<td>
+		<table style="width:100%;height:100%;overflow-x: scroll;border:0px;">
+			<tr style="height:auto;background:red;">
+				<td >
 					<div class="top_box1" id="top_box">
 						<div class="control_box" id="control_box">
 							<input type="button" value='eval' onclick="eval(page.txt.value)" />
@@ -224,8 +223,11 @@
 							<input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();' />
 							<input type="button" value="打开" onclick='window.open(page.name.value);' />
 						</div>
-
-						<div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
+				</td>
+			</tr>
+			<tr style="height:auto;background:red;">
+				<td oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
+						<div class="page_box" id="page_box" >
 							<input id="button1" type="button" value="page1" style="color:red;" onclick="shift(1)">
 							<input id="button2" type="button" value="page2" onclick="shift(2);">
 							<input id="button3" type="button" value="page3" onclick="shift(3);">
