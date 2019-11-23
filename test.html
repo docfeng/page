@@ -7,6 +7,12 @@
 <input type="text" id="sample" />
 <script>
 alert()
+if( 'flex' in document.documentElement.style){
+alert(1)
+}else{
+alert(11)
+} 
+
 var node = document.querySelector('#sample');
 alert(node)
 var inputLock = false;
