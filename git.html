@@ -234,6 +234,9 @@ var index=1;
 var button=button1;
 var name_=Array()
 var txt_=Array()
+
+var owner="docfeng",repos="page";
+
 shift=function(i){
   eval("button" + index).style.color="black";
   if(page.name.value!=""){
@@ -256,22 +259,22 @@ htmlFSO={
     async read(){
         var pageTXT=page.txt;
         var name=page.name.value;
-        var text=await git.getFile("page",name);
+        var text=await git.getFile(repos,name);
         page.txt.value=text
     },
     async write(){
         var name=page.name.value;
         var txt=page.txt.value;
-        await git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
+        await git.createFile({"owner":owner,repos:repos,"name":name,"txt":txt});
     },
     async add(){
         var name=page.name.value;
         var txt=page.txt.value;
-        await git.createFile({"owner":"docfeng",repos:"page","name":name,"txt":txt});
+        await git.createFile({"owner":owner,repos:repos,"name":name,"txt":txt});
     },
     async delete(){
         var name=page.name.value;
-        var re=await git.deleteFile({"owner":"docfeng",repos:"page","name":name});
+        var re=await git.deleteFile({"owner":owner,repos:repos,"name":name});
         //alert(re)
         return true;
     }
@@ -383,7 +386,30 @@ window.onload=function(){
   addForm(5);addForm(6);
   shift(1);
   window.onresize();
+  var _hash=hash();
+  var _owner=_hash["owner"];
+  var _repos=_hash["repos"];
+  if(_owner){
+      owner=_owner;
+  }
+  if(_repos){
+      repos=_repos;
+  }
+  location.hash="owner="+owner+";repos="+repos;
+    window.onresize();
 }
+window.addEventListener("hashchange",function(){
+  var _hash=hash();
+  var _owner=_hash["owner"];
+  var _repos=_hash["repos"];
+  if(_owner){
+      owner=_owner;
+  }
+  if(_repos){
+      repos=_repos;
+  }
+},false);
+
 window.onresize=function(){
   //window.innerHeight<400?show_ins():hide_ins();
   var wh=window.innerHeight;
