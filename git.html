@@ -235,7 +235,7 @@ var button=button1;
 var name_=Array()
 var txt_=Array()
 
-var owner="docfeng",repos="page";
+var user="docfeng",repos="page";
 
 shift=function(i){
   eval("button" + index).style.color="black";
@@ -265,16 +265,16 @@ htmlFSO={
     async write(){
         var name=page.name.value;
         var txt=page.txt.value;
-        await git.createFile({"owner":owner,repos:repos,"name":name,"txt":txt});
+        await git.createFile({"owner":user,repos:repos,"name":name,"txt":txt});
     },
     async add(){
         var name=page.name.value;
         var txt=page.txt.value;
-        await git.createFile({"owner":owner,repos:repos,"name":name,"txt":txt});
+        await git.createFile({"owner":user,repos:repos,"name":name,"txt":txt});
     },
     async delete(){
         var name=page.name.value;
-        var re=await git.deleteFile({"owner":owner,repos:repos,"name":name});
+        var re=await git.deleteFile({"owner":user,repos:repos,"name":name});
         //alert(re)
         return true;
     }
@@ -387,23 +387,26 @@ window.onload=function(){
   shift(1);
   window.onresize();
   var _hash=hash();
-  var _owner=_hash["owner"];
+  var _user=_hash["user"];
   var _repos=_hash["repos"];
-  if(_owner){
-      owner=_owner;
+  var _name=_hash["name"];
+  if(_name)page.name.value=_name;
+    window.onresize();
+  if(_user){
+      user=_user;
   }
   if(_repos){
       repos=_repos;
   }
-  location.hash="owner="+owner+";repos="+repos;
+  location.hash="user="+user+";repos="+repos;
     window.onresize();
 }
 window.addEventListener("hashchange",function(){
   var _hash=hash();
-  var _owner=_hash["owner"];
+  var _user=_hash["user"];
   var _repos=_hash["repos"];
-  if(_owner){
-      owner=_owner;
+  if(_user){
+      user=_user;
   }
   if(_repos){
       repos=_repos;
