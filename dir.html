@@ -149,7 +149,7 @@ window.addEventListener("hashchange",async function(){
 htmlFSO={
         async getDir(name){
             var hash=window.hash();
-            var path=hash["path"]||"";
+            path=hash["path"]||"";
             var user=hash["user"]||"";
             var repos=hash["repos"]||"";
             var json=await git.getDir(user,repos,path);
