@@ -100,6 +100,7 @@ dialog{
         <input type="button" value="deleteDir" onclick="htmlFSO.deleteDir(path);"/>
         <input type="button" value="createFile" onclick='let _path=path?path+"/":path;msg.file(_path)'/>
         <input type="button" value="login" onclick='git.login()'/>
+        <input type="button" value="upload" onclick="msg.uploadFile();"/>
         <div id="pathUl"></div>
     </header>
     <div class="main" oncontextmenu="alert()">
@@ -128,6 +129,27 @@ dialog{
         <label>name:</label>
         <input type="text" id="file_name" /><br/>
         <textarea id="file_txt"></textarea>
+    </section>
+    <footer>
+        <menu>
+            <button type="button">取消</button>
+        </menu>
+    </footer>
+    </div>
+</dialog>
+<dialog id="dialog_uploadFile" onclick="if(this.open){this.close()}">
+    <div class="dialog">
+    <header>文件上传</header>
+    <section  onclick="event.stopPropagation();">
+        <form action="javascript:upload()" method="post" enctype="multipart/form-data">
+            <label for="file">Filename:</label>
+            <input type="file" name="file" id="file" /> 
+            <input type="text" name="order" id="order" value="uploadFile" /> 
+            <input type="text" name="name" id="filename" value="" /> 
+            
+            <br />
+            <input type="submit" name="submit" value="Submit" />
+        </form>
     </section>
     <footer>
         <menu>
@@ -254,6 +276,30 @@ downloadRepos=function(name,user,repos){
     //downloadFile(name,url)
     window.open(url)
 }
+function upload() {
+    var name=file.files[0].name;
+    alert(name)
+    var reader = new FileReader();
+    reader.onloadend = function () {
+        var dataURL = reader.result
+        var str=dataURL.split("base64,");
+        //var user=username.value;
+        //var repos=reposname.value;
+        var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            if(!user||!repos){
+                alert("没有user或repos");
+                return false;
+            }
+            alert(filename)
+        name=filename.value||name;
+        if(confirm("是否创建"+name)){
+        git.createFile({"owner":user,repos:repos,"name":name,"txt":str[1]});
+        }
+    };
+    reader.readAsDataURL(file.files[0]); // 读出 base64
+}
     msg={
         dir(name){
             //dialog_dir.showModal();
@@ -278,6 +324,9 @@ downloadRepos=function(name,user,repos){
             dialog_file.showModal();
             dialog_file.querySelector("#file_name").value=name;
             htmlFSO.getFile(name);
+        },
+        uploadFile(){
+            dialog_uploadFile.showModal();
         }
     }
     
