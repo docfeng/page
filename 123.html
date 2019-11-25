@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-web-app-title" content="github文件读写" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache" /> 
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>导航</title>
+<!--<script src="//git.docfeng.top/js/_ini.js"></script>
+<script src="//git.docfeng.top/script/http.js"></script>
+<script src="//git.docfeng.top/script/git.js"></script>
+<script src="//git.docfeng.top/script/db.js"></script>
+<script src="//git.docfeng.top/script/store.js"></script>
+-->
+<script src="script/base.js"></script>
+<script src="script/http.js"></script>
+<script src="script/gitapi.js"></script>
+<script src="script/db.js"></script>
+<script src="script/store.js"></script>
+<script>var ttt="";</script>
+<style type="text/css">
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+/*body::-webkit-scrollbar {
+        display: none;
+    }
+    textarea::-webkit-scrollbar {
+        display: none;
+    }
+    */
+div::-webkit-scrollbar {
+        display: none;
+    }
+
+body{ 
+  margin: 0px;
+  padding: 0px;
+  //font-size:14px; 
+  //line-height:24px;
+}
+textarea{
+  width:100%;
+  height:90%;
+  font: 0.7em Arial, Helvetica, sans-serif;
+  //white-space:nowrap;
+}
+body:focus input
+{
+background-color:yellow;
+}
+*{margin:0px;padding:0px;}
+input[onclick^="ins"] {
+  margin:0px;
+  padding:0px;
+  width:25px;
+  height:25px;
+}
+input[onclick^="shift"] {
+  margin:0px;
+  padding:0px;
+  width:60px;
+}
+input[value^="page"] {
+  margin:0px;
+  padding:0px;
+  width:40px;
+}
+.ins_box{
+  width:100%;
+  overflow-x:scroll;
+  white-space:nowrap;
+  position:fixed;
+  bottom:0px;
+  display:none;
+}
+.control_box{
+  width:100%;
+  overflow-x:scroll;
+white-space:nowrap;
+  //position:fixed;
+  //top:0px;
+}
+.page_box{
+  width:100%;
+  //height:23px;
+  //position:fixed;//absolute;
+  //top:20px;
+  //margin-top:20px;
+  	//Word-break: break-all;
+  	overflow-x: scroll;
+  	white-space:nowrap;
+}
+.edit_box{
+  width:100%;
+  //margin-top:50px;
+}
+/**
+所有 iPad Media Queries
+**/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+//body{background-color:orange;}
+  .ins{display:none;}
+  body{
+    font-size: 2em;
+  }
+  textarea{
+    //font-size: 2em;
+  }
+  input{
+    font-size:1em;
+  }
+  input[onclick^="shift"] {
+    width:260px;
+  }
+}
+/**
+iPad 横屏
+**/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+}
+/**
+**  iPad 竖屏
+**/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+}
+/* 手机 */
+@media all and (max-width: 768px) {
+  textarea{
+    font: 0.8em Arial, Helvetica, sans-serif;
+    white-space:nowrap;
+   }
+}
+@media (max-height: 700px) {
+  //body{background-color:orange;}
+  .ins{display:none;}
+}
+@media (max-height: 400px) {
+  //body{background-color:OrangeRed;}
+  .edit_box{
+    margin-bottom:30px;
+  }
+  .ins_box{display:block;}
+}
+
+
+/**
+笔记本
+**/
+@media only screen
+and (min-device-width : 1024px)
+and (max-device-width : 1366px)
+and (orientation : landscape) {
+  .ins{display:none;}
+  body{
+    font-size: 2em;
+  }
+  textarea{
+    //font-size: 2em;
+  }
+  input{
+    font-size:1em;
+  }
+  input[onclick^="shift"] {
+    width:180px;
+  }
+
+}
+</style>
+</head>
+<body>
+<div class="top_box1" id="top_box">
+    <div class="control_box" id="control_box">
+        <input type="button" value='reload' onclick='location.reload()'/>
+        <input type="button" value="add" onclick="Guide.add()"/>
+        <input type="button" value="getGuide" onclick='getGuide();'/>
+    </div>
+    <table id="guide" onclick="Guide.click(event)">
+    </table>
+</div>
+<script id="arr">
+    var urlArr=[{"name":"git","href":"git.html"},
+    {"name":"git","href":"http://192.168.123.92:8082/main.php"}];
+</script> 
+<script>  
+window.onload=function(){
+    //git=new gitapi("docfeng");
+    //getGuide();
+    Guide.show();
+}
+
+getGuide=function(){
+    var htmlString=window.document.documentElement.outerHTML;
+    htmlString=htmlString.replace(/<script id="arr">\s([\s\S]*?)\s<\/script>/,function(str,i2){
+    var str=str.replace(i2,"var urlArr="+JSON.stringify(urlArr,null,4))
+        return str;
+    });
+    var re=htmlString.match(/<script id="arr">\s([\s\S]*?)\s<\/script>/);
+    if(re)alert(re[1])
+    alert(urlArr)
+}
+
+
+
+
+Guide={
+    add:function(){
+        var name=prompt("name");
+        var href=prompt("href");
+        if(name&&href){
+            var o={"name":name,"href":href};
+            urlArr.push(o)
+            this.show();
+            this.put();
+        }
+    },
+    click:function(event){
+        var src=event.srcElement;
+        var obj=src.parentNode.parentNode;
+          if("tr"==obj.tagName.toLowerCase()){
+            var index=obj.rowIndex;
+            if("span"==src.tagName.toLowerCase()){
+              var h=src.innerHTML;
+              if("X"==h){
+                  this.del(index);
+              }
+              if("e"==h){
+                  this.edit(index);
+              }
+            }
+        }
+    },
+    del:function(index){
+        if(confirm("确认删除第"+index+"个:\n"+JSON.stringify(urlArr[index],null,4))){
+          urlArr.splice(index,1);
+          this.show();
+          this.put();
+        }
+    },
+    show:function(){
+        var json=urlArr
+        if(json.length==0){
+            alert("urlArr.length==0");
+        }else{
+            var list="";
+            for(var i=0;i<json.length;i++){
+                list+="<tr><td><a href=\""+json[i].href+"\" target=\"_blank\" title=\""+json[i].href+"\">"+json[i].name+"</a><span>X</span><span>e</span></td></tr>";
+            }
+            //alert(list);
+            guide.innerHTML=list;
+        }
+    },
+    edit:function(index){
+      var name=prompt("name",urlArr[index].name);
+      var href=prompt("href",urlArr[index].href);
+      var o={"name":name,"href":href};
+      if(confirm("确认编辑第"+index+"个:\n"+JSON.stringify(urlArr[index],null,4)+"\n改为:\n"+JSON.stringify(o,null,4))){
+          urlArr[index]=o;
+          this.show();
+          this.put();
+        }
+    },
+    put:function(){
+      git.getFile("page","123.html").then(function(html){
+        var html=html.replace(/<script id="arr">\s([\s\S]*?)\s<\/script>/,function(str,i2){
+            var str=str.replace(i2,"var urlArr="+JSON.stringify(urlArr,null,4))
+            return str;
+        });
+        return html;
+      }).then(function(html){
+        return git.createFile({"owner":"docfeng",repos:"page","name":"123.html","txt":html});
+      }).then(function(a){
+        alert(a)
+      });
+    }
+}
+window.onerror = function(sMessage, sUrl, sLine) {
+     alert("发生错误！\n" + sMessage + "\nURL:" + sUrl + "\nLine Number:" + sLine);
+     return true;
+}
+/*
+window.addEventListener('load',function(){
+    git=new gitapi("docfeng");
+}, false);
+*/
+</script>
+</body>
+</html>
