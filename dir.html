@@ -295,11 +295,55 @@ function upload() {
             alert(filename)
         name=filename.value||name;
         if(confirm("是否创建"+name)){
-        git.createFile({"owner":user,repos:repos,"name":name,"txt":str[1]});
+          write1({"owner":user,repos:repos,"name":name,"txt":str[1]}).then(function(a){
+          alert(a)
+          }).catch(function(a){
+              alert(a)
+          });
         }
     };
     reader.readAsDataURL(file.files[0]); // 读出 base64
 }
+write1=async function(para){
+        var user=await git.getUser();
+        //status:201 true;422 false;200 write true
+        var owner=para.owner;
+        var repos=para.repos; 
+        var name=para.name; 
+        var sha=await git.getsha(repos,name);
+        var branch=para.branch?para.branch:"master";
+        var message=para.message?para.message:"add";
+        var author= user.author;
+        var str=para.txt;//window.btoa(unescape(encodeURIComponent(para.txt)));
+        var data={
+            "message": message,
+            "content": str,
+            "sha":sha,
+            "branch" : branch
+        }
+        var json={
+            url:"https://api.github.com/repos/"+owner+"/"+repos+"/contents/"+name,
+            head:{Authorization:user.author},
+            type:"put",
+            xml:true,
+            data:JSON.stringify(data)
+        }
+        var re=await http.ajax(json);
+        var status=re.xml.status;
+        switch(status){
+            case 200:alert("写入成功");break;
+            case 201:alert("创建成功");break;
+            case 422:alert("false");break;
+        }
+        var json=JSON.parse(re.html);
+        var re="";
+        if(json.content){
+            re=json.content.sha;
+            this.shas[name]=re; 
+        }
+        return re;
+    }
+    
     msg={
         dir(name){
             //dialog_dir.showModal();
