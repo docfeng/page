@@ -122,6 +122,8 @@ dialog{
         <input type="button" value="writeFile" onclick="htmlFSO.writeFile(file_name.value,file_txt.value)"/>
         <input type="button" value="deleteFile" onclick="htmlFSO.deleteFile(file_name.value)"/>
         <input type="button" value="downloadFile" onclick="htmlFSO.downloadFile(file_name.value)"/>
+        <input type="button" value="open" onclick="window.open(file_name.value)"/>
+        <input type="button" value="editor" onclick="window.open('git.html'+location.hash+';name='+file_name.value)"/>
         <br />
         <label>name:</label>
         <input type="text" id="file_name" /><br/>
