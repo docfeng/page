@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-web-app-title" content="github文件读写" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache" /> 
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>首页</title>
+<meta name="description" content="版本号2.0;升级到es6" />
+<style>
+*{margin:0px;padding:0px;}
+html,body{
+  width:100%;
+  height:100%;
+  //overflow-y:hidden;
+}
+li {
+    /*display: inline;
+    width:48%;
+    border-left: 1px solid #2dc3e8;
+    */
+}
+</style>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="http://git.docfeng.top/script/http.js"></script>
+    <script src="http://git.docfeng.top/script/base.js"></script>
+<script type="text/javascript">
+    
+</script>
+
+<script>
+function nextPage(){
+    alert("下一页")
+}
+
+function load (){
+  document.addEventListener('touchstart',touch,false);
+  document.addEventListener('touchmove',touch,false);
+  document.addEventListener('touchend',touch,false);
+     
+   function touch (event){
+        var event = event || window.event;
+        var oInp =document.getElementById("inp");
+ 
+        switch(event.type){
+            case "touchstart":
+                oInp.innerHTML ="Touch started (" + event.touches[0].clientX +"," + event.touches[0].clientY +")";
+                break;
+            case "touchend":
+                oInp.innerHTML ="<br>Touch end (" + event.changedTouches[0].clientX +"," + event.changedTouches[0].clientY +")";
+                break;
+            case "touchmove":
+                event.preventDefault();
+                oInp.innerHTML ="<br>Touch moved (" + event.touches[0].clientX +"," + event.touches[0].clientY +")";
+                break;
+        }
+    }
+}
+myAPI={
+    openFile(name){
+        chrome.openFile(name);
+    },
+    hideTools(){
+        document.location='js://hide_menu';
+    },
+    showTools(){
+        document.location='js://show_menu';
+    },
+    showLin(i){
+        document.location="js://show?i="+i;
+    }
+}
+getUrlList=function(){
+    var json=fso.read("index.json");
+    if(json=="false"){
+        alert("没有index.json文件");
+        json=`[
+            ["main.html","main.html"]
+        ]`;
+        //return false;
+    }
+    json=JSON.parse(json);
+    var url="";
+    for(var i=0;i<json.length;i++){
+        url+=`<li><a href="${json[i][1]}">${json[i][0]}</a></li>`
+    }
+    url_list.innerHTML=url;
+}
+window.addEventListener('load',getUrlList,false);
+
+getJs=async function(url){
+    var re=await http.get(url)
+    eval(re);
+}
+ 
+window.addEventListener("load",function(){
+    getJs("http://git.docfeng.top/online.js");
+},false);
+
+xml=async function(){
+    var re=await http.get(f_name.value);
+    alert(re);
+}
+addLink=function(){
+  var json=fso.read("index.json");
+    if(json=="false"){
+        alert("没有index.json文件");
+        json=`[
+            ["main.html","main.html"]
+        ]`;
+        //return false;
+    }
+    json=JSON.parse(json);
+    bool=false;
+    var name=prompt("名称");
+    var url=prompt("url");
+    if(!name||!url)return 0;
+    for(var i=0;i<json.length;i++){
+        if(json[i][0]==name){
+            bool=true;
+            if(confirm(`存在${name},是否修改`)){
+                json[i][1]=url;
+                fso.write("index.json",JSON.stringify(json,null,4),false);
+                alert("已修改");
+            }
+        }
+    }
+    if(bool==false){
+        json[json.length]=[name,url];
+        fso.write("index.json",JSON.stringify(json,null,4),false);
+        alert("已添加");
+    }
+    getUrlList();
+}
+shift=function(){
+    if(main.style.display=="none"){
+        main.style.display="block";
+        setting.style.display="none";
+    }else{
+        main.style.display="none";
+        setting.style.display="block";
+    }
+}
+
+function toast(msg){
+    setTimeout(function(){
+        document.getElementsByClassName('toast-wrap')[0].getElementsByClassName('toast-msg')[0].innerHTML=msg;
+        var toastTag = document.getElementsByClassName('toast-wrap')[0];
+        toastTag.className = toastTag.className.replace('toastAnimate','');
+        setTimeout(function(){
+            toastTag.className = toastTag.className + ' toastAnimate';
+        }, 100);
+    },500);
+  }
+</script>
+<style>
+#setting{
+  display:none;
+}
+
+.toast-wrap{
+      opacity: 0;
+      position: fixed;
+      bottom: 50%;
+      color: #fff;
+      width: 100%;
+      text-align: center;
+   }
+   .toast-msg{
+      background-color: rgba(0,0,0,0.7);
+      padding: 2px 5px;
+      border-radius: 5px;
+   }
+  .toastAnimate{
+      animation: toastKF 2s;
+  }
+  @keyframes toastKF{
+      0% {opacity: 0;}
+     25% {opacity: 1; z-index: 9999}
+     50% {opacity: 1; z-index: 9999}
+     75% {opacity: 1; z-index: 9999}
+     100% {opacity: 0; z-index: 0}
+  }
+</style>
+</head>
+<body>
+<input type=text id="url" />
+<input type=button value="go" onclick="document.location.href=url.value" />
+<input type=button value=reload onclick="window.location.reload()"/>
+<input type=button value=shift onclick="shift()"/>
+<br/>
+<section id="main">
+<ul id="url_list" style="width:100%;list-style-type:none;float:left">
+</ul>
+<br />
+</section>
+<section id="setting">
+<input type=button value=reload onclick="window.location.reload()"/>
+<input type=button value=xmlhttp onclick="xml()"/>
+<input type=button value=eval onclick="eval(f_value.value)"/>
+<input type=button value=write onclick="alert(fso.write(f_name.value,f_value.value,false))"/>
+<input type=button value=add onclick="alert(fso.write(f_name.value,f_value.value,true))"/>
+<input type=button value=read onclick="f_value.value=fso.read(f_name.value)"/>				
+<input type=button value=createFile onclick="alert(fso.createFile(f_name.value))"/>
+<input type=button value=createFolder onclick="alert(fso.createFolder(f_name.value))"/>
+<input type=button value=del onclick="alert(fso.delete(f_name.value))"/>
+<input type=button value=show onclick="show_lin(0)"/>
+<input type=button value=show_menu onclick="document.location='js://show_menu'"/>
+<input type=button value=hide_menu onclick="document.location='js://hide_menu'"/>
+<input type=button value=chrome onclick="chrome.hide()"/>
+<input type=button value=show1 onclick="myAPI.showLin(1)"/>
+<input type=button value=show2 onclick="myAPI.showLin(2)"/>
+<input type=button value="添加链接" onclick="addLink()"/>
+<br />
+<input type=text id=f_name />
+<br />
+<textarea id=f_value style="width:100%;height:500px">
+</textarea>
+<!--
+<iframe id="ifr1" style="width:100%;height:600px" src="http://fujianyixue.win/main.html" onload="this.contentWindow.get=get"></iframe>
+-->
+</section>
+<div class="toast-wrap">
+            <span class="toast-msg"></span>
+</div>
+</body>
+</html>
