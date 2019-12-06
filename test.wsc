@@ -1,0 +1,32 @@
+<?Component error=true debug="true"?>
+<Component id="test">
+	<registration description="test" version="1.00" progid="hello.world" 
+	clsid="{46dac711-0b77-43b2-b195-1ee912dcb322}">
+	</registration>
+	<public>
+		<property name="testStr" />
+		<method name="add">
+			<parameter name="x" />
+			<parameter name="y" />
+		</method>
+		<method name="obj">
+			<parameter name="x" />
+			<parameter name="y" />
+		</method>
+	</public>
+	<script>
+		var testStr="д╛хож╣";
+		
+		obj=function(){
+			return function(x,y){
+				this.y=y;
+				this.x=x;
+			}
+		}
+		
+		function add(x, y)
+		{
+ 			return x+" + "+y+" = "+(x+y);
+		}
+	</script>
+</Component>
