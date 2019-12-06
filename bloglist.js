@@ -14,7 +14,7 @@ var getlist=async function(path){
             var type=json[i].type;
             if(type=="dir"){
                 var r=await getlist(path+"/"+name);
-                dir.push([name,r]);
+                dir.push({name,dir:r.dir,file:r.file});
             }else{
                 file.push({name,url,type});
             }
