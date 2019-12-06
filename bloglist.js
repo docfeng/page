@@ -19,7 +19,7 @@ var getlist=async function(path){
                 file.push({name,url,type});
             }
         }
-        return [dir,file]
+        return {dir,file}
 }
 getlist().then(function(re){
         alert(JSON.stringify(re,null,4))
