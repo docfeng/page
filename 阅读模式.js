@@ -52,7 +52,12 @@
             nextt="",
             xsnr,tcdzt,tztdx,tzthg,fysz,khwb;
             "1"==pbkh?khwb="</p><br><p>":khwb="</p><p>";
-            function szztdx(e){$("body").style.fontSize=e+"px";tztdx=e;tzthg=e*1+'+zhcz+';fysz=ksqy-tzthg;$("body").style.lineHeight=tzthg+"px"};
+            function szztdx(e){
+                $("body").style.fontSize=e+"px";
+                tztdx=e;tzthg=e*1+'+zhcz+';
+                fysz=ksqy-tzthg;
+                $("body").style.lineHeight=tzthg+"px"
+            };
             szztdx("'+zhdx+'");
             xstxt(dqurl);
             function xstxt(e){
