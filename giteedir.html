@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-web-app-title" content="github文件读写" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache" /> 
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>文件管理系统for git</title>
+<meta name="description" content="版本号1.0" />
+<script src="http://git.docfeng.top/script/base.js"></script>
+<script src="script/http.js"></script>
+<script src="script/giteeapi.js?i=1"></script>
+<script src="script/db.js"></script>
+<script src="script/store.js"></script>
+<style type="text/css">
+*{
+    margin:0px;
+    padding:0px;
+}
+html,body{
+  width:100%;
+  height:100%;
+  overflow-y:hidden;
+}
+body{
+  //font-size:2em; 
+  //line-height:24px;
+}
+dialog{
+    height:100%;width:100%;background-color:green;
+}
+.contain{
+    display: flex;
+    height:100%;width:100%;
+    flex-direction: column;
+}
+.contain>header{
+  flex-basis:30px;width:100%;background-color:green;
+}
+.contain>.main{
+    flex-grow:1;width:100%;background-color:white;
+    overflow-y:scroll;
+    //padding-top: 20px;
+    //padding-bottom: 20px;
+}
+.contain>footer{
+    flex-basis:30px;width:100%;background-color:red;
+}
+.dir,.file{
+  width:100%;
+  background-color:gray;
+}
+.dir>li{
+  width:100%;
+  list-style: none;
+  border:1px solid black;
+  background-color:red;
+}
+.file>li{
+  width:100%;
+  list-style: none;
+  border:1px solid black;
+  background-color:green;
+}
+dialog{
+    height:100%;width:100%;background-color:green;
+}
+.dialog{
+    display: flex;
+    height:100%;width:100%;
+    flex-direction: column;
+}
+.dialog>header{
+  flex-basis:20px;width:100%;background-color:green;
+}
+.dialog>footer{
+    flex-basis:20px;width:100%;background-color:red;
+}
+.dialog>section{
+    flex-grow:100;width:100%;background-color:white;
+    //padding-top: 20px;
+    //padding-bottom: 20px;
+}
+#file_txt{
+  width:100%;
+  height:400px;
+  white-space:nowrap;
+}
+</style>
+</head>
+<body>
+<div class="contain">
+    <header>
+        <input type="button" value='reload' onclick='location.reload()'/>
+        <input type="button" value='createDir' onclick='let _path=path?path+"/":path;let name=prompt("文件夹名称",_path+"");(async function(a){await htmlFSO.createDir(name);htmlFSO.show();})()'/>
+        <input type="button" value="deleteDir" onclick="htmlFSO.deleteDir(path);"/>
+        <input type="button" value="createFile" onclick='let _path=path?path+"/":path;msg.file(_path)'/>
+        <input type="button" value="login" onclick='git.login()'/>
+        <input type="button" value="upload" onclick="msg.uploadFile();"/>
+        <div id="pathUl"></div>
+    </header>
+    <div class="main" oncontextmenu="alert()">
+    <ul id="dirUl" class="dir" ondblclick="msg.dir(event.srcElement.innerHTML)">
+      
+    </ul>
+    <div id="fileUl" class="file" ondblclick="msg.file(event.srcElement.innerHTML)">
+        
+    </div>
+    </div>
+    <footer></footer>
+</div>
+
+<dialog id="dialog_file" onclick="if(this.open){this.close()}">
+    <div class="dialog">
+    <header>文件操作</header>
+    <section  onclick="event.stopPropagation();">
+        <input type="button" value="eval" onclick="eval(file_txt.value)"/>
+        <input type="button" value="getFile" onclick="htmlFSO.getFile(file_name.value)"/>
+        <input type="button" value="writeFile" onclick="htmlFSO.writeFile(file_name.value,file_txt.value)"/>
+        <input type="button" value="deleteFile" onclick="htmlFSO.deleteFile(file_name.value)"/>
+        <input type="button" value="downloadFile" onclick="htmlFSO.downloadFile(file_name.value)"/>
+        <input type="button" value="open" onclick="window.open(file_name.value)"/>
+        <input type="button" value="editor" onclick="window.open('git.html'+location.hash+';name='+file_name.value)"/>
+        <br />
+        <label>name:</label>
+        <input type="text" id="file_name" /><br/>
+        <textarea id="file_txt"></textarea>
+    </section>
+    <footer>
+        <menu>
+            <button type="button">取消</button>
+        </menu>
+    </footer>
+    </div>
+</dialog>
+<dialog id="dialog_uploadFile" onclick="if(this.open){this.close()}">
+    <div class="dialog">
+    <header>文件上传</header>
+    <section  onclick="event.stopPropagation();">
+        <form action="javascript:upload()" method="post" enctype="multipart/form-data">
+            <label for="file">Filename:</label>
+            <input type="file" name="file" id="file" /> 
+            <input type="text" name="order" id="order" value="uploadFile" /> 
+            <input type="text" name="name" id="filename" value="" /> 
+            
+            <br />
+            <input type="submit" name="submit" value="Submit" />
+        </form>
+    </section>
+    <footer>
+        <menu>
+            <button type="button">取消</button>
+        </menu>
+    </footer>
+    </div>
+</dialog>
+<script>
+var path="";
+window.addEventListener("load",async function(){
+  git=new giteeapi("docf");
+  htmlFSO.show();
+},false);
+window.addEventListener("hashchange",async function(){
+  htmlFSO.show();
+},false);
+
+htmlFSO={
+        async getDir(name){
+            var hash=window.hash();
+            path=hash["path"]||"";
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            var json=await git.getDir(user,repos,path);
+            json.dir=json.dir||[];
+            json.file=json.file||[];
+            return json;
+        },
+        async createDir(name){
+            if(!confirm("是否创建文件夹:"+name)){return false;}
+            var re=await http.post("","order=createDir&name="+name);
+            alert(re);
+        },
+        async deleteDir(name){
+            if(name==""){alert("不允许删除根目录");return false;}
+            if(confirm("是否删除文件夹:"+name)){
+              var re = await http.post("","order=deleteDir&name="+name);
+              alert(re);
+              window.history.go(-1);
+            }
+        },
+        async show(){
+            var json=await this.getDir();
+            //alert(json)
+            //alert(json.file)
+            var dirs=json.dir;
+            var dirHtml=""
+            for(var i=0;i<dirs.length;i++){
+              dirHtml+=`<li>${dirs[i]}</li>`;
+            }
+            dirUl.innerHTML=dirHtml;
+            var files=json.file;
+            var fileHtml=""
+            for(var i=0;i<files.length;i++){
+                fileHtml+=`<li>${files[i]}</li>`;
+            }
+            fileUl.innerHTML=fileHtml;
+            var pathArr=path.split("/");
+            var pathHtml="";
+            for(var i=0;i<pathArr.length;i++){
+                pathHtml+=`<button>${pathArr[i]}</button>/`;
+            }
+            pathUl.innerHTML=pathHtml;
+        },
+        async getFile(name){
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            await git.getUser(user);
+            var re=await git.getFile(repos,name);
+            file_txt.value=re;
+        },
+        async deleteFile(name){
+            if(!confirm("是否删除文件:"+name)){return false;}
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            var re=await git.deleteFile({"owner":user,repos:repos,"name":name});
+            alert(re)
+            return true;
+        },
+        async writeFile(name,txt){
+            if(!confirm("是否写入文件:"+name)){return false;}
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            await git.createFile({"owner":user,repos:repos,"name":name,"txt":txt});
+        },
+        async downloadFile(name){
+            var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            if(!user||!repos){
+                alert("没有user或repos");
+                return false;
+            }
+            downloadGithubFile(name,user,repos,name);
+        }
+    }
+    
+    var downloadFile=function(name,url) {
+    var anchor = document.createElement("a");
+    if('download' in anchor) {
+        anchor.style.visibility = "hidden";
+        anchor.href = url;
+        anchor.download = name;
+        document.body.appendChild(anchor);
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent("click", true, true);
+        anchor.dispatchEvent(evt);
+        document.body.removeChild(anchor);
+    }else {
+       window.open(url);
+    }
+}
+downloadGithubFile=function(name,user,repos,file){
+    var url=`https://raw.githubusercontent.com/${user}/${repos}/master/${file}`
+    downloadFile(name,url);
+}
+downloadRepos=function(name,user,repos){
+    //var url=`https://codeload.github.com/${user}/${repos}/legacy.zip/master`;
+    var url=`https://codeload.github.com/${user}/${repos}/zip/master`;
+    //downloadFile(name,url)
+    window.open(url)
+}
+function upload() {
+    var name=file.files[0].name;
+    alert(name)
+    var reader = new FileReader();
+    reader.onloadend = function () {
+        var dataURL = reader.result
+        var str=dataURL.split("base64,");
+        //var user=username.value;
+        //var repos=reposname.value;
+        var hash=window.hash();
+            var user=hash["user"]||"";
+            var repos=hash["repos"]||"";
+            if(!user||!repos){
+                alert("没有user或repos");
+                return false;
+            }
+            alert(filename)
+        name=filename.value||name;
+        if(confirm("是否创建"+name)){
+          write1({"owner":user,repos:repos,"name":name,"txt":str[1]}).then(function(a){
+          alert(a)
+          }).catch(function(a){
+              alert(a)
+          });
+        }
+    };
+    reader.readAsDataURL(file.files[0]); // 读出 base64
+}
+write1=async function(para){
+        var user=await git.getUser();
+        //status:201 true;422 false;200 write true
+        var owner=para.owner;
+        var repos=para.repos; 
+        var name=para.name; 
+        var sha=await git.getsha(repos,name);
+        var branch=para.branch?para.branch:"master";
+        var message=para.message?para.message:"add";
+        var author= user.author;
+        var str=para.txt;//window.btoa(unescape(encodeURIComponent(para.txt)));
+        var data={
+            "message": message,
+            "content": str,
+            "sha":sha,
+            "branch" : branch
+        }
+        var json={
+            url:"https://api.github.com/repos/"+owner+"/"+repos+"/contents/"+name,
+            head:{Authorization:user.author},
+            type:"put",
+            xml:true,
+            data:JSON.stringify(data)
+        }
+        var re=await http.ajax(json);
+        var status=re.xml.status;
+        switch(status){
+            case 200:alert("写入成功");break;
+            case 201:alert("创建成功");break;
+            case 422:alert("false");break;
+        }
+        var json=JSON.parse(re.html);
+        var re="";
+        if(json.content){
+            re=json.content.sha;
+            this.shas[name]=re; 
+        }
+        return re;
+    }
+    
+    msg={
+        dir(name){
+            //dialog_dir.showModal();
+            //dialog_dir.querySelector("#dir_name").value=name;
+            var hash=window.hash();
+            var _hash="";
+            if(!hash["user"]){
+                _hash="user="+name;
+            }else{
+                _hash="user="+hash["user"];
+                if(!hash["repos"]){
+                    _hash+=";repos="+name;
+                }else{
+                    _hash+=";repos="+hash["repos"];
+                    _hash+=";path="+name;
+                }
+            }
+            //alert(_hash)
+            location.hash=_hash;
+        },
+        file(name){
+            dialog_file.showModal();
+            dialog_file.querySelector("#file_name").value=name;
+            htmlFSO.getFile(name);
+        },
+        uploadFile(){
+            dialog_uploadFile.showModal();
+        }
+    }
+    
+    
+document.oninput=function(e){
+  var obj=e.srcElement;//this.getSelection().focusNode.txt;
+  var str1="";
+    if(obj.len>obj.value.length){
+        str1="删除";
+    }else if(obj.value.length-obj.len>1){
+        str1="粘贴";
+    }else{
+        var i1=obj.selectionStart
+        str1=obj.value.substring(i1-1, i1);
+        switch(str1){
+            case "\n":
+                str1="回车"
+                var str=obj.value.substring(0, i1-1).match(/(\u0020*)[^\n]*$/);
+                str=str[1];
+                var len=str.length;
+                if (obj.setSelectionRange){ 
+                    var rangeStart = obj.selectionStart; 
+                    var rangeEnd = obj.selectionEnd; 
+                    var tempStr1 = obj.value.substring(0, rangeStart);
+                    var tempStr2 = obj.value.substring(rangeEnd); 
+                    obj.value = tempStr1 + str + tempStr2;
+                    len=rangeStart+len;
+                    obj.setSelectionRange(len,len);
+                } 
+                obj.focus();
+                break;
+            case " ":
+                str1="空格";
+                //ins("  ");
+                break;
+        }
+    }
+}
+
+window.onkeydown=function(e){
+    var obj=e.srcElement;//this.getSelection().focusNode.txt;
+    obj.len=obj.value.length;
+}
+
+//监听回退按钮
+if (window.history && window.history.pushState) { 
+  window.addEventListener('popstate',function() { 
+    var hashLocation = location.hash; 
+    var hashSplit = hashLocation.split("#!/");
+    var hashName = hashSplit[1]; 
+    if (hashName !== '') { 
+      var hash = window.location.hash; 
+      if (hash === '') { 
+        window.history.pushState('forward', null, '');
+        if(window.onback){window.onback();1}
+      } 
+    } 
+  },false);
+  window.history.pushState('forward', null, ''); 
+}
+</script>
+</body>
+</html>
