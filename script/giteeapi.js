@@ -65,7 +65,7 @@ giteeapi=class gitapi{
     async getFiles(repos,name=""){
         var user=await this.getUser();
         var json={
-            url:`${this.baseurl}/repos/${user.name}/${repos}/contents/${name}`,
+            url:`${this.baseurl}/repos/${user.name}/${repos}/contents/${name}?access_token=${user.author}`,
             head:{Authorization:user.author}
         }
         var text=await http.ajax(json);
