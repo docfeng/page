@@ -261,6 +261,7 @@ giteeapi=class gitapi{
        return re; 
     }
     async pages(){
+        var user=await this.getUser();
         var data={
             "access_token":user.author,
         }
