@@ -265,7 +265,7 @@ htmlFSO={
     async write(){
         var name=page.name.value;
         var txt=page.txt.value;
-        await git.createFile({"owner":user,repos:repos,"name":name,"txt":txt});
+        await git.writeFile({"owner":user,repos:repos,"name":name,"txt":txt});
     },
     async add(){
         var name=page.name.value;
