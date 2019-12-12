@@ -501,5 +501,3 @@ alert(await git.getFile("page","git.html"));
 
 https://developer.github.com/v3/repos/#list-your-repositories
 */
-
-alert()
