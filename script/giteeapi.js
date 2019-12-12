@@ -56,7 +56,7 @@ giteeapi=class gitapi{
         var user=await this.getUser();
         if(!user){return false;}
         var json={
-            url:`${this.baseurl}/user/repos`,
+            url:`${this.baseurl}/user/repos?access_token=${user.author}`,
             head:{Authorization:user.author}
         }
         var re=await http.ajax(json);
