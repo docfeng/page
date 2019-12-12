@@ -124,7 +124,7 @@ giteeapi=class gitapi{
     async getFile(repos_name,file_name,branch="master"){
         var user=await this.getUser();
         var json={
-            url:`${this.baseurl}/repos/${user.name}/${repos_name}/contents/${file_name}?ref=${branch}`,
+            url:`${this.baseurl}/repos/${user.name}/${repos_name}/contents/${file_name}?ref=${branch}&access_token=${user.author}`,
             head:{Authorization:user.author}
         }
         var text=await http.ajax(json);
