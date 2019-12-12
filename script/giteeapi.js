@@ -181,7 +181,7 @@ giteeapi=class gitapi{
         }
         return re;
     }
-    async writeFile(){
+    async writeFile(para){
         var user=await this.getUser();
         //status:201 true;422 false;200 write true
         var owner=para.owner;
@@ -259,6 +259,20 @@ giteeapi=class gitapi{
             case 422:alert("参数错误");break;
         }
        return re; 
+    }
+    async pages(){
+        var data={
+            "access_token":user.author,
+        }
+        var json={
+            url:"https://gitee.com/api/v5/repos/docf/page/pages/builds",
+            head:{"Content-Type": "application/json"},
+            type:"post",
+            //xml:true,
+            data:JSON.stringify(data)
+        }
+        
+        return http.ajax(json);
     }
     async createRespos(){}
     async deleteRespos(){}
