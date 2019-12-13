@@ -192,7 +192,7 @@ and (orientation : landscape) {
         <input type="button" value="read" onclick="htmlFSO.read()"/>
         <input type="button" value="add" onclick="htmlFSO.add()"/>
         <input type="button" value="del" onclick="htmlFSO.delete();"/>
-        <input type="button" value="部署" onclick='git.pages().then(function(a){alert(a)})'/>
+        <input type="button" value="部署" onclick='htmlFSO.pages();'/>
         <input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();'/>
         <input type="button" value="打开" onclick='window.open(page.name.value);'/>
     </div>
@@ -278,6 +278,10 @@ htmlFSO={
         var re=await git.deleteFile({"owner":user,repos:repos,"name":name});
         //alert(re)
         return true;
+    },
+    async pages(){
+        
+        git.pages(user,repos).then(function(a){alert(a)})
     }
 }
 
