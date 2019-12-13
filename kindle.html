@@ -120,12 +120,36 @@ p{
     </div>
   </div>
 </div>
+<script language="javascript">
+//判断支持度
 
+try{
+    (function(a){
+        var a=async function(a){}
+    })()
+}catch(e){
+    alert(e)
+}
+
+try{
+    (function(a){
+        var a=class d{}
+    })()
+}catch(e){
+    alert(e)
+}
+
+</script>
 
 <script language="javascript">
 index=0;
+var app_info={};
+var app_data_pages=[];
+var app_data_list=[];
+
 var obj = document.getElementById("txt");
 var pages = document.getElementById("pages");
+
 ini_h=function(){
   var wh=window.innerHeight;
   var zs=parseInt(window.getComputedStyle(obj).fontSize);//lineHeight);
@@ -174,8 +198,6 @@ ini_w=function(){
   }
 }
 window.onload =async function(){
-  store=new myStorage()
-  await store.init();
   ini_w();
   /*if(window.location.hash){
     var url=window.location.hash.replace("#","");
