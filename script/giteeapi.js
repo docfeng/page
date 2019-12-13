@@ -260,13 +260,13 @@ giteeapi=class gitapi{
         }
        return re; 
     }
-    async pages(){
+    async pages(owner,repos){
         var user=await this.getUser();
         var data={
             "access_token":user.author,
         }
         var json={
-            url:"https://gitee.com/api/v5/repos/docf/page/pages/builds",
+            url:`https://gitee.com/api/v5/repos/${owner}/${repos}/pages/builds`,
             head:{"Content-Type": "application/json"},
             type:"post",
             //xml:true,
