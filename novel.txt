@@ -35,3 +35,27 @@ var getlist=async function(url){
     document.head.removeChild(b);
 }
 getlist(url);
+
+
+
+var search=function(name){
+    var url="https://www.baidu.com/s?q1="
+        +name+"&rn=10";
+     url="https://m.baidu.com/s?from=2001a&bd_page_type=1&word=%E5%A4%A7%E5%94%90%E5%86%8D%E8%B5%B7";
+alert(url)
+    http.get(url).then(function(html){
+        var html=html.replace(/<img.*?>/g);
+            html=html.replace(/<style[\s\S]*?<\/style>/g,"");
+        html=html.replace(/<script[\s\S]*?<\/script>/g,"");
+        //html=html.replace(/<div[\s\S]*?<\/div>/g,"");
+        html=html.replace(/<input[^>]*>/g);
+f_value.value=html
+html=html.replace(/<span[\s\S]*?<\/span>/g);
+        alert(html)
+
+        var arr=html.match(/<div class="result c-container[\s\S]*?<\/div>/g)
+        alert(arr)
+    });
+}
+
+search("秦吏")
