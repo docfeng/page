@@ -6,15 +6,17 @@
 <form  action="javascript:void()"  onsubmit="act(this)">
     <input type="text" name="t1" value="rff" /><br/>
     <fieldset>
-    <input type="radio" name="t2" value="男" />男
-    <input type="radio" name="t2" value="女" />女<br />
+        <legend>cors</legend>
+        <input type="radio" name="cors" value="" />none<br/>
+        <input type="radio" name="cors" value="http://gear.docfeng.top/get2.php" />gear.docfeng.top<br />
     </fieldset>
     <fieldset>
-    <input type="checkbox" name="t3" value="男" />男
+    <input type="checkbox" name="t3" value="男" />男<br/>
     <input type="checkbox" name="t3" value="女" />女<br/>
     </fieldset>
-    <input type="submit" />
+    <input type="submit" value="保存"/>
     <input type="button" onclick="act(this.parentNode)" value="act" />
+    <input type="button" onclick="alert(this.parentNode.t3[0].checked=true)" value="test" />
 </form>
 <script>
 if( 'flex' in document.documentElement.style){
