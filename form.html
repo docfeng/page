@@ -9,14 +9,16 @@
         <legend>cors</legend>
         <input type="radio" name="cors" value="" />none<br/>
         <input type="radio" name="cors" value="http://gear.docfeng.top/get2.php" />gear.docfeng.top<br />
+        <input type="text"   name="cors" /><input type="button" onclick="act(this.parentNode)" value="act" />
     </fieldset>
     <fieldset>
-    <input type="checkbox" name="t3" value="男" />男<br/>
-    <input type="checkbox" name="t3" value="女" />女<br/>
+        <legend>2</legend>
+        <input type="checkbox" name="t3" value="男" />男<br/>
+        <input type="checkbox" name="t3" value="女" />女<br/>
     </fieldset>
     <input type="submit" value="保存"/>
     <input type="button" onclick="act(this.parentNode)" value="act" />
-    <input type="button" onclick="alert(this.parentNode.t3[0].checked=true)" value="test" />
+    <input type="button" onclick="alert(this.parentNode.t1)" value="test" />
 </form>
 <script>
 if( 'flex' in document.documentElement.style){
@@ -31,7 +33,9 @@ act=function(a){
     for(var i=0;i<obj.length;i++){
         switch(obj[i].type){
             case "text":
-                json[obj[i].name]=obj[i].value;
+                if(obj[i].value){
+                    json[obj[i].name]=obj[i].value;
+                }
                 break;
             case "radio":
                 if(obj[i].checked){
