@@ -1,13 +1,18 @@
 <html>
 <head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 </head>
 <body>
 <form  action="javascript:void()"  onsubmit="act(this)">
     <input type="text" name="t1" value="rff" /><br/>
+    <fieldset>
     <input type="radio" name="t2" value="男" />男
     <input type="radio" name="t2" value="女" />女<br />
+    </fieldset>
+    <fieldset>
     <input type="checkbox" name="t3" value="男" />男
     <input type="checkbox" name="t3" value="女" />女<br/>
+    </fieldset>
     <input type="submit" />
     <input type="button" onclick="act(this.parentNode)" value="act" />
 </form>
