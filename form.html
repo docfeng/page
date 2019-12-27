@@ -1,0 +1,67 @@
+<html>
+<head>
+</head>
+<body>
+<form  action="javascript:void()"  onsubmit="act(this)">
+    <input type="text" name="t1" value="rff" /><br/>
+    <input type="radio" name="t2" value="男" />男
+    <input type="radio" name="t2" value="女" />女<br />
+    <input type="checkbox" name="t3" value="男" />男
+    <input type="checkbox" name="t3" value="女" />女<br/>
+    <input type="submit" />
+    <input type="button" onclick="act(this.parentNode)" value="act" />
+</form>
+<script>
+if( 'flex' in document.documentElement.style){
+alert(1)
+}else{
+alert(11)
+} 
+var
+act=function(a){
+    var json={};
+    var obj=a.elements;
+    for(var i=0;i<obj.length;i++){
+        switch(obj[i].type){
+            case "text":
+                json[obj[i].name]=obj[i].value;
+                break;
+            case "radio":
+                if(obj[i].checked){
+                    json[obj[i].name]=obj[i].value;
+                }
+                break;
+            case "checkbox":
+                if(!json[obj[i].name]){
+                    json[obj[i].name]=[];
+                }
+                if(obj[i].checked){
+                    json[obj[i].name].push(obj[i].value);
+                }
+                break;
+            
+            
+            
+        }
+        
+    }
+    alert(JSON.stringify(json,null,4))
+}
+
+/*
+var node = document.querySelector('#sample');
+alert(node)
+var inputLock = false;
+node.addEventListener('compositionstart', function(){
+    inputLock = true;
+})
+node.addEventListener('compositionend', function(){
+    inputLock = false;
+})
+node.addEventListener('input', function(){
+    if(!inputLock )
+    // do something for input limit
+});*/
+</script>
+</body>
+</html>
