@@ -1,6 +1,12 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<style>
+form label{
+    display: block;
+}
+</style>
+
 </head>
 <body>
 <form  action="javascript:void()"  onsubmit="act(this)">
@@ -11,14 +17,19 @@
         <input type="radio" name="cors" value="http://gear.docfeng.top/get2.php" />gear.docfeng.top<br />
         <input type="text"   name="cors" /><input type="button" onclick="act(this.parentNode)" value="act" />
     </fieldset>
+    <fieldset id="cors">
+        <legend>cors</legend>
+        
+    </fieldset>
     <fieldset>
         <legend>2</legend>
-        <input type="checkbox" name="t3" value="男" />男<br/>
-        <input type="checkbox" name="t3" value="女" />女<br/>
+        <label><input type="checkbox" name="t3" value="男" />男</label>
+        <label><input type="checkbox" name="t3" value="女" />女</label>
     </fieldset>
     <input type="submit" value="保存"/>
     <input type="button" onclick="act(this.parentNode)" value="act" />
     <input type="button" onclick="alert(this.parentNode.t1)" value="test" />
+    <input type="button" onclick="insert(this.parentNode)" value="insert" />
 </form>
 <script>
 if( 'flex' in document.documentElement.style){
@@ -58,7 +69,19 @@ act=function(a){
     }
     alert(JSON.stringify(json,null,4))
 }
-
+var insert=function(obj){
+    var html=""//"<legend>cors</legend>";
+    //var ele=document.createDocumentFragment(html);
+    var arr=[null,"http://www.mangg.com/id70209/"];
+    for(var i=0;i<arr.length;i++){
+        html+='<label><input type="radio" name="cors" value="'+arr[i] +'" />'+arr[i]+'</label>\n';
+    }
+    //obj.appendChild(ele);
+    
+    //cors.innerHTML=html;
+    cors.insertAdjacentHTML("beforeEnd",html);
+    //cors.appendChild(ele);
+}
 /*
 var node = document.querySelector('#sample');
 alert(node)
