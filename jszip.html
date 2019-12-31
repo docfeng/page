@@ -19,6 +19,7 @@
         zip = new JSZip();
         document.querySelector("#file").onchange=function () {
             var file = this.files[0];
+            var name=file.name;
             var reader = new FileReader();
             reader.readAsDataURL(file);
             var base64 = "";
@@ -27,7 +28,7 @@
                 document.querySelector("#image").src=imgData;
                 // 向zip文件中添加图片，可以添加多个文件或者图片，此处以图片为例
                 // base64图片需要去掉base64图片标识
-                zip.file("car.jpg", imgData.substring(imgData.indexOf(",") + 1), {base64: true});
+                zip.file(name, imgData.substring(imgData.indexOf(",") + 1), {base64: true});
                 
             }
         }
