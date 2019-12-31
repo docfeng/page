@@ -6,6 +6,7 @@
 </head>
 <body>
     <input type="file" id="file"/>
+    <input type="button" value="download" onclick="download()"/>
     <img src="" id="image">
 </body>
 <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -13,7 +14,9 @@
 <script type="text/javascript" src="js/cropper.js"></script>
 <script type="text/javascript" src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.js"></script>
 <script type="text/javascript">
+    var zip;
     window.onload=function() {
+        zip = new JSZip();
         document.querySelector("#file").onchange=function () {
             var file = this.files[0];
             var reader = new FileReader();
@@ -22,12 +25,15 @@
             reader.onload = function () {
                 var imgData = this.result;
                 document.querySelector("#image").src=imgData;
- 
-                var zip = new JSZip();
                 // 向zip文件中添加图片，可以添加多个文件或者图片，此处以图片为例
                 // base64图片需要去掉base64图片标识
                 zip.file("car.jpg", imgData.substring(imgData.indexOf(",") + 1), {base64: true});
-                zip.generateAsync({
+                
+            }
+        }
+    }
+    var download=function(){
+        zip.generateAsync({
                         type: "blob",  // 压缩类型
                         compression: "DEFLATE",      // STORE：默认不压缩 DEFLATE：需要压缩
                         compressionOptions: {
@@ -42,8 +48,6 @@
                     saveAs(content, "car.zip");
                     alert()
                 });
-            }
-        }
     }
 </script>
 </html>
