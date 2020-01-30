@@ -1,6 +1,7 @@
 
 Free Web Hosting Area
 https://www.freewebhostingarea.com/
+https://newserv.freewha.com/cgi-bin/create_ini.cgi
 http://docfeng.freevar.com/ftp/index.php
 http://docfeng.freevar.com/main.php
 serve:docfeng.freevar.com
