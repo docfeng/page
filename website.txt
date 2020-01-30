@@ -8,6 +8,18 @@ serve:docfeng.freevar.com
 username:docfeng.freevar.com
 psw:FJ
 
+用户名:feng.freevar.com
+地址:http://feng.freevar.com
+面板:http://feng.freevar.com/cpanel
+Username: feng.freevar.com
+Password: FJ
+http://feng.freevar.com/ftp/
+FTP Server/Host: feng.freevar.com
+FTP Login/Username: feng.freevar.com
+FTP PassWord: FJ
+
+
+
 http://cloud.xycool.net/index.php/index/login/ 
 xyy.docfeng.top docfeng
 2019-11-29
