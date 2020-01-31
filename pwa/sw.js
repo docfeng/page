@@ -20,7 +20,7 @@ self.addEventListener('fetch',function(e){
   e.respondWith(
     caches.match(e.request).then(function(response){
       if(response != null){
-      alert(response)
+        //alert(response)
         return response
       }
       return fetch(e.request.url)
@@ -43,7 +43,7 @@ self.addEventListener('activate',function(e){
       return self.clients.claim()
     })
   )
-  alert("tgg")
+  //alert("tgg")
 })
 var alert=function(txt){
     self.clients.matchAll().then(function (clients) {
