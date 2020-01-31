@@ -14,10 +14,9 @@
 </body>
 <script>
   // 检测浏览器是否支持SW
+window.addEventListener('load',function(e){
   if(navigator.serviceWorker != null){
-    alert(navigator.serviceWorker.register)
     navigator.serviceWorker.register('sw.js').then(function(registartion){
-      alert("成功")
       navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage('sw.updatedone');
     }).catch(function(a){
         alert(a)
@@ -26,6 +25,6 @@
         alert(event.data)
     });
   }
-  
+}
 </script>
 </html>
