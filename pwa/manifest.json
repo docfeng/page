@@ -1,5 +1,5 @@
 {
-  "name": "一个PWA示例2",
+  "name": "一个PWA示例1",
   "short_name": "PWA示例",
   "start_url": "/index.html",
   "display": "standalone",
