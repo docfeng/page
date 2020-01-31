@@ -1,15 +1,21 @@
 {
   "name": "一个PWA示例",
   "short_name": "PWA示例",
-  "start_url": "/index.html",
-  "display": "fullscreen",
-  "background_color": "#fff",
-  "theme_color": "#3eaf7c",
+  
   "icons": [
     {
-      "src": "/fj.ico",
-      "sizes": "36x36",
-      "type": "image/ico"
+      "src": "https://h5.sinaimg.cn/m/weibo-lite/icon-default-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://h5.sinaimg.cn/m/weibo-lite/icon-default-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-  ]
+  ],
+	"start_url": "/index.html",
+	"display": "fullscreen",
+	"background_color": "#fff",
+	"theme_color": "#3eaf7c"
 }
