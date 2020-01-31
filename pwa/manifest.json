@@ -1,7 +1,7 @@
 {
   "name": "一个PWA示例",
   "short_name": "PWA示例",
-  "start_url": "index2.html",
+  "description": "随时随地分享新鲜事",
   "icons": [
     {
       "src": "icon-default-192.png",
@@ -14,6 +14,7 @@
       "type": "image/png"
     }
   ],
+  "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
