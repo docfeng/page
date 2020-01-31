@@ -6,10 +6,12 @@ var cacheList=[
   'main.css',
   'youhun.jpg'
 ]
-self.addEventListener('install',e =>{
+self.addEventListener('install',function(e){
   e.waitUntil(
-    caches.open(cacheStorageKey)
-    .then(cache => cache.addAll(cacheList))
-    .then(() => self.skipWaiting())
+    caches.open(cacheStorageKey).then(function(cache){
+        cache.addAll(cacheList);
+    }).then(function(){
+        self.skipWaiting();
+    })
   )
 })
