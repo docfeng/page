@@ -21,10 +21,7 @@
         alert(a)
     })
     navigator.serviceWorker.addEventListener('message', function (event) {
-    if (e.data === 'sw.update') {
-        // 此处可以操作页面的 DOM 元素啦
-        alert(e.data)
-    }
+        alert(event.data)
     });
   }
   
