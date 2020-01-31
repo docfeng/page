@@ -41,7 +41,7 @@ self.addEventListener('activate',function(e){
       return self.clients.claim()
     })
   )
-  alert(txt)
+  alert("tgg")
 })
 var alert=function(txt){
     self.clients.matchAll().then(function (clients) {
@@ -55,4 +55,5 @@ var alert=function(txt){
 }
 self.addEventListener('message', function (event) {
     console.log(event.data); // 输出：'sw.updatedone'
+    alert(444)
 });
