@@ -7,9 +7,9 @@
   "theme_color": "#3eaf7c",
   "icons": [
     {
-      "src": "/youhun.jpg",
+      "src": "/fj.ico",
       "sizes": "120x120",
-      "type": "image/png"
+      "type": "image/ico"
     }
   ],
 }
