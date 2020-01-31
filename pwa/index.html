@@ -16,10 +16,10 @@
   // 检测浏览器是否支持SW
 window.addEventListener('load',function(e){
 alert()
-  reg();
+  reg1();
   alert()
 }
-var reg=function(){
+function reg1(){
   if(navigator.serviceWorker != null){
     navigator.serviceWorker.register('sw.js').then(function(registartion){
       navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage('sw.updatedone');
