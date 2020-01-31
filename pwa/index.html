@@ -20,7 +20,7 @@ window.addEventListener('load',function(e){
 function reg1(){
   if(navigator.serviceWorker != null){
     navigator.serviceWorker.register('sw.js').then(function(registartion){
-      navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage('sw.updatedone');
+      //navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage('sw.updatedone');
     }).catch(function(a){
         alert(a)
     })
