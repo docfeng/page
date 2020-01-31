@@ -1,11 +1,11 @@
 
-var cacheStorageKey = 'minimal-pwa-3'
+var cacheStorageKey = 'minimal-pwa-3';
 var cacheList=[
   '/',
   'index.html',
   'main.css',
   'youhun.jpg'
-]
+];
 self.addEventListener('install',function(e){
   e.waitUntil(
     caches.open(cacheStorageKey).then(function(cache){
