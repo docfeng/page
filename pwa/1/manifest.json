@@ -1,7 +1,7 @@
 {
 	"name": "零广告，简洁的小说阅读工具",
 	"short_name": "公羊阅读",
-	"start_url": "/index.html",
+	"start_url": "index.html",
 	"display": "standalone",
 	"background_color": "#333",
 	"theme_color": "#5eace0",
