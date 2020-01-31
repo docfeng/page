@@ -1,7 +1,7 @@
 {
   "name": "一个PWA示例",
   "short_name": "PWA示例",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "icons": [
     {
       "src": "/icon-default-192.png",
