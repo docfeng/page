@@ -52,3 +52,7 @@ self.clients.matchAll()
             })
         }
     })
+    
+self.addEventListener('message', function (event) {
+    console.log(event.data); // 输出：'sw.updatedone'
+});
