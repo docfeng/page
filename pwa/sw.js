@@ -4,7 +4,8 @@ var cacheList=[
   '/',
   'index.html',
   'main.css',
-  'youhun.jpg'
+  'icon-default-192.png',
+  'icon-default-512.png'
 ];
 self.addEventListener('install',function(e){
   e.waitUntil(
