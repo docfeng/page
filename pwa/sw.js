@@ -41,18 +41,18 @@ self.addEventListener('activate',function(e){
       return self.clients.claim()
     })
   )
+  alert(txt)
 })
-
-self.clients.matchAll()
-    .then(function (clients) {
+var alert=function(txt){
+    self.clients.matchAll().then(function (clients) {
         if (clients && clients.length) {
             clients.forEach(function (client) {
-                // 发送字符串'sw.update'
-                client.postMessage('sw.update');
+                // 发送字符串
+                client.postMessage(txt);
             })
         }
     })
-    
+}
 self.addEventListener('message', function (event) {
     console.log(event.data); // 输出：'sw.updatedone'
 });
