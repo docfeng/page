@@ -42,3 +42,13 @@ self.addEventListener('activate',function(e){
     })
   )
 })
+
+self.clients.matchAll()
+    .then(function (clients) {
+        if (clients && clients.length) {
+            clients.forEach(function (client) {
+                // 发送字符串'sw.update'
+                client.postMessage('sw.update');
+            })
+        }
+    })
