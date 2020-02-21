@@ -64,6 +64,31 @@ html,body{
 	</body>
 	<script type="text/javascript">
 		var div=document.querySelector('.bg');
+var obj={
+    handleEvent:function(){
+          //alert(event.type)
+          var a=this[event.type]
+          //alert(a);
+          a()
+    },
+    touchmove:function(){
+        clearTimeout(this.a)
+    },
+    touchstart:function(a){
+        this.a=setTimeout(function(a){
+                alert(123)
+        },300);
+    },
+    touchend:function(){
+        clearTimeout(this.a)
+    },
+    touchcancel:function(a){
+        clearTimeout(this.a)
+    }
+}
+document.addEventListener("touchstart",obj);
+document.addEventListener("touchend",obj);
+document.addEventListener("touchcancel",obj)
 	        d1.addEventListener('click',function(e)//右键菜单事件
 		{
 			//e.preventDefault();//取消右键菜单的默认行为
@@ -75,9 +100,16 @@ div.style.top=y>240?(e.clientY+'px'):((e.clientY-240)+'px');
 		})
 		div.addEventListener('click',function()//左键点击菜单消失
 		{
-var ele=event.srcElement;
-alert(ele.innerHTML)
-			div.style.display='none';
+                     var ele=event.srcElement;
+                     if(ele.tagName.toLowerCase()=="li"){
+                         switch(ele.innerHTML){
+                             case "刷新":
+                                 alert("")
+                                 break;
+                             
+                         }
+                         div.style.display='none';
+                     }
 		})
 	</script>
 </html>
