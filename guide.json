@@ -26,5 +26,9 @@
     {
         "name": "gitee_gitee.html",
         "href": "http://docf.gitee.io/page/gitee.html"
+    },
+    {
+        "name": "gitee",
+        "href": "https://gitee.com/docf/page"
     }
 ]
