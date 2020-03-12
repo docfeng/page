@@ -18,5 +18,9 @@
     {
         "name": "test",
         "href": "http://192.168.1.10:8082/main.php"
+    },
+    {
+        "name": "cf_worker_get",
+        "href": "http://get.docfeng.workers.dev/?url=http://git.docfeng.top/script/giteeapi.js"
     }
 ]
