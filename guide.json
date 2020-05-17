@@ -18,5 +18,21 @@
     {
         "name": "test",
         "href": "http://192.168.1.10:8082/main.php"
+    },
+    {
+        "name": "cf_worker_get",
+        "href": "http://get.docfeng.workers.dev/?url=http://git.docfeng.top/script/giteeapi.js"
+    },
+    {
+        "name": "gitee_gitee.html",
+        "href": "http://docf.gitee.io/page/gitee.html"
+    },
+    {
+        "name": "gitee",
+        "href": "https://gitee.com/docf/page"
+    },
+    {
+        "name": "中兴T703",
+        "href": "http://192.168.123.57/main.php"
     }
 ]
