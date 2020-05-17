@@ -63,7 +63,7 @@ gitapi4=class gitapi4{
 }
 /*
 (async function(a){
-  var git=new gitapi4("docfeng);
+  var git=new gitapi4("docfeng");
   var query=``; 
   alert(await git.query());
 })()
