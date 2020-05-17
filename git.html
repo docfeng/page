@@ -21,42 +21,53 @@
 <script src="script/gitapi.js"></script>
 <script src="script/db.js"></script>
 <script src="script/store.js"></script>
-<script>var ttt="";</script>
+<link rel="stylesheet" type="text/css" href="css/index.css"/>
+<style type="text/css" id="textarea_style">
+	textarea{
+		width:100%;
+		height:100%;
+		font: 0.7em Arial, Helvetica, sans-serif;
+		//white-space:nowrap;
+	}
+</style>
 <style type="text/css">
-html,body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
+	.ins_box{
+	  width:100%;
+	  overflow-x:scroll;
+	  white-space:nowrap;
+	  position:fixed;
+	  bottom:0px;
+	  display:none;
+	}
+	.control_box{
+	  width:100%;
+	  overflow-x:scroll;
+		white-space:nowrap;
+	  //position:fixed;
+	  //top:0px;
+	}
+	.page_box{
+	  width:100%;
+	  //height:23px;
+	  //position:fixed;//absolute;
+	  //top:20px;
+	  //margin-top:20px;
+	  	//Word-break: break-all;
+	  	overflow-x: scroll;
+	  	white-space:nowrap;
+	}
+	.edit_box{
+	  width:100%;
+		height: 100%;
+	  //margin-top:50px;
+	}
+</style>
+<style type="text/css">
+
+body:focus input{
+	background-color:yellow;
 }
 
-/*body::-webkit-scrollbar {
-        display: none;
-    }
-    textarea::-webkit-scrollbar {
-        display: none;
-    }
-    */
-div::-webkit-scrollbar {
-        display: none;
-    }
-
-body{ 
-  margin: 0px;
-  padding: 0px;
-  //font-size:14px; 
-  //line-height:24px;
-}
-textarea{
-  width:100%;
-  height:90%;
-  font: 0.7em Arial, Helvetica, sans-serif;
-  //white-space:nowrap;
-}
-body:focus input
-{
-background-color:yellow;
-}
-*{margin:0px;padding:0px;}
 input[onclick^="ins"] {
   margin:0px;
   padding:0px;
@@ -73,42 +84,14 @@ input[value^="page"] {
   padding:0px;
   width:40px;
 }
-.ins_box{
-  width:100%;
-  overflow-x:scroll;
-  white-space:nowrap;
-  position:fixed;
-  bottom:0px;
-  display:none;
-}
-.control_box{
-  width:100%;
-  overflow-x:scroll;
-white-space:nowrap;
-  //position:fixed;
-  //top:0px;
-}
-.page_box{
-  width:100%;
-  //height:23px;
-  //position:fixed;//absolute;
-  //top:20px;
-  //margin-top:20px;
-  	//Word-break: break-all;
-  	overflow-x: scroll;
-  	white-space:nowrap;
-}
-.edit_box{
-  width:100%;
-  //margin-top:50px;
-}
+
 /**
 所有 iPad Media Queries
 **/
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px) {
-//body{background-color:orange;}
+	//body{background-color:orange;}
   .ins{display:none;}
   body{
     font-size: 2em;
@@ -184,28 +167,47 @@ and (orientation : landscape) {
 </style>
 </head>
 <body>
-<div class="top_box1" id="top_box">
-    <div class="control_box" id="control_box">
-        <input type="button" value='eval' onclick="eval(page.txt.value)" />
-        <input type="button" value='reload' onclick='location.reload()'/>
-        <input type="button" value='copy' onclick='copy()'/>
-        <input type="button" value="write" onclick="htmlFSO.write()"/>
-        <input type="button" value="read" onclick="htmlFSO.read()"/>
-        <input type="button" value="add" onclick="htmlFSO.add()"/>
-        <input type="button" value="del" onclick="htmlFSO.delete();"/>
-        <input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();'/>
-        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
-    </div>
-		
-		<div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
-				<input id="button1" type="button" value="page1" 	style="color:red;"		onclick="shift(1)">
-				<input id="button2" type="button" value="page2" onclick="shift(2);">
-				<input id="button3" type="button" value="page3" onclick="shift(3);">
-				<input id="button4" type="button" value="page4" onclick="shift(4);">
-				<input id="button5" type="button" value="page5" onclick="shift(5);">
-				<input id="button6" type="button" value="page6" onclick="shift(6);">
+	<div class="container">
+		<div class="header column">
+			    <div class="control_box" id="control_box">
+			        <input type="button" value='eval' onclick="eval(page.txt.value)" />
+			        <input type="button" value='reload' onclick='location.reload()'/>
+			        <input type="button" value='copy' onclick='copy()'/>
+			        <input type="button" value="write" onclick="htmlFSO.write()"/>
+			        <input type="button" value="read" onclick="htmlFSO.read()"/>
+			        <input type="button" value="add" onclick="htmlFSO.add()"/>
+			        <input type="button" value="del" onclick="htmlFSO.delete();"/>
+			        <input type="button" value="open" onclick='var obj = window.open("","test","_blank");obj.document.write(page.txt.value);obj.document.close();'/>
+			        <input type="button" value="打开" onclick='window.open(page.name.value);'/>
+							<input type="button" value="login" onclick='git.login(user);'/>
+			    </div>
+					
+					<div class="page_box" id="page_box" oncontextmenu="alert()" ondblclick="alert(event.srcElement.value)">
+							<input id="button1" type="button" value="page1" 	style="color:red;"		onclick="shift(1)">
+							<input id="button2" type="button" value="page2" onclick="shift(2);">
+							<input id="button3" type="button" value="page3" onclick="shift(3);">
+							<input id="button4" type="button" value="page4" onclick="shift(4);">
+							<input id="button5" type="button" value="page5" onclick="shift(5);">
+							<input id="button6" type="button" value="page6" onclick="shift(6);">
+					</div>
 		</div>
-</div>
+		<div class="main">
+			<div class="edit_box" id="edit_box">
+			 <form id="page0" style="height:100%;width:100%">
+				 <div class="container">
+				 	<div class="header">
+				 		Name: <input type="text" name="name" size=20 />
+				 	</div>
+				 	<div class="main">
+				 		<textarea name="txt" ></textarea>
+				 		<!--onfocus="show_ins()" onblur="hide_ins()"-->
+				 		</form>
+				 	</div>
+				 </div>
+			</div>
+		</div>
+	</div>
+
 <div class="ins_box" id="ins_box" >
 		<input type="button" value='.' onclick="ins('.')" />
 		<input type="button" value="go" onclick="goto()"/>
@@ -221,14 +223,7 @@ and (orientation : landscape) {
 		<input type="button" value='<<<' onclick="del()" />
 </div>
 
-<div class="edit_box" id="edit_box">
- <form id="page0" style="height:100%;width:100%">
-	Name: <input type="text" name="name" size=20 />
-	<br>
-	<textarea name="txt" ></textarea>
-	<!--onfocus="show_ins()" onblur="hide_ins()"-->
-	</form>
-</div>
+
 <script>
 var page;
 var index=1;
@@ -386,13 +381,12 @@ window.onload=function(){
   addForm(3);addForm(4);
   addForm(5);addForm(6);
   shift(1);
-  window.onresize();
+  //window.onresize();
   var _hash=hash();
   var _user=_hash["user"];
   var _repos=_hash["repos"];
   var _name=_hash["name"];
   if(_name)page.name.value=_name;
-    window.onresize();
   if(_user){
       user=_user;
   }
@@ -401,6 +395,7 @@ window.onload=function(){
   }
   location.hash="user="+user+";repos="+repos;
     window.onresize();
+		git=new gitapi("docfeng");
 }
 window.addEventListener("hashchange",function(){
   var _hash=hash();
@@ -423,20 +418,24 @@ window.onresize=function(){
   //var edit_h=parseInt(window.getComputedStyle(edit_box).height);
   //alert(window.getComputedStyle(ins_box).height);
   
-  edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
-  var st=document.getElementById("st");
+  //edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
+  var st=document.getElementById("textarea_style");
   if(!st){
       st = document.createElement('style');
       st.id="st";
       document.head.appendChild(st);
   }
-  st.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-ctr_h)+"px;}";
+	var stylesheet=st.styleSheet||st.sheet;
+	var rule=stylesheet.cssRules[0];
+	//rule.style.height= (wh-ctr_h-page_h-ins_h-ctr_h)+"px";
+  //st.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-ctr_h)+"px;}";
  
   /*//动态添加外置样式表    
-  var  link = document.createElement('link');
+  var link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('type', 'text/css');
   link.setAttribute('href', 'index.css');  //已经存在这个index.css文件
+	//link.innerHTML =""
   document.head.appendChild(link);
   */
   //edit_box.style.marginBottom=ctr_h+"px;
@@ -469,7 +468,7 @@ hide_ins=function(){
   ins_box.style.display="none";
 }
 window.addEventListener('load',function(){
-    git=new gitapi("docfeng");
+    
 }, false);
 
 goto=function(index){

@@ -18,19 +18,24 @@ gitapi=class gitapi{
         }
        return await this.login(name); 
     }
-    async login(name,psw){
+    async login(name, psw,token){
         var name=name||prompt("用户名","docfeng");
-        var psw=psw||prompt("密码:"+name);
+        var psw=psw||(token?"":prompt("密码:"+name));
+		var token=token||(psw?"":prompt("密码:"+name));
         var users=await store.getItem("users");
         alert(users)
         users=users?JSON.parse(users):{};
         //var token=prompt("token");
-        var author="Basic "+btoa(name+":"+psw);
-        this.user={name,author};
-        users[name]=author;
-        alert(JSON.stringify(users));
-        await store.setItem("users",JSON.stringify(users));
-        return this.user;
+        
+		if(psw||token){
+			var author=psw?("Basic "+btoa(name+":"+psw)):("token "+token);
+			this.user={name,author};
+			users[name]=author;
+			alert(JSON.stringify(users));
+			await store.setItem("users",JSON.stringify(users));
+			return this.user;
+		}
+        return {};
     }
     async getsha(repos,name){
         if(!this.shas){
