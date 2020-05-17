@@ -418,7 +418,7 @@ window.onresize=function(){
   //var edit_h=parseInt(window.getComputedStyle(edit_box).height);
   //alert(window.getComputedStyle(ins_box).height);
   
-  //edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
+  edit_box.style.height=(wh-ctr_h-page_h-ins_h)+"px";
   var st=document.getElementById("textarea_style");
   if(!st){
       st = document.createElement('style');
@@ -427,7 +427,7 @@ window.onresize=function(){
   }
 	var stylesheet=st.styleSheet||st.sheet;
 	var rule=stylesheet.cssRules[0];
-	//rule.style.height= (wh-ctr_h-page_h-ins_h-ctr_h)+"px";
+	rule.style.height= (wh-ctr_h-page_h-ins_h-ctr_h)+"px";
   //st.innerHTML = "textarea{height:"+ (wh-ctr_h-page_h-ins_h-ctr_h)+"px;}";
  
   /*//动态添加外置样式表    
