@@ -18,37 +18,37 @@ http={
         }
         return xmlHttp;
     },
-    async get(url,json={}){
-        var json=json;
+    async get(url,_json={}){
+        var json=_json||{};
         json.url=url;
         json.method="get";
         var re=await this.ajax(json);
         return re;
     },
-    async cors(url,json={cors:true}){
-        var json=json;
+    async cors(url,_json={cors:true}){
+        var json=_json||{cors:true};
         json.url=url;
         json.method="get";
         var re=await this.ajax(json);
         return re;
     },
-    async getJSON(url,json={}){
-        var json=json;
+    async getJSON(url,_json={}){
+        var json=_json||{};
         json.url=url;
         json.method="get";
         var re=await this.ajax(json);
         return JSON.parse(re);
     },
-    async post(url,str,json={}){
-        var json=json;
+    async post(url,str,_json={}){
+        var json=_json||{};
         json.str=str;
         json.url=url;
         json.method="post";
         var re=await this.ajax(json);
         return re;
     },
-    async ajax(json){
-        var  json=json;
+    async ajax(_json){
+        var  json=_json;
         var method=json.method||json.type||"get";
         var async=json.async||true;
         var cors=json.cors||false;
