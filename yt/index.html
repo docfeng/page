@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="apple-mobile-web-app-title" content="github文件读写" />
+		<META HTTP-EQUIV="pragma" CONTENT="no-cache" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+		<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+		<META HTTP-EQUIV="expires" CONTENT="0">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>导航</title>
+		<base target="_blank" />
+		<script src="http://docf.gitee.io/page/script/base.js"></script>
+		<script src="http://docf.gitee.io/page/script/http.js"></script>
+		<script src="http://docf.gitee.io/page/script/giteeapi.js"></script>
+		<script src="http://docf.gitee.io/page/script/db.js"></script>
+		<script src="http://docf.gitee.io/page/script/store.js"></script>
+		<script src="http://docf.gitee.io/token/token.js"></script>
+		<style id="initStyle">
+			.edit {
+				display: none;
+			}
+		</style>
+		
+		<link rel="stylesheet" href="css/guide.css">
+		<link rel="stylesheet" href="css/downselect.css">
+
+	</head>
+	<body>
+		<div class="contain">
+			<div class="header top_box1" id="top_box">
+				<div class="control_box" id="control_box">
+					<div class="fj-container-h">
+						<div class="main" id="guide_nav" onclick="Guide.turnDir();">
+							<div data-index=0>docf/&gt;</div>
+						</div>
+						<div class="footer" style="flex-basis: 90px;">
+							<input type="button" value="↑" onclick='Guide.upDir();' />
+							<div class="down-select">
+								<div class="down-show">
+									<span title="操作">操作</span>
+								</div>
+								<div class="down-option">
+									<span title="编辑" onclick='Guide.turnToEdit();'>编辑</span>
+									<span title="获取" onclick='Guide.get();'>获取</span>
+									<span title="登陆" onclick='var psw=prompt("输入密码");window.open("http://gear.docfeng.top/config.php?psw="+psw);'>登陆</span>
+									<span title="添加" onclick='Guide.toggleStyle();'>添加</span>
+									<span title="刷新" onclick='location.reload()'>刷新</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="addBox" class="edit" style="height: 600px;width: 100%;">
+					<div style="width: 100%;">
+						<input type="button" value="复制" onclick="Guide.copy()" />
+						<input type="button" value="剪切" onclick="Guide.cut()" />
+						<input type="button" value="黏贴" onclick="Guide.paste()" />
+						<input type="button" value="移动" onclick="Guide.move()" />
+						<input type="button" value="删除" onclick="Guide.delete();" />
+					</div>
+					<div style="width: 100%;font-size:1em;">
+						<select id="link_type" style="height: 25px;">
+							<option value="dir" >dir</option>
+							<option value="link" selected>link</option>
+						</select><br />
+						<label>title:</label></label><input type="text" id="link_name" style="height: 25px;" value="" /><br />
+						<label>url:</label><input type="text" id="link_url" style="height: 25px;" value="" />
+					</div>
+					<div style="width: 100%;">
+						<input type="button" value="添加" onclick="Guide.addToTable()" />
+						<input type="button" value="确定" onclick="Guide.addDataToWeb()" />
+						<input type="button" value="选择" onclick="Guide.selectLink()" />
+						<input type="button" value="修改" onclick="Guide.alterLink()" />
+					</div>
+					<div style="width: 100%;">
+						<table id="link_table">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="main " id="guide" onclick="Guide.onclick();">
+				<div id="guide_dir" class="fj-container-h">
+					
+				</div>
+				<div id="guide_link" class="fj-container-h">
+					<label>
+						<input type="checkbox" name="" value="" />
+						<a href="git.html">git</a>
+					</label>
+					<label>
+						<input type="checkbox" name="" value="" />
+						<a href="http://192.168.1.10:8082/main.php">git</a>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="model" id="model" style="display: none;">
+			<label id="model-dir">
+				<input type="checkbox" data-index="" value="" />
+				<span data-index=""></span>
+			</label>
+			<label id="model-link">
+				<input type="checkbox" data-index="" value="" />
+				<span data-index="" data-href="" title=""></span>
+			</label>
+		</div>
+
+		<script src="script/Guide.js"></script>
+
+		<script>
+			var user = "docf",
+				repos = "yt",
+				path = "bookmark.json",
+				branch = "data",
+				sha = null,
+				linkDir = [];
+			window.onload = function() {
+				git = new giteeapi("docf", token);
+				Guide.get();
+			}
+
+			
+		</script>
+	</body>
+</html>

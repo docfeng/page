@@ -1,0 +1,336 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; */
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+.fj-container-h{
+    /* width: 100%; */
+    display: box; /* OLD - Android 4.4- */
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
+    display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    /* 09版 */
+    -webkit-box-orient: horizontal;
+    /* 12版 */
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    -o-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content:space-between;
+    /* stretch;flex-start; */
+    /* align-items: stretch; */
+}
+.fj-container-v{
+    height: 100%;
+    display: box; /* OLD - Android 4.4- */
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
+    display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    /* 09版 */
+    -webkit-box-orient: vertical;
+    /* 12版 */
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.fj-container-h>.header {
+    flex-basis: 30px;
+    height: 100%;
+    background-color: green;
+}
+
+.fj-container-h>.main {
+    flex-grow: 1;
+    height: 100%;
+    background-color: white;
+    overflow-x:scroll;
+    /* padding-top: 20px;
+    padding-bottom: 20px; */
+}
+
+.fj-container-h>.footer {
+    flex-basis: 30px;
+    height: 100%;
+    background-color: red;
+}
+
+.contain {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+
+.contain>.header {
+    flex-basis: 30px;
+    width: 100%;
+    background-color: green;
+}
+
+.contain>.main {
+    flex-grow: 1;
+    width: 100%;
+    background-color: white;
+    overflow-y: scroll;
+    /* padding-top: 20px;
+    padding-bottom: 20px; */
+}
+
+.contain>.footer {
+    flex-basis: 30px;
+    width: 100%;
+    background-color: red;
+}
+
+#guide_nav>div {
+    display: inline-block;
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
+div::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    /* font-size:14px; 
+    line-height:24px; */
+}
+
+label {
+    display: inline-block;
+}
+
+a:link,
+a:visited,
+#guide span,#guide label{
+    display: inline-block;
+    border: 1px solid #000;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+    background-color: #98bf21;
+    width: 100px;
+    text-align: center;
+    padding: 4px;
+    height: 30px;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* flex-grow:  1; */
+}
+#guide_dir span{
+    background-color: #00bf21;
+    
+}
+#guide_link span{
+    /* background-color: #00bf21; */
+}
+
+a {
+    background-color: #11901A;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+a:hover,
+a:active {
+    background-color: #7A991A;
+}
+
+#guide input{
+    display: none;
+}
+.show input{
+    /* display: initial !important; */
+}
+.show #guide_dir span{
+    background-color: #00bf00;
+    
+}
+.show #guide_link span{
+    background-color: #00bf12;
+}
+input:checked+span{
+    background-color:red !important;
+}
+
+textarea {
+    width: 100%;
+    height: 90%;
+    font: 0.7em Arial, Helvetica, sans-serif;
+    /* white-space:nowrap; */
+}
+
+body:focus input {
+    background-color: yellow;
+}
+
+
+
+input[onclick^="ins"] {
+    margin: 0px;
+    padding: 0px;
+    width: 25px;
+    height: 25px;
+}
+
+input[onclick^="shift"] {
+    margin: 0px;
+    padding: 0px;
+    width: 60px;
+}
+
+input[value^="page"] {
+    margin: 0px;
+    padding: 0px;
+    width: 40px;
+}
+
+.ins_box {
+    width: 100%;
+    overflow-x: scroll;
+    white-space: nowrap;
+    position: fixed;
+    bottom: 0px;
+    display: none;
+}
+
+.control_box {
+    width: 100%;
+    overflow-x: scroll;
+    white-space: nowrap;
+    /* position:fixed;
+    top:0px; */
+}
+
+.page_box {
+    width: 100%;
+    /* height:23px;
+    position:fixed;absolute;
+    top:20px;
+    margin-top:20px;
+    Word-break: break-all; */
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.edit_box {
+    width: 100%;
+    /* margin-top:50px; */
+}
+
+
+/* 所有 iPad Media Queries */
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+
+    /* body{background-color:orange;} */
+    .ins {
+        display: none;
+    }
+
+    body {
+        font-size: 18px;
+    }
+
+    textarea {
+        font-size: 18px;
+    }
+
+    input {
+        font-size: 18px;
+    }
+
+    input[onclick^="shift"] {
+        width: 260px;
+    }
+}
+
+/*iPad 横屏*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {}
+
+/*iPad 竖屏*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {}
+
+/* 手机 */
+@media all and (max-width: 768px) {
+    textarea {
+        font: 0.8em Arial, Helvetica, sans-serif;
+        white-space: nowrap;
+    }
+}
+
+@media (max-height: 700px) {}
+
+@media (max-height: 400px) {
+
+    /* body{background-color:OrangeRed;} */
+    .edit_box {
+        margin-bottom: 30px;
+    }
+
+    .ins_box {
+        display: block;
+    }
+}
+
+
+/*笔记本*/
+@media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : landscape) {
+    .ins {
+        display: none;
+    }
+
+    body {
+        font-size: 18px;
+    }
+
+    textarea {
+        font-size: 18px;
+    }
+
+    input {
+        font-size: 18px;
+    }
+
+    input[onclick^="shift"] {
+        width: 180px;
+    }
+
+}

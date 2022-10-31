@@ -1,0 +1,50 @@
+.down-select {
+    display: inline-block;
+
+}
+.down-show {
+    margin: 0 auto;
+    /* width:500px; */
+}
+
+.down-show span {
+    color: #000;
+    text-decoration: none;
+    /* display: block;
+    width:200px; */ 
+    height: 20px;
+    line-height: 18px;
+    border: 1px solid #009;
+    text-indent: 1em;
+}
+
+.down-show span:hover {
+    color: #F30;
+    text-decoration: underline;
+    background: #CCC;
+}
+
+.down-option span {
+    width: 200px;
+    height: auto;
+    border: 1px solid #009;
+    border-top: none;
+    text-indent: 1em;
+    background: #CCC;
+    width: 200px;
+    display: block;
+}
+
+.down-option span:hover {
+    color: #F30;
+    background: #FFF;
+}
+
+.down-option {
+    position: absolute;
+    /* left: 0px; */
+    margin: 0 auto;
+    width: 500px;
+    height: auto;
+    display: none;
+}

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="apple-mobile-web-app-title" content="github文件读写" />
+		<META HTTP-EQUIV="pragma" CONTENT="no-cache" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
+		<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+		<META HTTP-EQUIV="expires" CONTENT="0">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>导航</title>
+		<base target="_blank" />
+		<script src="//docf.gitee.io/page/script/base.js"></script>
+		<script src="//docf.gitee.io/page/script/http.js"></script>
+		<script src="//docf.gitee.io/page/script/giteeapi.js"></script>
+		<script src="//docf.gitee.io/page/script/db.js"></script>
+		<script src="//docf.gitee.io/page/script/store.js"></script>
+                <script src="//docf.gitee.io/token/token.js"></script>
+		<style type="text/css" id="initStyle">
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				//overflow: hidden;
+			}
+			body::-webkit-scrollbar {
+				display: none;
+			}
+			.contain {
+				display: flex;
+				height: 100%;
+				width: 100%;
+				flex-direction: column;
+			}
+
+			.contain>.header {
+				flex-basis: 30px;
+				width: 100%;
+				background-color: green;
+			}
+
+			.contain>.main {
+				flex-grow: 1;
+				width: 100%;
+				background-color: white;
+				overflow-y: scroll;
+				//padding-top: 20px;
+				//padding-bottom: 20px;
+			}
+
+			.contain>.footer {
+				flex-basis: 30px;
+				width: 100%;
+				background-color: red;
+			}
+			#guide_nav>div{
+				display:inline-block;
+			}
+
+			textarea::-webkit-scrollbar {
+				display: none;
+			}
+
+			div::-webkit-scrollbar {
+				display: none;
+			}
+
+			body {
+				margin: 0px;
+				padding: 0px;
+				//font-size:14px; 
+				//line-height:24px;
+			}
+
+			label {
+				display: inline-block;
+			}
+
+			a:link,
+			a:visited {
+				display: inline-block;
+				border: 1px solid #000;
+				font-weight: bold;
+				font-size: 14px;
+				font-family: Verdana, Arial, Helvetica, sans-serif;
+				color: #FFFFFF;
+				background-color: #98bf21;
+				width: 120px;
+				text-align: center;
+				padding: 4px;
+				height: 30px text-decoration: none;
+				overflow:hidden;
+			}
+			a {
+				background-color: #11901A;
+				white-space:nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
+			}
+
+			a:hover,
+			a:active {
+				background-color: #7A991A;
+			}
+			
+			.edit{
+				display: none;
+			}
+
+			textarea {
+				width: 100%;
+				height: 90%;
+				font: 0.7em Arial, Helvetica, sans-serif;
+				//white-space:nowrap;
+			}
+
+			body:focus input {
+				background-color: yellow;
+			}
+
+
+
+			input[onclick^="ins"] {
+				margin: 0px;
+				padding: 0px;
+				width: 25px;
+				height: 25px;
+			}
+
+			input[onclick^="shift"] {
+				margin: 0px;
+				padding: 0px;
+				width: 60px;
+			}
+
+			input[value^="page"] {
+				margin: 0px;
+				padding: 0px;
+				width: 40px;
+			}
+
+			.ins_box {
+				width: 100%;
+				overflow-x: scroll;
+				white-space: nowrap;
+				position: fixed;
+				bottom: 0px;
+				display: none;
+			}
+
+			.control_box {
+				width: 100%;
+				overflow-x: scroll;
+				white-space: nowrap;
+				//position:fixed;
+				//top:0px;
+			}
+
+			.page_box {
+				width: 100%;
+				//height:23px;
+				//position:fixed;//absolute;
+				//top:20px;
+				//margin-top:20px;
+				//Word-break: break-all;
+				overflow-x: scroll;
+				white-space: nowrap;
+			}
+
+			.edit_box {
+				width: 100%;
+				//margin-top:50px;
+			}
+
+
+			//所有 iPad Media Queries
+
+			@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+
+				//body{background-color:orange;}
+				.ins {
+					display: none;
+				}
+
+				body {
+					font-size: 18px;
+				}
+
+				textarea {
+					font-size: 18px;
+				}
+
+				input {
+					font-size: 18px;
+				}
+
+				input[onclick^="shift"] {
+					width: 260px;
+				}
+			}
+
+			/*iPad 横屏*/
+			@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {}
+
+			/*iPad 竖屏*/
+			@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {}
+
+			/* 手机 */
+			@media all and (max-width: 768px) {
+				textarea {
+					font: 0.8em Arial, Helvetica, sans-serif;
+					white-space: nowrap;
+				}
+			}
+
+			@media (max-height: 700px) {}
+
+			@media (max-height: 400px) {
+
+				//body{background-color:OrangeRed;}
+				.edit_box {
+					margin-bottom: 30px;
+				}
+
+				.ins_box {
+					display: block;
+				}
+			}
+
+
+			/*笔记本*/
+			@media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : landscape) {
+				.ins {
+					display: none;
+				}
+
+				body {
+					font-size: 18px;
+				}
+
+				textarea {
+					font-size: 18px;
+				}
+
+				input {
+					font-size: 18px;
+				}
+
+				input[onclick^="shift"] {
+					width: 180px;
+				}
+
+			}
+		</style>
+	</head>
+	<body>
+		<div class="contain">
+			<div class="header top_box1" id="top_box">
+				<div class="control_box" id="control_box">
+					<input type="button" value='reload' onclick='location.reload()' />					
+					<input type="button" value="login" onclick='var psw=prompt("输入密码");window.open("http://gear.docfeng.top/config.php?psw="+psw);' />
+					<input type="button" value="getGuide" onclick='Guide.get();' />
+					<input type="button" value="toggleStyle" onclick='Guide.toggleStyle();' />
+					<input type="button" value="↑" onclick='Guide.upDir();' />
+				</div>
+				<div id="addBox" class="edit" style="height: 600px;width: 100%;">
+					<div style="width: 100%;">
+						<input type="button" value="复制" onclick="Guide.copy()" />
+						<input type="button" value="剪切" onclick="Guide.cut()" />
+						<input type="button" value="黏贴" onclick="Guide.paste()" />
+						<input type="button" value="移动" onclick="Guide.move()" />
+						<input type="button" value="删除" onclick="Guide.delete();" />
+					</div>
+					<div style="width: 100%;">
+						<select id="link_type">
+							<option value="dir" selected>dir</option>
+							<option value="link">link</option>
+						</select>
+						<input type="text" id="link_name" value="" />
+						<input type="text" id="link_url" value="" />
+					</div>
+					<div style="width: 100%;">
+						<input type="button" value="添加" onclick="Guide.addToTable()" />
+						<input type="button" value="确定" onclick="Guide.addDataToWeb()" />
+						<input type="button" value="选择" onclick="Guide.selectLink()" />
+						<input type="button" value="修改" onclick="Guide.alterLink()" />
+					</div>
+					<div style="width: 100%;">
+						<table id="link_table">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="main ">
+				<div class="contain">
+					<div class="header" id="guide_nav" onclick="Guide.turnDir();">
+						<div data-index=0>/&gt;</div>
+					</div>
+					<div class="main" id="guide">
+						<label><input type="checkbox" name="" value="" /><a href="git.html">git</a></input></label>
+						<a href="http://192.168.1.10:8082/main.php">git</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var user = "docf",
+				repos = "yt",
+				path = "bookmark.json",
+				branch = "data",
+				sha = null,
+				linkDir=[];
+			window.onload = function() {
+				git = new giteeapi("docf",token);
+				Guide.get();
+			}
+
+			var Guide = {
+				
+				show: function() {
+					//alert(json);
+					var json= linkDir[linkDir.length-1];
+					//alert(JSON.stringify(json,null,4));
+						var list = "";
+						var dir="";
+						var link="";
+						for (var i = 0; i < json.length; i++) {
+							var type= json[i][0];
+							var name= json[i][1];
+							var data= json[i][2];
+							if(type=="dir"){
+								dir += "<label><input type=\"checkbox\"   data-index=" + i + " class=\"edit\" value=\"\" /><a  data-index=" + i + " onclick=\"Guide.selectDir();\">" + name +
+									"</a></input></label>";
+							}else if(type=="link"){
+								link += "<label><input type=\"checkbox\"   data-index=" + i + " class=\"edit\" value=\"\" /><a data-index=" + i +" href=\"" + data + "\" title=\"" + name + data + "\">" + name +
+									"</a></input></label>";
+							}
+							
+						}
+						list +=dir+"<br />"+link;
+						//alert(list);
+						guide.innerHTML = list;
+				},
+				get: function() {
+					var para = {
+						"owner": user,
+						"repo": repos,
+						"name": path,
+						"branch": branch
+					};
+					git.getFile(para).then(function(json) {
+						json = JSON.parse(json);
+						linkDir=[];
+                                                linkDir.push(json);
+						Guide.show();
+					}).catch(function(a) {
+						alert(a.message)
+					});
+				},
+				put: function(name, href) {
+					var data = ["link",name, href];
+					var json= linkDir[linkDir.length-1];
+					json.push(data);
+					Guide.addDataToWeb();
+				},
+				copy: function() {
+					var elements = document.querySelectorAll("input[type=checkbox]");
+					var json= linkDir[linkDir.length-1];
+					var re = []
+					for (var i = 0; i < elements.length; i++) {
+						if (elements[i].checked == true) {
+							var index=elements[i].dataset.index;
+							re.push(json[index])
+						}
+					}
+					this.control="copy";
+					this.data=re;
+				},
+				paste: function() {
+					switch(this.control){
+						case "copy":
+							var json= linkDir[linkDir.length-1];
+							var data=this.data;
+							for(var i=0;i<data.length;i++){
+								json.push(data[i])
+							}
+							Guide.show();
+							this.control=null;
+							this.data=null;
+							break;
+						case "cut":
+							var json= linkDir[linkDir.length-1];
+							var data=this.data;
+							for(var i=0;i<data.length;i++){
+								json.push(data[i])
+							}
+							Guide.show();
+							this.control=null;
+							this.data=null;
+							var obj=this.obj;
+							var target=this.target;
+							for (var i = target.length - 1; i >= 0; i--) {
+								obj.splice(target[i], 1);
+							}
+							break;
+						case "move":
+							
+							break;
+					}
+				},
+				move: function() {
+					
+				},
+				cut: function() {
+					var elements = document.querySelectorAll("input[type=checkbox]");
+					var json= linkDir[linkDir.length-1];
+					var re = [];
+					var target=[];
+					for (var i = 0; i < elements.length; i++) {
+						if (elements[i].checked == true) {
+							var index=elements[i].dataset.index;
+							re.push(json[index]);
+							target.push(index);
+						}
+					}
+					this.control="cut";
+					this.data=re;
+					this.obj=json;
+					this.target=target;
+				},
+				"delete": function() {
+					var elements = document.querySelectorAll("input[type=checkbox]");
+					var json= linkDir[linkDir.length-1];
+					var re = []
+					for (var i = 0; i < elements.length; i++) {
+						if (elements[i].checked == true) {
+							var index=elements[i].dataset.index;
+							re.push([index, json[index][1],json[index][2]])
+						}
+					}
+					if (!confirm("确定删除" + JSON.stringify(re, null, 4))) {
+						return 0;
+					}
+					for (var i = re.length - 1; i >= 0; i--) {
+						json.splice(re[i][0], 1);
+					}
+					console.log(json);
+					var txt = JSON.stringify(linkDir[0], null, 4);
+					console.log(txt)
+					Guide.show();
+					return git.writeFile({
+						"owner": user,
+						"repo": repos,
+						"name": window.path,
+						"branch": branch,
+						"txt": txt
+					});
+				},
+				toggleStyle: function() {
+					var stylesheet = document.getElementById("initStyle").styleSheet || document.getElementById("initStyle").sheet
+					//var stylesheet = document.styleSheets[0];
+					var rules = stylesheet.cssRules;
+					var index = -1;
+					for (var i = 0; i < rules.length; i++) {
+						if (rules[i].selectorText == ".edit") {
+							index = i
+						}
+					}
+					if (index > -1) {
+						var display=rules[index].style.display;
+						rules[index].style.display = display=="none" ? "initial" : "none";
+					} else {
+						//stylesheet.insertRule("."+name+"{"+checked?"display:block":"display:none"+"}")
+						stylesheet.insertRule(".edit{display:initial}")
+					}
+				},
+				
+				addToTable:function(){
+					var name=link_name.value;
+					var href=link_url.value;
+					var type=link_type.value;
+					if (name && (href||type=="dir")) {
+						if(type=="dir"){
+							var data = ["dir",name, []];
+						}else{
+							var data = ["link",name, href];
+						}
+						var json= linkDir[linkDir.length-1];
+						json.push(data);
+						this.show();
+						var index=link_table.rows.length;
+						var row=link_table.insertRow(index);
+						cell1=row.insertCell(0);
+						cell2=row.insertCell(1);
+						cell1.innerHTML=name;
+						cell2.innerHTML=href;
+					}
+				},
+				addDataToWeb:function(){
+						var json=linkDir[0];
+						var txt = JSON.stringify(json, null, 4);
+						//Guide.show(json);
+						if(!confirm("确实添加+\n"+txt)){
+							return 0;
+						}
+						return git.writeFile({
+							"owner": user,
+							"repo": repos,
+							"name": window.path,
+							"branch": branch,
+							"txt": txt
+						});
+					
+				},
+				selectDir:function(){
+					var obj=event.srcElement;
+					var index=obj.dataset.index;
+					var json= linkDir[linkDir.length-1];
+					var name=json[index][1]+"&gt;";
+					json=json[index][2];
+					
+					var div=document.createElement("div");
+					div.dataset.index=guide_nav.children.length;
+					div.innerHTML=name;
+					guide_nav.appendChild(div);
+					linkDir.push(json);
+					Guide.show();
+				},
+				turnDir:function(){
+					var obj=event.srcElement;
+					var index=obj.dataset.index;
+					if(index){
+						linkDir= linkDir.slice(0,parseInt(index)+1);
+						//alert(parseInt(index)+1)
+						var json= linkDir[linkDir.length-1];
+						Guide.show();
+						for(var i=guide_nav.children.length-1;i>index;i--){
+							guide_nav.removeChild(guide_nav.children[i]);
+						}
+						//alert(json[json.length-1])
+					}
+				},
+				upDir:function(){
+					if(linkDir.length>1){
+						linkDir.pop();
+						Guide.show();
+						var obj=guide_nav.children;
+						guide_nav.removeChild(obj[obj.length-1]);
+					}
+				},
+				selectLink:function(){
+					var elements = document.querySelectorAll("input[type=checkbox]");
+					var json= linkDir[linkDir.length-1];
+					var re = []
+					for (var i = 0; i < elements.length; i++) {
+						if (elements[i].checked == true) {
+							var index=elements[i].dataset.index;
+							link_name.value=json[index][1];
+							link_url.value=json[index][2];
+							return 0;
+						}
+					}
+				},
+				alterLink:function(){
+					var elements = document.querySelectorAll("input[type=checkbox]");
+					var json= linkDir[linkDir.length-1];
+					var re = []
+					for (var i = 0; i < elements.length; i++) {
+						if (elements[i].checked == true) {
+							var index=elements[i].dataset.index;
+							var data = ["link",link_name.value, link_url.value];
+							json[index]=data;
+							this.show();
+							return 0;
+						}
+					}
+				}
+			}
+
+			window.onerror = function(sMessage, sUrl, sLine) {
+				alert("发生错误！\n" + sMessage + "\nURL:" + sUrl + "\nLine Number:" + sLine);
+				return true;
+			}
+			/*
+			window.addEventListener('load',function(){
+			    git=new gitapi("docfeng");
+			}, false);
+			*/
+		   
+		</script>
+	</body>
+</html>
