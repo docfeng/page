@@ -295,6 +295,37 @@ body:focus input {
 /*笔记本*/
 @media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : landscape) {
     body {
-        font-size: 3em;
+        font-size: 1em;
     }
+
+    input {
+        font-size: 1em;
+    }
+
+    #guide label {
+        font-size: 1em;
+        width: 250px;
+        padding: 4px;
+        height: 60px;
+    }
+
+    #guide span {
+        font-size: 1em;
+        width: 240px;
+        padding: 4px;
+        height: 50px;
+    }
+
+    input[type="text"] {
+        height: 60px;
+    }
+
+    select {
+        height: 60px;
+        width: 200px;
+    }
+
+}
+@media only screen and (min-device-width : 1367px) and (orientation : landscape) {
+    
 }
