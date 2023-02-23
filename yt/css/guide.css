@@ -14,7 +14,8 @@ body::-webkit-scrollbar {
     display: none;
 }
 .fj-container-h{
-    /* width: 100%; */
+    /* 水平 */
+    /* height: 100%; */
     display: box; /* OLD - Android 4.4- */
     display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
@@ -39,7 +40,8 @@ body::-webkit-scrollbar {
     /* align-items: stretch; */
 }
 .fj-container-v{
-    height: 100%;
+    /* 垂直 */
+    /* width: 100%; */
     display: box; /* OLD - Android 4.4- */
     display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
@@ -139,20 +141,28 @@ a:visited,
     display: inline-block;
     border: 1px solid #000;
     font-weight: bold;
-    font-size: 14px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     color: #FFFFFF;
     background-color: #98bf21;
-    width: 100px;
     text-align: center;
     padding: 4px;
-    height: 30px;
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     /* flex-grow:  1; */
 }
+#guide label {
+    font-size: 14px;
+    width: 100px;
+    height: 30px;
+}
+#guide span{
+    font-size: 14px;
+    width: 90px;
+    height: 20px;
+}
+
 #guide_dir span{
     background-color: #00bf21;
     
@@ -190,37 +200,10 @@ input:checked+span{
     background-color:red !important;
 }
 
-textarea {
-    width: 100%;
-    height: 90%;
-    font: 0.7em Arial, Helvetica, sans-serif;
-    /* white-space:nowrap; */
-}
-
 body:focus input {
     background-color: yellow;
 }
 
-
-
-input[onclick^="ins"] {
-    margin: 0px;
-    padding: 0px;
-    width: 25px;
-    height: 25px;
-}
-
-input[onclick^="shift"] {
-    margin: 0px;
-    padding: 0px;
-    width: 60px;
-}
-
-input[value^="page"] {
-    margin: 0px;
-    padding: 0px;
-    width: 40px;
-}
 
 .ins_box {
     width: 100%;
@@ -257,28 +240,34 @@ input[value^="page"] {
 
 
 /* 所有 iPad Media Queries */
-
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-
-    /* body{background-color:orange;} */
-    .ins {
-        display: none;
-    }
-
     body {
-        font-size: 18px;
+        /* background-color:orange; */
+        font-size: 2em;
     }
-
-    textarea {
-        font-size: 18px;
-    }
-
     input {
-        font-size: 18px;
+        font-size: 2em;
+    }
+    
+    #guide label {
+        font-size: 26px;
+        width: 250px;
+        padding: 4px;
+        height: 60px;
     }
 
-    input[onclick^="shift"] {
-        width: 260px;
+    #guide span {
+        font-size: 26px;
+        width: 240px;
+        padding: 4px;
+        height: 50px;
+    }
+    input[type="text"]{
+        height: 60px;
+    }
+    select{
+        height: 60px;
+        width: 200px;
     }
 }
 
@@ -299,38 +288,13 @@ input[value^="page"] {
 @media (max-height: 700px) {}
 
 @media (max-height: 400px) {
-
-    /* body{background-color:OrangeRed;} */
-    .edit_box {
-        margin-bottom: 30px;
-    }
-
-    .ins_box {
-        display: block;
-    }
+    /* background-color:OrangeRed; */
 }
 
 
 /*笔记本*/
 @media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : landscape) {
-    .ins {
-        display: none;
-    }
-
     body {
-        font-size: 18px;
+        font-size: 3em;
     }
-
-    textarea {
-        font-size: 18px;
-    }
-
-    input {
-        font-size: 18px;
-    }
-
-    input[onclick^="shift"] {
-        width: 180px;
-    }
-
 }
